@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Г. Мороз" />
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 52px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+
+.section h2 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h3 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h4 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h5 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h6 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Lab_1.html">Lab 1</a>
+</li>
+<li>
+  <a href="Lab_2.html">Lab 2</a>
+</li>
+<li>
+  <a href="Lab_3.html">Lab 3</a>
+</li>
+<li>
+  <a href="Lab_4.html">Lab 4</a>
+</li>
+<li>
+  <a href="Lab_5.html">Lab 5</a>
+</li>
+<li>
+  <a href="Lab_6.html">Lab 6</a>
+</li>
+<li>
+  <a href="Lab_7.html">Lab 7</a>
+</li>
+<li>
+  <a href="Lab_8.html">Lab 8</a>
+</li>
+<li>
+  <a href="Lab 9-10. descriptive_and_simple_statistics.pdf">Lab 9-10</a>
+</li>
+<li>
+  <a href="correlation_regressions.pdf">Lab 11-12</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><ol start="3" style="list-style-type: decimal">
+<li><code>ggplot2</code></li>
+</ol></h1>
+<h4 class="author"><em>Г. Мороз</em></h4>
+
+</div>
+
+
+<style>
+.parallax {
+    /* The image used */
+    background-image: url("3_ggplot.png");
+    
+    /* Set a specific height */
+    min-height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+</style>
+<div class="parallax">
+
+</div>
+<div class="section level3">
+<h3>Данные</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+homo &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://goo.gl/Zjr9aF&quot;</span>)
+homo</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["s.duration.ms"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["f0.range.Hz"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["perceived.as.homo"],"name":[6],"type":["int"],"align":["right"]},{"label":["perceived.as.hetero"],"name":[7],"type":["int"],"align":["right"]},{"label":["perceived.as.homo.percent"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["orientation"],"name":[9],"type":["chr"],"align":["left"]},{"label":["age"],"name":[10],"type":["int"],"align":["right"]}],"data":[{"1":"A","2":"61.40","3":"112.60","4":"119.51","5":"52.5","6":"7","7":"18","8":"0.28","9":"hetero","10":"30"},{"1":"B","2":"63.90","3":"126.49","4":"100.29","5":"114.0","6":"20","7":"5","8":"0.80","9":"hetero","10":"19"},{"1":"C","2":"55.08","3":"126.81","4":"114.90","5":"103.2","6":"9","7":"16","8":"0.36","9":"homo","10":"29"},{"1":"D","2":"78.11","3":"119.17","4":"126.61","5":"58.8","6":"15","7":"10","8":"0.60","9":"homo","10":"36"},{"1":"E","2":"64.71","3":"93.68","4":"130.76","5":"37.4","6":"10","7":"15","8":"0.40","9":"homo","10":"27"},{"1":"F","2":"67.00","3":"127.87","4":"150.79","5":"42.0","6":"17","7":"8","8":"0.68","9":"homo","10":"33"},{"1":"G","2":"65.39","3":"147.52","4":"128.96","5":"118.2","6":"20","7":"5","8":"0.80","9":"hetero","10":"28"},{"1":"H","2":"62.46","3":"120.13","4":"105.26","5":"55.7","6":"21","7":"4","8":"0.84","9":"hetero","10":"22"},{"1":"I","2":"60.45","3":"140.44","4":"109.86","5":"96.4","6":"20","7":"5","8":"0.80","9":"homo","10":"22"},{"1":"J","2":"59.59","3":"121.01","4":"123.90","5":"111.7","6":"8","7":"17","8":"0.32","9":"homo","10":"40"},{"1":"K","2":"62.94","3":"137.37","4":"119.48","5":"87.6","6":"21","7":"4","8":"0.84","9":"homo","10":"30"},{"1":"L","2":"53.31","3":"112.05","4":"146.20","5":"57.8","6":"8","7":"17","8":"0.32","9":"hetero","10":"25"},{"1":"M","2":"45.13","3":"133.74","4":"155.34","5":"100.5","6":"9","7":"16","8":"0.36","9":"hetero","10":"20"},{"1":"N","2":"57.67","3":"118.02","4":"121.48","5":"37.4","6":"4","7":"21","8":"0.16","9":"hetero","10":"29"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>The majority of examples in that presentation are based on <a href="http://goo.gl/MKfSc6">Hau 2007</a>. Experiment consisted of a perception and judgment test aimed at measuring the correlation between acoustic cues and perceived sexual orientation. Naïve Cantonese speakers were asked to listen to the Cantonese speech samples collected in Experiment and judge whether the speakers were gay or heterosexual. There are 14 speakers and following parameters:</p>
+<ul>
+<li>[s] duration (<em>s.duration.ms</em>)</li>
+<li>vowel duration (<em>vowel.duration.ms</em>)</li>
+<li>fundamental frequencies mean (F0) (<em>average.f0.Hz</em>)</li>
+<li>fundamental frequencies range (<em>f0.range.Hz</em>)</li>
+<li>percentage of homosexual impression (<em>perceived.as.homo</em>)</li>
+<li>percentage of heterosexal impression (<em>perceived.as.hetero</em>)</li>
+<li>speakers orientation (<em>orientation</em>)</li>
+<li>speakers age (<em>age</em>)</li>
+</ul>
+</div>
+<div class="section level3">
+<h3>1. Мотивация</h3>
+<div id="anscombes-quartet" class="section level4">
+<h4>1.1 Anscombe’s quartet</h4>
+<p>In Anscombe, F. J. (1973). “Graphs in Statistical Analysis” was presented the next sets of data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quartet &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/KuuzYy&quot;</span>)
+quartet</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["x"],"name":[1],"type":["int"],"align":["right"]},{"label":["y"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["dataset"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"10","2":"8.04","3":"1"},{"1":"8","2":"6.95","3":"1"},{"1":"13","2":"7.58","3":"1"},{"1":"9","2":"8.81","3":"1"},{"1":"11","2":"8.33","3":"1"},{"1":"14","2":"9.96","3":"1"},{"1":"6","2":"7.24","3":"1"},{"1":"4","2":"4.26","3":"1"},{"1":"12","2":"10.84","3":"1"},{"1":"7","2":"4.82","3":"1"},{"1":"5","2":"5.68","3":"1"},{"1":"10","2":"9.14","3":"2"},{"1":"8","2":"8.14","3":"2"},{"1":"13","2":"8.74","3":"2"},{"1":"9","2":"8.77","3":"2"},{"1":"11","2":"9.26","3":"2"},{"1":"14","2":"8.10","3":"2"},{"1":"6","2":"6.13","3":"2"},{"1":"4","2":"3.10","3":"2"},{"1":"12","2":"9.13","3":"2"},{"1":"7","2":"7.26","3":"2"},{"1":"5","2":"4.74","3":"2"},{"1":"10","2":"7.46","3":"3"},{"1":"8","2":"6.77","3":"3"},{"1":"13","2":"12.74","3":"3"},{"1":"9","2":"7.11","3":"3"},{"1":"11","2":"7.81","3":"3"},{"1":"14","2":"8.84","3":"3"},{"1":"6","2":"6.08","3":"3"},{"1":"4","2":"5.39","3":"3"},{"1":"12","2":"8.15","3":"3"},{"1":"7","2":"6.42","3":"3"},{"1":"5","2":"5.73","3":"3"},{"1":"8","2":"6.58","3":"4"},{"1":"8","2":"5.76","3":"4"},{"1":"8","2":"7.71","3":"4"},{"1":"8","2":"8.84","3":"4"},{"1":"8","2":"8.47","3":"4"},{"1":"8","2":"7.04","3":"4"},{"1":"8","2":"5.25","3":"4"},{"1":"19","2":"12.50","3":"4"},{"1":"8","2":"5.56","3":"4"},{"1":"8","2":"7.91","3":"4"},{"1":"8","2":"6.89","3":"4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quartet <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(dataset) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_X =</span> <span class="kw">mean</span>(x),
+            <span class="dt">mean_Y =</span> <span class="kw">mean</span>(y),
+            <span class="dt">sd_X =</span> <span class="kw">sd</span>(x),
+            <span class="dt">sd_Y =</span> <span class="kw">sd</span>(y),
+            <span class="dt">cor =</span> <span class="kw">cor</span>(x, y),
+            <span class="dt">n_obs =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>dataset) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">round</span>(., <span class="dv">2</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mean_X"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["mean_Y"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd_X"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sd_Y"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["cor"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["n_obs"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"9","2":"7.5","3":"3.32","4":"2.03","5":"0.82","6":"11"},{"1":"9","2":"7.5","3":"3.32","4":"2.03","5":"0.82","6":"11"},{"1":"9","2":"7.5","3":"3.32","4":"2.03","5":"0.82","6":"11"},{"1":"9","2":"7.5","3":"3.32","4":"2.03","5":"0.82","6":"11"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="datasaurus" class="section level4">
+<h4>1.2 Datasaurus</h4>
+<p>In <a href="https://www.autodeskresearch.com/sites/default/files/SameStats-DifferentGraphs.pdf">Matejka and Fitzmaurice (2017) “Same Stats, Different Graphs”</a> was presented the next sets of data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">datasaurus &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://goo.gl/gtaunr&quot;</span>)
+<span class="kw">head</span>(datasaurus)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["dataset"],"name":[1],"type":["chr"],"align":["left"]},{"label":["x"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"dino","2":"55.3846","3":"97.1795"},{"1":"dino","2":"51.5385","3":"96.0256"},{"1":"dino","2":"46.1538","3":"94.4872"},{"1":"dino","2":"42.8205","3":"91.4103"},{"1":"dino","2":"40.7692","3":"88.3333"},{"1":"dino","2":"38.7179","3":"84.8718"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">datasaurus <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(dataset) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_X =</span> <span class="kw">mean</span>(x),
+            <span class="dt">mean_Y =</span> <span class="kw">mean</span>(y),
+            <span class="dt">sd_X =</span> <span class="kw">sd</span>(x),
+            <span class="dt">sd_Y =</span> <span class="kw">sd</span>(y),
+            <span class="dt">cor =</span> <span class="kw">cor</span>(x, y),
+            <span class="dt">n_obs =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>dataset) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">round</span>(., <span class="dv">1</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mean_X"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["mean_Y"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd_X"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sd_Y"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["cor"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["n_obs"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="scatter-plot" class="section level3">
+<h3>2. Scatter plot</h3>
+<ul>
+<li>ggplot2</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> homo, <span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<ul>
+<li>dplyr, ggplot2</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(average.f0.Hz, age))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> orientation))</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div id="scaterplot-color" class="section level4">
+<h4>2.1 Scaterplot: color</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms,
+             <span class="dt">color =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-shape" class="section level4">
+<h4>2.2 Scaterplot: shape</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms,
+             <span class="dt">shape =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-size" class="section level4">
+<h4>2.3 Scaterplot: size</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms,
+             <span class="dt">size =</span> age)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-text" class="section level4">
+<h4>2.4 Scaterplot: text</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">ifelse</span>(orientation <span class="op">==</span><span class="st"> &quot;homo&quot;</span>,<span class="st">&quot;⚣&quot;</span>, <span class="st">&quot;⚤&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms, <span class="dt">label =</span> label, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_label</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">ifelse</span>(orientation <span class="op">==</span><span class="st"> &quot;homo&quot;</span>,<span class="st">&quot;⚣&quot;</span>, <span class="st">&quot;⚤&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms, <span class="dt">label =</span> label, <span class="dt">color =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_text</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+</div>
+<div id="scaterplot-title" class="section level4">
+<h4>2.5 Scaterplot: title</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;length of [s] vs. length of vowels&quot;</span>,
+       <span class="dt">subtitle =</span> <span class="st">&quot;based on 14 speakers of Cantonese&quot;</span>,
+       <span class="dt">caption =</span> <span class="st">&quot;data from [Hau 2007]&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-axis" class="section level4">
+<h4>2.6 Scaterplot: axis</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;duration of [s] in ms&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;vowel duration in ms&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="log-scales" class="section level4">
+<h4>2.7 Log scales</h4>
+<div class="figure">
+<img src="https://pbs.twimg.com/media/CTxg970WwAApE98.png" />
+
+</div>
+<p>Lets use the frequency dictionary for Russian</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">freq &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/TlX7xW&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)
+freq <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Freq.ipm.)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">200</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Rank, Freq.ipm.)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;ipm&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">freq <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">52138</span>, Freq.ipm.))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;ipm&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_log10</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-16-2.png" width="672" /></p>
+</div>
+<div id="scaterplot-rug" class="section level4">
+<h4>2.8 Scaterplot: rug</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms, <span class="dt">color =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_rug</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-lines" class="section level4">
+<h4>2.9 Scaterplot: lines</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw">mean</span>(homo<span class="op">$</span>vowel.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">60</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">120</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">60</span>, <span class="dt">size =</span> <span class="dv">5</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">120</span>, <span class="dt">linetype =</span> <span class="dv">4</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">60</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-18-3.png" width="672" /></p>
+</div>
+<div id="scaterplot-annotate" class="section level4">
+<h4>2.10 Scaterplot: annotate</h4>
+<p>Функция <code>annotate</code> добавляет <code>geom</code> к графику.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom =</span> <span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="dv">77</span>, <span class="dt">xmax =</span> <span class="dv">79</span>,
+           <span class="dt">ymin =</span> <span class="dv">117</span>, <span class="dt">ymax =</span> <span class="dv">122</span>, <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">78</span>, <span class="dt">y =</span> <span class="dv">125</span>,
+           <span class="dt">label =</span> <span class="st">&quot;Who is that?</span><span class="ch">\n</span><span class="st"> Outlier?&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+</div>
+<div id="bar-chart--" class="section level3">
+<h3>2. Bar chart (столбчатая диаграмма)</h3>
+<p>There are two possible situations:</p>
+<ul>
+<li>not aggregate data</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(homo[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">9</span>)])</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["orientation"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"A","2":"hetero"},{"1":"B","2":"hetero"},{"1":"C","2":"homo"},{"1":"D","2":"homo"},{"1":"E","2":"homo"},{"1":"F","2":"homo"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ul>
+<li>aggregate data</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(homo[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>)])</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"A","2":"30"},{"1":"B","2":"19"},{"1":"C","2":"29"},{"1":"D","2":"36"},{"1":"E","2":"27"},{"1":"F","2":"33"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, age)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_col</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, age, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_col</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-22-3.png" width="672" /></p>
+</div>
+<div id="-" class="section level3">
+<h3>3. График плотности</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-23-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">fill =</span> <span class="st">&quot;lightblue&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-23-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-23-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-23-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggridges)
+homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, orientation, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density_ridges</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-23-6.png" width="672" /></p>
+</div>
+<div id="boxplot---" class="section level3">
+<h3>4. Boxplot (ящик с усами)</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width =</span> <span class="fl">0.5</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-24-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">trim =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_jitter</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-24-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_violin</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_jitter</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-24-5.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>5. Предварительно</h3>
+<ul>
+<li>scaterplot: two quantitative varibles</li>
+<li>barplot: nominal varible and one number</li>
+<li>boxplot: nominal varible and quantitative varibles</li>
+<li>jittered points or sized points: two nominal varibles</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">newvar =</span> mpg <span class="op">&gt;</span><span class="st"> </span><span class="dv">22</span>,
+         <span class="dt">newvr =</span> mpg <span class="op">&lt;</span><span class="st"> </span><span class="dv">17</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(newvr, newvar, <span class="dt">color =</span> newvar))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width =</span> <span class="fl">0.2</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">newvar =</span> mpg <span class="op">&gt;</span><span class="st"> </span><span class="dv">22</span>,
+         <span class="dt">newvr =</span> mpg <span class="op">&lt;</span><span class="st"> </span><span class="dv">17</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(newvar, newvr) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">number =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(newvr, newvar, <span class="dt">label =</span> number))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> number, <span class="dt">color =</span> newvar))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_text</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_size</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">30</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(<span class="dt">size =</span> F)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>6. Гистограммы</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-26-1.png" width="672" /> Сколько нам нужно ячеек гистограммы?</p>
+<ul>
+<li>[Sturgers 1926] <code>nclass.Sturges(homo$s.duration.ms)</code></li>
+<li>[Scott 1979] <code>nclass.scott(homo$s.duration.ms)</code></li>
+<li>[Freedman, Diaconis 1981] <code>nclass.FD(homo$s.duration.ms)</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="kw">nclass.FD</span>(homo<span class="op">$</span>s.duration.ms))</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;lightblue&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>7. Фасетизация</h3>
+<p>Фасетизация наиболее сильное оружие <code>ggplot2</code>, позволяющее разбить данные по одному или нескольким переменным и нанести награфик получившиеся подгруппы.</p>
+<div id="ggplot2facet_wrap" class="section level4">
+<h4>7.1 <code>ggplot2::facet_wrap()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-28-3.png" width="672" /></p>
+</div>
+<div id="ggplot2facet_grid" class="section level4">
+<h4>7.2 <code>ggplot2::facet_grid()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">older_then_28 =</span> <span class="kw">ifelse</span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">28</span>, <span class="st">&quot;older&quot;</span>, <span class="st">&quot;younger&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(older_then_<span class="dv">28</span><span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">older_then_28 =</span> <span class="kw">ifelse</span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">28</span>, <span class="st">&quot;older&quot;</span>, <span class="st">&quot;younger&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_grid</span>(older_then_<span class="dv">28</span><span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
+<p>Существует еще славный аргумент <code>margins</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">older_then_28 =</span> <span class="kw">ifelse</span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">28</span>, <span class="st">&quot;older&quot;</span>, <span class="st">&quot;younger&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_grid</span>(older_then_<span class="dv">28</span><span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">margins =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Иногда, очень хорошо показывать все данные на каждом фасете:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="co"># Add an additional geom without facetization variable!</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> homo[,<span class="op">-</span><span class="dv">9</span>], <span class="kw">aes</span>(speaker, s.duration.ms), <span class="dt">color =</span> <span class="st">&quot;grey&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab_3_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<div class="parallax">
+
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="G. Moroz" />
+
+
+<title>Lab_1</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Lab_1.html">Lab 1</a>
+</li>
+<li>
+  <a href="Lab_2.html">Lab 2</a>
+</li>
+<li>
+  <a href="Lab_3.html">Lab 3</a>
+</li>
+<li>
+  <a href="Lab_4.html">Lab 4</a>
+</li>
+<li>
+  <a href="Lab_5.html">Lab 5</a>
+</li>
+<li>
+  <a href="Lab_6.html">Lab 6</a>
+</li>
+<li>
+  <a href="Lab_7.html">Lab 7</a>
+</li>
+<li>
+  <a href="Lab_8.html">Lab 8</a>
+</li>
+<li>
+  <a href="Lab 9-10. descriptive_and_simple_statistics.pdf">Lab 9-10</a>
+</li>
+<li>
+  <a href="correlation_regressions.pdf">Lab 11-12</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Lab_1</h1>
+<h4 class="author"><em>G. Moroz</em></h4>
+
+</div>
+
+
+<div class="section level2">
+<h2>Арифметика</h2>
+<pre class="r"><code>2+2</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>57-43</code></pre>
+<pre><code>## [1] 14</code></pre>
+<pre class="r"><code>31*2</code></pre>
+<pre><code>## [1] 62</code></pre>
+<pre class="r"><code>27/3</code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre class="r"><code>55**2</code></pre>
+<pre><code>## [1] 3025</code></pre>
+<pre class="r"><code>55^2</code></pre>
+<pre><code>## [1] 3025</code></pre>
+<pre class="r"><code>sum(93, 39, 291, 29)</code></pre>
+<pre><code>## [1] 452</code></pre>
+<pre class="r"><code>prod(2, 3, 4)</code></pre>
+<pre><code>## [1] 24</code></pre>
+<pre class="r"><code>28 %% 3</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>choose(6,2) # С из n по k</code></pre>
+<pre><code>## [1] 15</code></pre>
+</div>
+<div class="section level1">
+<h1>Переменные</h1>
+<pre class="r"><code>var &lt;- 57 # Alt и -
+var = 57
+var_2 &lt;- 34
+my.var &lt;- 99
+MyVar &lt;- 33
+
+var + 2 # var не изменился</code></pre>
+<pre><code>## [1] 59</code></pre>
+<pre class="r"><code>var &lt;- var + 2 # var не изменился
+rm(var_2) # удаляет переменную
+ls() # сообщает список переменных</code></pre>
+<pre><code>## [1] &quot;a&quot;      &quot;db&quot;     &quot;df&quot;     &quot;fit&quot;    &quot;m&quot;      &quot;my.var&quot; &quot;MyVar&quot;  &quot;var&quot;</code></pre>
+</div>
+<div id="-" class="section level1">
+<h1>типы данных</h1>
+<pre class="r"><code>-54.9 # числа</code></pre>
+<pre><code>## [1] -54.9</code></pre>
+<pre class="r"><code>&quot;фывфыафыа&quot; # строка</code></pre>
+<pre><code>## [1] &quot;фывфыафыа&quot;</code></pre>
+<pre class="r"><code>32 + 5i # мнимое число</code></pre>
+<pre><code>## [1] 32+5i</code></pre>
+<pre class="r"><code>TRUE</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>FALSE</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+</div>
+<div class="section level1">
+<h1>Векторы</h1>
+<pre class="r"><code>5:20</code></pre>
+<pre><code>##  [1]  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<pre class="r"><code>c(46, 34, 28)</code></pre>
+<pre><code>## [1] 46 34 28</code></pre>
+<pre class="r"><code>my_vector &lt;- c(46, 34, 28)
+my_vector + 2</code></pre>
+<pre><code>## [1] 48 36 30</code></pre>
+<pre class="r"><code>my_vector ** 2</code></pre>
+<pre><code>## [1] 2116 1156  784</code></pre>
+<pre class="r"><code>my_vector_2 &lt;- c(&quot;4628&quot;, &quot;наша&quot;)
+my_vector_2 &lt;- c(4628, &quot;наша&quot;)
+my_vector_3 &lt;- month.name
+my_vector_3[5]</code></pre>
+<pre><code>## [1] &quot;May&quot;</code></pre>
+<pre class="r"><code>my_vector_3[5:7]</code></pre>
+<pre><code>## [1] &quot;May&quot;  &quot;June&quot; &quot;July&quot;</code></pre>
+<pre class="r"><code>my_vector_3[c(5, 7, 11)]</code></pre>
+<pre><code>## [1] &quot;May&quot;      &quot;July&quot;     &quot;November&quot;</code></pre>
+<pre class="r"><code>my_index &lt;- c(5, 7, 11)
+my_vector_3[my_index]</code></pre>
+<pre><code>## [1] &quot;May&quot;      &quot;July&quot;     &quot;November&quot;</code></pre>
+<pre class="r"><code>month.name[-5] #  Без 5 элемента</code></pre>
+<pre><code>##  [1] &quot;January&quot;   &quot;February&quot;  &quot;March&quot;     &quot;April&quot;     &quot;June&quot;     
+##  [6] &quot;July&quot;      &quot;August&quot;    &quot;September&quot; &quot;October&quot;   &quot;November&quot; 
+## [11] &quot;December&quot;</code></pre>
+<pre class="r"><code>month.name[-c(5, 9)] # Без 5 и 9 элементов</code></pre>
+<pre><code>##  [1] &quot;January&quot;  &quot;February&quot; &quot;March&quot;    &quot;April&quot;    &quot;June&quot;     &quot;July&quot;    
+##  [7] &quot;August&quot;   &quot;October&quot;  &quot;November&quot; &quot;December&quot;</code></pre>
+</div>
+<div class="section level1">
+<h1>Сравнения</h1>
+<pre class="r"><code>2 &gt; 8</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>2 &lt; 8</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>c(2, 3) &gt; 5</code></pre>
+<pre><code>## [1] FALSE FALSE</code></pre>
+<pre class="r"><code>c(2, 9) &gt; c(5, 1)</code></pre>
+<pre><code>## [1] FALSE  TRUE</code></pre>
+<pre class="r"><code>c(2, 3) &gt;= 5</code></pre>
+<pre><code>## [1] FALSE FALSE</code></pre>
+<pre class="r"><code>c(2, 3) &lt;= 5</code></pre>
+<pre><code>## [1] TRUE TRUE</code></pre>
+<pre class="r"><code>c(2, 3) == 5</code></pre>
+<pre><code>## [1] FALSE FALSE</code></pre>
+<pre class="r"><code>c(2, 3) != 5</code></pre>
+<pre><code>## [1] TRUE TRUE</code></pre>
+</div>
+<div id="--" class="section level1">
+<h1>Сравнение как индекс</h1>
+<pre class="r"><code>b &lt;- 1:14
+b[b &gt; 6]</code></pre>
+<pre><code>## [1]  7  8  9 10 11 12 13 14</code></pre>
+<pre class="r"><code>b[b %% 3 == 0]</code></pre>
+<pre><code>## [1]  3  6  9 12</code></pre>
+</div>
+<div class="section level1">
+<h1>Датафреймы</h1>
+<pre class="r"><code>df &lt;- data.frame(
+  abc = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;),
+numbers = 3:1)
+
+df &lt;- data.frame(
+  abc = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;),
+  numbers = 3:1,
+  stringsAsFactors = FALSE) # чтобы не было факторов
+
+df$numbers</code></pre>
+<pre><code>## [1] 3 2 1</code></pre>
+<pre class="r"><code>df$abc</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
+<pre class="r"><code>df[3, 2] # до запятой строки, после - столбец</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>df[, 2] # второй столбец</code></pre>
+<pre><code>## [1] 3 2 1</code></pre>
+<pre class="r"><code>df[2, ] # вторая строка</code></pre>
+<pre><code>##   abc numbers
+## 2   b       2</code></pre>
+<pre class="r"><code>View(mtcars)
+mtcars[,5]</code></pre>
+<pre><code>##  [1] 3.90 3.90 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 3.92 3.07 3.07 3.07
+## [15] 2.93 3.00 3.23 4.08 4.93 4.22 3.70 2.76 3.15 3.73 3.08 4.08 4.43 3.77
+## [29] 4.22 3.62 3.54 4.11</code></pre>
+</div>
+<div id="---.--" class="section level1">
+<h1>Считывание и запись файлов. Рабочая дериктория</h1>
+<pre class="r"><code>df &lt;- read.csv(&quot;https://raw.githubusercontent.com/agricolamz/2018_data_analysis_for_linguists/master/data/students/Lera-Z/hw1_agreement/hw1_1_zilo_class.csv&quot;)
+
+df &lt;- read.csv(&quot;/home/agricolamz/work/materials/2018_I_HSE_Data_Analysis_for_linguists/data/students/akv17/hw1_agreement/hw1_1_zilo_class.csv&quot;)
+
+getwd()
+
+setwd(&quot;/home/agricolamz/work/materials/2018_I_HSE_Data_Analysis_for_linguists/data/students/akv17/hw1_agreement&quot;)
+
+df &lt;- read.csv(&quot;hw1_2_verbs.csv&quot;)</code></pre>
+</div>
+<div class="section level1">
+<h1>Факторы</h1>
+<pre class="r"><code>a &lt;- c(&quot;папа&quot;, &quot;мама&quot;)
+a</code></pre>
+<pre><code>## [1] &quot;папа&quot; &quot;мама&quot;</code></pre>
+<pre class="r"><code>a_factor &lt;-  factor(a)
+nchar(a)</code></pre>
+<pre><code>## [1] 4 4</code></pre>
+<pre class="r"><code># nchar(a_factor) не работает :(
+length(month.name)</code></pre>
+<pre><code>## [1] 12</code></pre>
+<pre class="r"><code>nchar(month.name)</code></pre>
+<pre><code>##  [1] 7 8 5 5 3 4 4 6 9 7 8 8</code></pre>
+<pre class="r"><code>length(month.name[1])</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>nchar(month.name[1])</code></pre>
+<pre><code>## [1] 7</code></pre>
+</div>
+<div class="section level1">
+<h1>Пакеты</h1>
+<pre class="r"><code># установка пакета
+install.packages(&quot;lingtypology&quot;)
+# включение пакета
+library(&quot;lingtypology&quot;)
+map.feature(c(&quot;Adyghe&quot;, &quot;Russian&quot;))
+
+install.packages(&quot;tidyverse&quot;)
+library(tidyverse)</code></pre>
+</div>
+<div id="-" class="section level1">
+<h1>Пользовательские функции</h1>
+<pre class="r"><code>my_sqrt &lt;- function(i){
+  i^2
+}
+my_sqrt(43)</code></pre>
+<pre><code>## [1] 1849</code></pre>
+<pre class="r"><code>my_sqrt(c(4, 23)) # векторизовано</code></pre>
+<pre><code>## [1]  16 529</code></pre>
+<pre class="r"><code>my_sqrt2 &lt;- function(x, y){
+  x^y
+}
+my_sqrt2(4, 12)</code></pre>
+<pre><code>## [1] 16777216</code></pre>
+<pre class="r"><code>my_sqrt3 &lt;- function(x, y) x^y
+my_sqrt3(4, 12)</code></pre>
+<pre><code>## [1] 16777216</code></pre>
+<pre class="r"><code>my_sqrt4 &lt;- function(x, y = 12){
+  x^y
+}
+
+my_sqrt4(4,12)</code></pre>
+<pre><code>## [1] 16777216</code></pre>
+<pre class="r"><code>my_sqrt4(4)</code></pre>
+<pre><code>## [1] 16777216</code></pre>
+<pre class="r"><code>my_sqrt4(4:7)</code></pre>
+<pre><code>## [1]    16777216   244140625  2176782336 13841287201</code></pre>
+</div>
+<div id="---" class="section level1">
+<h1>Как порождать последовательности чисел</h1>
+<pre class="r"><code>seq(from = 1, to = 4, by = 0.1)</code></pre>
+<pre><code>##  [1] 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6
+## [18] 2.7 2.8 2.9 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8 3.9 4.0</code></pre>
+<pre class="r"><code>rep(5, 10)</code></pre>
+<pre><code>##  [1] 5 5 5 5 5 5 5 5 5 5</code></pre>
+<pre class="r"><code>rep(c(5, 9), 10)</code></pre>
+<pre><code>##  [1] 5 9 5 9 5 9 5 9 5 9 5 9 5 9 5 9 5 9 5 9</code></pre>
+<pre class="r"><code>rep(c(5, 9), each = 10)</code></pre>
+<pre><code>##  [1] 5 5 5 5 5 5 5 5 5 5 9 9 9 9 9 9 9 9 9 9</code></pre>
+<pre class="r"><code># произвольные буквы с повторением
+sample(letters, 3, replace = TRUE)</code></pre>
+<pre><code>## [1] &quot;u&quot; &quot;c&quot; &quot;q&quot;</code></pre>
+<pre class="r"><code># как остановить рандомизатор
+set.seed(42)
+sample(1:190, 3, replace = TRUE)</code></pre>
+<pre><code>## [1] 174 179  55</code></pre>
+</div>
+<div class="section level1">
+<h1>Распределения</h1>
+<pre class="r"><code>rnorm(100, mean = 100, sd = 20)</code></pre>
+<pre><code>##   [1] 119.11871 100.95769  77.90801 110.78048 111.60413  86.84994 131.09791
+##   [8]  76.24717 103.03626  78.27735 132.26746 100.71262 126.29918 119.56335
+##  [15] 117.63582 109.64409 119.31506  83.70858 105.67916  96.76603 138.71144
+##  [22] 134.46462 107.16804 106.04862  92.11771 115.76281 113.41408  81.01638
+##  [29] 100.72271 142.31511 103.34882  82.40327 118.93826  85.90897  78.43661
+##  [36]  98.96674 111.61858  93.65305  40.92840  79.93791 107.47108 103.20444
+##  [43]  73.18250  89.81100  30.14187 129.97552 112.50487 100.75534 106.06547
+##  [50]  84.36343  94.35861 135.63574 112.45319  43.24874 119.62795  97.62474
+##  [57] 101.87654  92.59864 118.99986  95.48177 104.53435  94.67239 135.62649
+##  [64] 111.92510 105.24699 130.66386 104.02871  75.86026 106.29970  71.93410
+##  [71] 115.40122 118.09722 131.91368  79.19157  90.87393  94.64475 115.16338
+##  [78]  62.11195 109.36316 102.53820  82.95189  81.65881  90.48091  82.15296
+##  [85]  95.54536  99.01250  78.07552 104.66953 114.71328 121.84422  87.08747
+##  [92] 113.32417 116.35088  88.80059 115.72294  77.38587  67.69522  75.71313
+##  [99] 112.33593 100.85808</code></pre>
+<pre class="r"><code>set.seed(42)
+rnorm(100, mean = 100, sd = 20) #  нормальное распределение</code></pre>
+<pre><code>##   [1] 127.41917  88.70604 107.26257 112.65725 108.08537  97.87751 130.23044
+##   [8]  98.10682 140.36847  98.74572 126.09739 145.73291  72.22279  94.42422
+##  [15]  97.33357 112.71901  94.31494  46.87089  51.19066 126.40227  93.86723
+##  [22]  64.37383  96.56165 124.29349 137.90387  91.39062  94.85461  64.73674
+##  [29] 109.20195  87.20010 109.10900 114.09675 120.70207  87.82147 110.09910
+##  [36]  65.65983  84.31082  82.98185  51.71585 100.72245 104.11997  92.77885
+##  [43] 115.16326  85.46590  72.63438 108.65636  83.77214 128.88203  91.37108
+##  [50] 113.11296 106.43851  84.32322 131.51455 112.85799 101.79521 105.53101
+##  [57] 113.58578 101.79666  40.13820 105.69766  92.65531 103.70461 111.63647
+##  [64] 127.99474  85.45416 126.05085 106.71696 120.77012 118.41457 114.41756
+##  [71]  79.13762  98.19627 112.47036  80.92953  89.14342 111.61993 115.36357
+##  [78] 109.27535  82.28447  78.00438 130.25414 105.15843 101.76880  97.58207
+##  [85]  76.11342 112.23994  95.65720  96.34487 118.66693 116.43546 127.84233
+##  [92]  90.47652 113.00697 127.82221  77.78422  82.78415  77.36523  70.81572
+##  [99] 101.59965 113.06409</code></pre>
+<pre class="r"><code>rt(100, 2) #  t распределение</code></pre>
+<pre><code>##   [1]  0.976805727 -0.614956963 -0.877490818 -0.653715997 -0.283422990
+##   [6] -0.595649463  3.531999994 -0.848157251  0.675056153 -0.252887137
+##  [11] -1.171047357 -0.003697156  0.068526158  0.116399461 -0.767546249
+##  [16] -3.732469744 -1.691909696 -0.720028566 -0.327071791 -0.790727424
+##  [21] -0.410377461 -1.538197029 -0.308727902 -2.196681983 -0.025286323
+##  [26]  0.208947337 -0.648746223 -0.361973365  6.796443136 -0.104949980
+##  [31] -0.204171679 -1.124510315  1.368928702 -1.441840623 -0.008118733
+##  [36] -0.655190490  0.519235653 -5.870148065 -0.443763546  0.567035589
+##  [41] -1.849471065 -1.064581860  0.224838449  0.205596417 -0.940063195
+##  [46] -2.267531513  0.162054435  0.046442354 -1.761910114 -1.159386849
+##  [51] -0.180340869 -0.620251776  0.903934366  1.035202150  1.303562258
+##  [56] 74.389123997 -0.066004392  0.287157452  0.663396305 -2.806536943
+##  [61] -1.011024271 -1.974133088 10.971719266 -2.722441935 -0.828281845
+##  [66] -1.755874761 -0.500150685 -0.884195972 -1.597893127  5.484252925
+##  [71] -0.547134173 -1.689012819  0.476368704  3.843411107 -2.306505461
+##  [76] -0.755530652 -0.215984361 -0.268679256 -1.710290169 -3.995852361
+##  [81] -0.274602624 -0.995021479 -1.005423032 -0.604481518  0.072146124
+##  [86]  0.913885828  0.756570792 -0.063641017 -1.325332425 -0.452672266
+##  [91] -1.633589970 -0.247228228  1.447299162 -1.499881051 -0.959638879
+##  [96]  0.361140012 -0.154984334  0.586969096 -0.664988927  1.131930242</code></pre>
+<pre class="r"><code>rbinom(100, 75, 0.23) #  биномиальное распределение</code></pre>
+<pre><code>##   [1] 19 16 15 12 19 14 18 13 16 15 20 16 17 17 18 16 24 24 22 12 17 16 19
+##  [24] 18 21 23 18 17 23 22 16 11 20 23 16 15 12 16 14 13 15 18 13 24 23 26
+##  [47] 19 13  9 19 19 22 16 16 18 16 13 16 14 19  9 22 22 20 23 18 19 16 12
+##  [70] 19 13 15 18 16 12 21 16 19 10 18 15 16 13 21 13 22 22 14 17 17 14 17
+##  [93] 14 15 17 14 22 17 18 20</code></pre>
+</div>
+<div class="section level1">
+<h1>Условия</h1>
+<pre class="r"><code>x &lt;- 7
+if(x &gt; 5){
+  TRUE
+} else{
+  FALSE
+} </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>if(x == 5){
+  &quot;equal&quot;
+} else if(x &gt; 5){
+  &quot;greater&quot;
+} else{
+  &quot;less&quot;
+}</code></pre>
+<pre><code>## [1] &quot;greater&quot;</code></pre>
+<pre class="r"><code>i &lt;- 2
+while(i &lt; 5){
+  print(&quot;wow&quot;)
+  i &lt;- i + 1
+}</code></pre>
+<pre><code>## [1] &quot;wow&quot;
+## [1] &quot;wow&quot;
+## [1] &quot;wow&quot;</code></pre>
+<pre class="r"><code>ifelse(x &gt; 24, &quot;greater&quot;, &quot;less&quot;)</code></pre>
+<pre><code>## [1] &quot;less&quot;</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

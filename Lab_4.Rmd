@@ -1,0 +1,10 @@
+---
+title: "4. `rmarkdown`, `shiny`"
+editor_options: 
+  chunk_output_type: console
+output: html_document
+---
+
+* [ggplot2 extentions](http://www.ggplot2-exts.org/gallery/)
+* [курс по `rmarkdown`](https://agricolamz.github.io/2018_ANDAN_course_winter/)
+* [Shiny gallery](https://shiny.rstudio.com/gallery/)

@@ -1,0 +1,227 @@
+---
+title: "Lab_1"
+author: "G. Moroz"
+output: html_document
+---
+
+## Арифметика
+
+```{r}
+2+2
+57-43
+31*2
+27/3
+55**2
+55^2
+sum(93, 39, 291, 29)
+prod(2, 3, 4)
+28 %% 3
+choose(6,2) # С из n по k
+```
+
+# Переменные
+```{r}
+var <- 57 # Alt и -
+var = 57
+var_2 <- 34
+my.var <- 99
+MyVar <- 33
+
+var + 2 # var не изменился
+var <- var + 2 # var не изменился
+rm(var_2) # удаляет переменную
+ls() # сообщает список переменных
+```
+
+# типы данных
+```{r}
+-54.9 # числа
+"фывфыафыа" # строка
+32 + 5i # мнимое число
+TRUE
+FALSE
+NA
+```
+
+# Векторы
+```{r}
+5:20
+c(46, 34, 28)
+my_vector <- c(46, 34, 28)
+my_vector + 2
+my_vector ** 2
+my_vector_2 <- c("4628", "наша")
+my_vector_2 <- c(4628, "наша")
+my_vector_3 <- month.name
+my_vector_3[5]
+my_vector_3[5:7]
+my_vector_3[c(5, 7, 11)]
+my_index <- c(5, 7, 11)
+my_vector_3[my_index]
+month.name[-5] #  Без 5 элемента
+month.name[-c(5, 9)] # Без 5 и 9 элементов
+```
+
+# Сравнения
+```{r}
+2 > 8
+2 < 8
+c(2, 3) > 5
+c(2, 9) > c(5, 1)
+c(2, 3) >= 5
+c(2, 3) <= 5
+c(2, 3) == 5
+c(2, 3) != 5
+```
+
+# Сравнение как индекс
+```{r}
+b <- 1:14
+b[b > 6]
+b[b %% 3 == 0]
+```
+
+# Датафреймы
+```{r}
+df <- data.frame(
+  abc = c("a", "b", "c"),
+numbers = 3:1)
+
+df <- data.frame(
+  abc = c("a", "b", "c"),
+  numbers = 3:1,
+  stringsAsFactors = FALSE) # чтобы не было факторов
+
+df$numbers
+df$abc
+
+df[3, 2] # до запятой строки, после - столбец
+
+df[, 2] # второй столбец
+df[2, ] # вторая строка
+
+View(mtcars)
+mtcars[,5]
+```
+
+# Считывание и запись файлов. Рабочая дериктория
+```{r, eval=FALSE}
+df <- read.csv("https://raw.githubusercontent.com/agricolamz/2018_data_analysis_for_linguists/master/data/students/Lera-Z/hw1_agreement/hw1_1_zilo_class.csv")
+
+df <- read.csv("/home/agricolamz/work/materials/2018_I_HSE_Data_Analysis_for_linguists/data/students/akv17/hw1_agreement/hw1_1_zilo_class.csv")
+
+getwd()
+
+setwd("/home/agricolamz/work/materials/2018_I_HSE_Data_Analysis_for_linguists/data/students/akv17/hw1_agreement")
+
+df <- read.csv("hw1_2_verbs.csv")
+```
+
+# Факторы
+```{r}
+a <- c("папа", "мама")
+a
+a_factor <-  factor(a)
+nchar(a)
+# nchar(a_factor) не работает :(
+length(month.name)
+nchar(month.name)
+length(month.name[1])
+nchar(month.name[1])
+```
+
+
+# Пакеты
+```{r, eval=FALSE}
+# установка пакета
+install.packages("lingtypology")
+# включение пакета
+library("lingtypology")
+map.feature(c("Adyghe", "Russian"))
+
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+# Пользовательские функции
+```{r}
+my_sqrt <- function(i){
+  i^2
+}
+my_sqrt(43)
+my_sqrt(c(4, 23)) # векторизовано
+
+my_sqrt2 <- function(x, y){
+  x^y
+}
+my_sqrt2(4, 12)
+
+my_sqrt3 <- function(x, y) x^y
+my_sqrt3(4, 12)
+
+my_sqrt4 <- function(x, y = 12){
+  x^y
+}
+
+my_sqrt4(4,12)
+my_sqrt4(4)
+
+my_sqrt4(4:7)
+```
+
+# Как порождать последовательности чисел
+```{r}
+seq(from = 1, to = 4, by = 0.1)
+rep(5, 10)
+rep(c(5, 9), 10)
+rep(c(5, 9), each = 10)
+```
+
+
+```{r}
+
+# произвольные буквы с повторением
+sample(letters, 3, replace = TRUE)
+
+# как остановить рандомизатор
+set.seed(42)
+sample(1:190, 3, replace = TRUE)
+```
+
+
+# Распределения
+
+```{r}
+rnorm(100, mean = 100, sd = 20)
+
+set.seed(42)
+rnorm(100, mean = 100, sd = 20) #  нормальное распределение
+rt(100, 2) #  t распределение
+rbinom(100, 75, 0.23) #  биномиальное распределение
+```
+
+# Условия
+```{r}
+x <- 7
+if(x > 5){
+  TRUE
+} else{
+  FALSE
+} 
+
+if(x == 5){
+  "equal"
+} else if(x > 5){
+  "greater"
+} else{
+  "less"
+}
+
+i <- 2
+while(i < 5){
+  print("wow")
+  i <- i + 1
+}
+
+ifelse(x > 24, "greater", "less")
+```

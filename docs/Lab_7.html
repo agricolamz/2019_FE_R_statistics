@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Г. Мороз" />
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 52px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+
+.section h2 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h3 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h4 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h5 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h6 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Lab_1.html">Lab 1</a>
+</li>
+<li>
+  <a href="Lab_2.html">Lab 2</a>
+</li>
+<li>
+  <a href="Lab_3.html">Lab 3</a>
+</li>
+<li>
+  <a href="Lab_4.html">Lab 4</a>
+</li>
+<li>
+  <a href="Lab_5.html">Lab 5</a>
+</li>
+<li>
+  <a href="Lab_6.html">Lab 6</a>
+</li>
+<li>
+  <a href="Lab_7.html">Lab 7</a>
+</li>
+<li>
+  <a href="Lab_8.html">Lab 8</a>
+</li>
+<li>
+  <a href="Lab 9-10. descriptive_and_simple_statistics.pdf">Lab 9-10</a>
+</li>
+<li>
+  <a href="correlation_regressions.pdf">Lab 11-12</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><ol start="7" style="list-style-type: decimal">
+<li>Частотность слов в тексте</li>
+</ol></h1>
+<h4 class="author"><em>Г. Мороз</em></h4>
+
+</div>
+
+
+<style>
+.parallax {
+    /* The image used */
+    background-image: url("3_frequency.jpg");
+
+    /* Set a specific height */
+    min-height: 360px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: length;
+}
+</style>
+<blockquote>
+“Интересно, кто же это такой Слонопотам?”– подумал Пух. <br> – Их не часто встретишь,– небрежно сказал Кристофер Робин.
+<div style="float: right; clear: right; margin: 13px;">
+(А. А. Милн)
+</div>
+</blockquote>
+<div class="parallax">
+
+</div>
+<div id="1" class="section level3">
+<h3>1. Подготовка<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></h3>
+<p>Начнем с того, что скачаем датасет, с которым мы будем работать.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">temp &lt;-<span class="st"> </span><span class="kw">tempfile</span>() <span class="co"># создаем временный файл</span>
+path &lt;-<span class="st"> &quot;./docs/materials/Chekhov/&quot;</span>
+<span class="kw">download.file</span>(<span class="st">&quot;https://goo.gl/9DWBF5&quot;</span>, <span class="dt">destfile =</span> temp) <span class="co"># скачиваем в него архив</span>
+<span class="kw">unzip</span>(temp, <span class="dt">exdir =</span> path) <span class="co"># создаем папку Chekhov и распаковываем туда</span>
+<span class="kw">rm</span>(temp) <span class="co"># удаляем временный файл</span>
+<span class="kw">list.files</span>(<span class="dt">path =</span> path) <span class="co"># смотрим на список распокованных файлов</span></code></pre></div>
+<pre><code>##  [1] &quot;cinik.txt&quot;                                
+##  [2] &quot;dachniki.txt&quot;                             
+##  [3] &quot;delec.txt&quot;                                
+##  [4] &quot;dorogaya_sobaka.txt&quot;                      
+##  [5] &quot;gost.txt&quot;                                 
+##  [6] &quot;intellegentnoje_delo.txt&quot;                 
+##  [7] &quot;jeger.txt&quot;                                
+##  [8] &quot;mertvoje_telo.txt&quot;                        
+##  [9] &quot;mislitel.txt&quot;                             
+## [10] &quot;moi_jeni.txt&quot;                             
+## [11] &quot;nalim.txt&quot;                                
+## [12] &quot;nervi.txt&quot;                                
+## [13] &quot;ne_sudba.txt&quot;                             
+## [14] &quot;ninochka.txt&quot;                             
+## [15] &quot;obshee_obrazovaniye.txt&quot;                  
+## [16] &quot;otec_semejstva.txt&quot;                       
+## [17] &quot;psichopaty.txt&quot;                           
+## [18] &quot;rukovodstvo_dlya_zhelayushich_zhenica.txt&quot;
+## [19] &quot;rybje_delo.txt&quot;                           
+## [20] &quot;sapogi.txt&quot;                               
+## [21] &quot;simulianti.txt&quot;                           
+## [22] &quot;starosta.txt&quot;                             
+## [23] &quot;stena.txt&quot;                                
+## [24] &quot;straji_pod_strajey.txt&quot;                   
+## [25] &quot;svistuni.txt&quot;                             
+## [26] &quot;utoplennik.txt&quot;                           
+## [27] &quot;v_apteke.txt&quot;                             
+## [28] &quot;zabludshije.txt&quot;                          
+## [29] &quot;zhenich_i_papenka.txt&quot;                    
+## [30] &quot;zloumishlennik.txt&quot;</code></pre>
+<p>Это 30 маленьких рассказов А. П. Чехова. Давайте все их считаем:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> path) <span class="co"># создадим переменную со списком файлов</span>
+texts &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">paste0</span>(path, files), <span class="dt">FUN=</span>readLines) <span class="co"># считаем все файлы в одну переменную</span></code></pre></div>
+<div class="parallax">
+
+</div>
+</div>
+<div id="--tidytext" class="section level3">
+<h3>2. Введение в <code>tidytext</code></h3>
+<p>Обычная философия <strong>tidy data</strong>: одна строчка – одно наблюдение; один столбец – одна переменная. Попробуем tidyфицировать один текст:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse); <span class="kw">library</span>(tidytext); <span class="kw">library</span>(stringr)
+text_df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">line =</span> <span class="kw">seq_along</span>(texts[[<span class="dv">1</span>]]),
+                              <span class="dt">text =</span> texts[[<span class="dv">1</span>]])
+<span class="kw">head</span>(text_df)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["line"],"name":[1],"type":["int"],"align":["right"]},{"label":["text"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"Полдень. Управляющий \"Зверинца братьев Пихнау\", отставной портупей-юнкер Егор Сюсин, здоровеннейший парень с обрюзглым, испитым лицом, в грязной сорочке и в засаленном фраке, уже пьян. Перед публикой вертится он, как чёрт перед заутреней: бегает, изгибается, хихикает, играет глазами и словно кокетничает своими угловатыми манерами и расстегнутыми пуговками. Когда его большая стриженая голова бывает наполнена винными парами, публика любит его. В это время он \"объясняет\" зверей не просто, а по новому, ему одному только принадлежащему, способу."},{"1":"2","2":"-- Как объяснять? -- спрашивает он публику, подмигивая глазом. -- Просто или с психологией и тенденцией?"},{"1":"3","2":"-- С психологией и тенденцией!"},{"1":"4","2":"-- Bene! {Хорошо! (лат.).} Начинаю! Африканский лев! -- говорит он, покачиваясь и насмешливо глядя на льва, сидящего в углу клетки и кротко мигающего глазами. -- Синоним могущества, соединенного с грацией, краса и гордость фауны! Когда-то, в дни молодости, пленял своею мощью и ревом наводил ужас на окрестности, а теперь... Хо-хо-хо... а теперь, болван этакий, сидит в клетке... Что, братец лев? Сидишь? Философствуешь? А небось, как по лесам рыскал, так -- куда тебе! -- думал, что сильнее и зверя нет, что и чёрт тебе не брат, -- ан и вышло, что дура судьба сильнее... хоть и дура она, а сильнее... Хо-хо-хо! Ишь ведь, куда черти занесли из Африки! Чай, и не снилось, что сюда попадешь! Меня тоже, братец ты мой, ух как черти носили! Был я и в гимназии, и в канцелярии, и в землемерах, и на телеграфе, и на военной, и на макаронной фабрике... и чёрт меня знает, где я только не был! В конце концов в зверинец попал... в вонь... Хо-хо-хо!"},{"1":"5","2":"И публика, зараженная искренним смехом пьяного Сюсина, сама гогочет."},{"1":"6","2":"-- Чай, хочется на свободу! -- мигает глазом на льва малый, пахнущий краской и покрытый разноцветными жирными пятнами."}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text_df <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">unnest_tokens</span>(word, text) -&gt;
+<span class="st">  </span>tidy_df
+<span class="kw">head</span>(tidy_df)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["line"],"name":[1],"type":["int"],"align":["right"]},{"label":["word"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"полдень"},{"1":"1","2":"управляющий"},{"1":"1","2":"зверинца"},{"1":"1","2":"братьев"},{"1":"1","2":"пихнау"},{"1":"1","2":"отставной"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Чтобы избежать изменения размера шрифта нужно использовать аргумент <code>to_lower = FALSE</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text_df <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">unnest_tokens</span>(word, text, <span class="dt">to_lower =</span> <span class="ot">FALSE</span>) -&gt;
+<span class="st">  </span>tidy_df
+<span class="kw">head</span>(tidy_df)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["line"],"name":[1],"type":["int"],"align":["right"]},{"label":["word"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"Полдень"},{"1":"1","2":"Управляющий"},{"1":"1","2":"Зверинца"},{"1":"1","2":"братьев"},{"1":"1","2":"Пихнау"},{"1":"1","2":"отставной"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>На следующем шаге хотелось бы создать датафрейм со всем произведениями, которые мы рассматриваем.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">texts &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">seq_along</span>(texts), <span class="cf">function</span>(x){
+  <span class="kw">data_frame</span>(<span class="dt">title =</span> files[[x]],
+             <span class="dt">sentences =</span> <span class="kw">seq_along</span>(texts[[x]]),
+             <span class="dt">text =</span> texts[[x]])
+})
+
+all_texts &lt;-<span class="st"> </span><span class="kw">Reduce</span>(<span class="cf">function</span>(x,y){<span class="kw">merge</span>(x,y, <span class="dt">all =</span> <span class="ot">TRUE</span>)}, texts)
+
+all_texts <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">unnest_tokens</span>(word, text) -&gt;
+<span class="st">  </span>tidy_chekhov
+<span class="kw">head</span>(tidy_chekhov)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sentences"],"name":[2],"type":["int"],"align":["right"]},{"label":["word"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"cinik.txt","2":"1","3":"полдень","_rn_":"1"},{"1":"cinik.txt","2":"1","3":"управляющий","_rn_":"1.1"},{"1":"cinik.txt","2":"1","3":"зверинца","_rn_":"1.2"},{"1":"cinik.txt","2":"1","3":"братьев","_rn_":"1.3"},{"1":"cinik.txt","2":"1","3":"пихнау","_rn_":"1.4"},{"1":"cinik.txt","2":"1","3":"отставной","_rn_":"1.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax">
+
+</div>
+</div>
+<div id="--" class="section level3">
+<h3>3. Закон Хердана-Хипса</h3>
+<p>Закон Хердана-Хипса (Herdan-Heaps’ law) – имперический закон, согласно которому количество уникальных слов в тексте зависит от длины текста.</p>
+<p><span class="math display">\[V(n) = K\times n ^{β}\]</span></p>
+<ul>
+<li>V(n) – количество уникальных слов в тексте длины n</li>
+<li>обычно K между 10 и 100</li>
+<li>обычно β между 0.4 и 0.6</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(title) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_words =</span> <span class="kw">n</span>(),
+            <span class="dt">n_unique =</span> <span class="kw">length</span>(<span class="kw">unique</span>(word))) -&gt;
+<span class="st">  </span>heaps
+heaps  <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(n_words, n_unique))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Иллюстрация закона Хердана-Хипса на примере рассказов Чехова&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;количество слов&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;количество уникальных слов&quot;</span>)</code></pre></div>
+<p><img src="Lab_7_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(n_unique<span class="op">~</span><span class="kw">sqrt</span>(n_words)<span class="op">-</span><span class="dv">1</span>, <span class="dt">data =</span> heaps))
+fit<span class="op">$</span>coefficients</code></pre></div>
+<pre><code>##               Estimate Std. Error  t value     Pr(&gt;|t|)
+## sqrt(n_words) 19.12088  0.4248343 45.00785 2.186672e-28</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit<span class="op">$</span>adj.r.squared</code></pre></div>
+<pre><code>## [1] 0.9853994</code></pre>
+<div class="parallax">
+
+</div>
+</div>
+<div id="-" class="section level3">
+<h3>4. Закон Ципфа</h3>
+<p>Закон Ципфа (Zipf’s law) – имперический закон, согласно которому частотность слова обратно пропорционально его рангу.</p>
+<p><span class="math display">\[freq(r) = A \times N \times r^{-1}\]</span></p>
+<ul>
+<li>freq(r) – частотность слова с рангом r</li>
+<li>N – общее количество слов</li>
+<li>A – обычно 0.1</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(word) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">term_frequency =</span> <span class="kw">n</span>()<span class="op">/</span><span class="kw">nrow</span>(tidy_chekhov)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(term_frequency)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rank =</span> <span class="kw">row_number</span>()) -&gt;<span class="st"> </span>zipf
+<span class="kw">head</span>(zipf)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["word"],"name":[1],"type":["chr"],"align":["left"]},{"label":["term_frequency"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["rank"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"и","2":"0.04134304","3":"1"},{"1":"не","2":"0.02434102","3":"2"},{"1":"в","2":"0.02247569","3":"3"},{"1":"я","2":"0.01400526","3":"4"},{"1":"на","2":"0.01394410","3":"5"},{"1":"что","2":"0.01391352","3":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">zipf <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(rank, term_frequency))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_log10</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Иллюстрация закона Ципфа на примере рассказов Чехова&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;log(term frequency)&quot;</span>,
+       <span class="dt">x=</span> <span class="st">&quot;log(rank)&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab_7_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="parallax">
+
+</div>
+</div>
+<div id="-" class="section level3">
+<h3>5. Стоп слова</h3>
+<p>Чтобы начать анализировать текст нужно удалить “служебные” слова, которые часто встречаются в тексте, но не очень приближают к его пониманию. Такие списки для английского языка встроены в пакет <code>tidytext</code> (см. <code>data(stop_words)</code>). Для русского языка, конечно, ничего не встроено, но подобные списки легко гуглятся (я буду использовать <a href="https://github.com/stopwords-iso/stopwords-ru">этот</a>).</p>
+<blockquote>
+<p>ОБЯЗАТЕЛЬНО: проверьте используется ли буква <em>ё</em> в ваших данных и в вашем списке стоп слов.</p>
+</blockquote>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_detect</span>(tidy_chekhov, <span class="st">&quot;ё&quot;</span>)</code></pre></div>
+<pre><code>## [1] FALSE FALSE  TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ru_stop_words &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/pfpUrB&quot;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
+<span class="kw">str_detect</span>(ru_stop_words, <span class="st">&quot;ё&quot;</span>)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov<span class="op">$</span>word &lt;-<span class="st"> </span><span class="kw">str_replace_all</span>(tidy_chekhov<span class="op">$</span>word, <span class="st">&quot;ё&quot;</span>, <span class="st">&quot;е&quot;</span>)
+tidy_chekhov <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>word <span class="op">%in%</span><span class="st"> </span>ru_stop_words<span class="op">$</span>V1) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(title, <span class="st">&quot;moi_jeni.txt|nalim.txt|jeger.txt&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(title, word, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">word =</span> <span class="kw">reorder</span>(word, n)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(word, n))<span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span> <span class="st">&quot;identity&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>title, <span class="dt">scale =</span> <span class="st">&quot;free&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab_7_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div class="parallax">
+
+</div>
+</div>
+<div id="tfidf" class="section level3">
+<h3>6. TfIdf</h3>
+<p>Откидывание стоп-слов позволяет не анализировать малозначимые слова. Однако как показать, что какие-то два текста похожи, а другие различаются? Для этого используется мера TfIdf (term frequency inverse document frequency).</p>
+<p><span class="math display">\[tf = \frac{количество\ употреблений\ единицы\ в\ тексте}{количество\ уникальных\ единиц\ в тексте}\]</span> <span class="math display">\[idf = log\left(\frac{количество\ документов\ в\ корпусе}{количество\ документов\ с\ исследуемой\ единицей}\right)\]</span> <span class="math display">\[TfIdf = tf*idf\]</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(title, word)<span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">bind_tf_idf</span>(word, title, n) -&gt;
+<span class="st">  </span>tidy_chekhov_tf_idf
+<span class="kw">head</span>(tidy_chekhov_tf_idf)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["word"],"name":[2],"type":["chr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["tf"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["idf"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["tf_idf"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"moi_jeni.txt","2":"и","3":"85","4":"0.04150391","5":"0","6":"0"},{"1":"rukovodstvo_dlya_zhelayushich_zhenica.txt","2":"и","3":"70","4":"0.06278027","5":"0","6":"0"},{"1":"ninochka.txt","2":"и","3":"60","4":"0.04335260","5":"0","6":"0"},{"1":"mertvoje_telo.txt","2":"и","3":"58","4":"0.04781533","5":"0","6":"0"},{"1":"starosta.txt","2":"и","3":"57","4":"0.04169715","5":"0","6":"0"},{"1":"moi_jeni.txt","2":"в","3":"55","4":"0.02685547","5":"0","6":"0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov_tf_idf <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(tf_idf <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.03</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># число подобрано по данным</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">word =</span> <span class="kw">reorder</span>(word, tf_idf)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(word, tf_idf, <span class="dt">fill =</span> title))<span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span> <span class="st">&quot;identity&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab_7_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="parallax">
+
+</div>
+</div>
+<div id="--" class="section level3">
+<h3>7. Частота как переменная</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggfortify)
+gospels &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/mdBVVe&quot;</span>)
+<span class="kw">head</span>(gospels)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["word"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["John"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Luke"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Mark"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Matthew"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"abide","2":"0.0020627063","3":"0.0004161465","4":"0.0002449780","5":"0.0001473405","_rn_":"1"},{"1":"abraham","2":"0.0016501650","3":"0.0019420169","4":"0.0002449780","5":"0.0010313835","_rn_":"2"},{"1":"abroad","2":"0.0004125413","3":"0.0005548620","4":"0.0009799118","5":"0.0007367025","_rn_":"3"},{"1":"accusation","2":"0.0002062706","3":"0.0002774310","4":"0.0002449780","5":"0.0001473405","_rn_":"4"},{"1":"accuse","2":"0.0004125413","3":"0.0005548620","4":"0.0002449780","5":"0.0001473405","_rn_":"5"},{"1":"adultery","2":"0.0004125413","3":"0.0004161465","4":"0.0007349339","5":"0.0010313835","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">row.names</span>(gospels) &lt;-<span class="st"> </span>gospels<span class="op">$</span>word
+PCA &lt;-<span class="st"> </span><span class="kw">prcomp</span>(gospels[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])
+<span class="kw">autoplot</span>(PCA,
+         <span class="dt">shape =</span> <span class="ot">FALSE</span>,
+         <span class="dt">loadings =</span> <span class="ot">TRUE</span>,
+         <span class="dt">label =</span> <span class="ot">TRUE</span>,
+         <span class="dt">loadings.label =</span> <span class="ot">TRUE</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab_7_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(PCA)</code></pre></div>
+<pre><code>## Importance of components:
+##                             PC1      PC2       PC3       PC4
+## Standard deviation     0.003482 0.001599 0.0008725 0.0007001
+## Proportion of Variance 0.761020 0.160420 0.0477900 0.0307700
+## Cumulative Proportion  0.761020 0.921440 0.9692300 1.0000000</code></pre>
+</div>
+<div id="n-" class="section level3">
+<h3>8. n-граммы</h3>
+<p>Все это время мы работали с униграммами, однако достаточно много информации дает биграмное, триграммное и т. д. представление. Для того, чтобы получить n-граммы нужно использовать уже известную функцию <code>unnest_tokens()</code> с аргументом <code>token = &quot;ngrams&quot;</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">all_texts <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">unnest_tokens</span>(bigram, text, <span class="dt">token =</span> <span class="st">&quot;ngrams&quot;</span>, <span class="dt">n =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">bigram =</span> <span class="kw">str_replace_all</span>(bigram, <span class="st">&quot;ё&quot;</span>, <span class="st">&quot;е&quot;</span>)) -&gt;
+<span class="st">  </span>tidy_chekhov_bigrams
+
+<span class="kw">head</span>(tidy_chekhov_bigrams)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sentences"],"name":[2],"type":["int"],"align":["right"]},{"label":["bigram"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"cinik.txt","2":"1","3":"полдень управляющий","_rn_":"1"},{"1":"cinik.txt","2":"1","3":"управляющий зверинца","_rn_":"2"},{"1":"cinik.txt","2":"1","3":"зверинца братьев","_rn_":"3"},{"1":"cinik.txt","2":"1","3":"братьев пихнау","_rn_":"4"},{"1":"cinik.txt","2":"1","3":"пихнау отставной","_rn_":"5"},{"1":"cinik.txt","2":"1","3":"отставной портупей","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Биграмма – это строка… Надо распилить</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov_bigrams <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">separate</span>(bigram, <span class="kw">c</span>(<span class="st">&quot;word1&quot;</span>, <span class="st">&quot;word2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) -&gt;
+<span class="st">  </span>tidy_chekhov_bigrams
+<span class="kw">head</span>(tidy_chekhov_bigrams)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sentences"],"name":[2],"type":["int"],"align":["right"]},{"label":["word1"],"name":[3],"type":["chr"],"align":["left"]},{"label":["word2"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"cinik.txt","2":"1","3":"полдень","4":"управляющий","_rn_":"1"},{"1":"cinik.txt","2":"1","3":"управляющий","4":"зверинца","_rn_":"2"},{"1":"cinik.txt","2":"1","3":"зверинца","4":"братьев","_rn_":"3"},{"1":"cinik.txt","2":"1","3":"братьев","4":"пихнау","_rn_":"4"},{"1":"cinik.txt","2":"1","3":"пихнау","4":"отставной","_rn_":"5"},{"1":"cinik.txt","2":"1","3":"отставной","4":"портупей","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Выкинем стоп-слова:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov_bigrams <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>word1 <span class="op">%in%</span><span class="st"> </span>ru_stop_words<span class="op">$</span>V1) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>word2 <span class="op">%in%</span><span class="st"> </span>ru_stop_words<span class="op">$</span>V1) -&gt;
+<span class="st">  </span>tidy_chekhov_bigrams
+<span class="kw">head</span>(tidy_chekhov_bigrams)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sentences"],"name":[2],"type":["int"],"align":["right"]},{"label":["word1"],"name":[3],"type":["chr"],"align":["left"]},{"label":["word2"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"cinik.txt","2":"1","3":"полдень","4":"управляющий","_rn_":"1"},{"1":"cinik.txt","2":"1","3":"управляющий","4":"зверинца","_rn_":"2"},{"1":"cinik.txt","2":"1","3":"зверинца","4":"братьев","_rn_":"3"},{"1":"cinik.txt","2":"1","3":"братьев","4":"пихнау","_rn_":"4"},{"1":"cinik.txt","2":"1","3":"пихнау","4":"отставной","_rn_":"5"},{"1":"cinik.txt","2":"1","3":"отставной","4":"портупей","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov_bigrams <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(title, word1, word2, <span class="dt">sort =</span> <span class="ot">TRUE</span>)  -&gt;
+<span class="st">  </span>tidy_chekhov_bigrams
+<span class="kw">head</span>(tidy_chekhov_bigrams)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["word1"],"name":[2],"type":["chr"],"align":["left"]},{"label":["word2"],"name":[3],"type":["chr"],"align":["left"]},{"label":["n"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"cinik.txt","2":"хо","3":"хо","4":"28"},{"1":"jeger.txt","2":"егор","3":"власыч","4":"14"},{"1":"zhenich_i_papenka.txt","2":"хе","3":"хе","4":"12"},{"1":"nervi.txt","2":"розалия","3":"карловна","4":"7"},{"1":"gost.txt","2":"парфений","3":"саввич","4":"5"},{"1":"obshee_obrazovaniye.txt","2":"петр","3":"ильич","4":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Разъединили? Можно и объединитьǃ</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov_bigrams <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unite</span>(bigram, word1, word2, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) -&gt;
+<span class="st">  </span>tidy_chekhov_bigrams
+<span class="kw">head</span>(tidy_chekhov_bigrams)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["bigram"],"name":[2],"type":["chr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"cinik.txt","2":"хо хо","3":"28"},{"1":"jeger.txt","2":"егор власыч","3":"14"},{"1":"zhenich_i_papenka.txt","2":"хе хе","3":"12"},{"1":"nervi.txt","2":"розалия карловна","3":"7"},{"1":"gost.txt","2":"парфений саввич","3":"5"},{"1":"obshee_obrazovaniye.txt","2":"петр ильич","3":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov_bigrams <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># число опять от фонаря</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">bigram =</span> <span class="kw">reorder</span>(bigram, n)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(bigram, n, <span class="dt">fill =</span> title))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab_7_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>Можно опять же посчитать TfIdf:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov_bigrams <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">bind_tf_idf</span>(bigram, title, n) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(tf_idf)) -&gt;<span class="st"> </span>
+<span class="st">  </span>tidy_chekhov_bigrams_tf_idf
+<span class="kw">head</span>(tidy_chekhov_bigrams_tf_idf)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["bigram"],"name":[2],"type":["chr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["tf"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["idf"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["tf_idf"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"cinik.txt","2":"хо хо","3":"28","4":"0.07427056","5":"2.708050","6":"0.20112840"},{"1":"jeger.txt","2":"егор власыч","3":"14","4":"0.04255319","5":"3.401197","6":"0.14473180"},{"1":"zhenich_i_papenka.txt","2":"хе хе","3":"12","4":"0.04225352","5":"2.014903","6":"0.08513675"},{"1":"nervi.txt","2":"розалия карловна","3":"7","4":"0.02439024","5":"3.401197","6":"0.08295603"},{"1":"dorogaya_sobaka.txt","2":"мужеского пола","3":"4","4":"0.02051282","5":"3.401197","6":"0.06976815"},{"1":"dachniki.txt","2":"милости просим","3":"3","4":"0.02027027","5":"3.401197","6":"0.06894319"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_chekhov_bigrams_tf_idf <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(tf_idf <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.04</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># число подобрано по данным</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">bigram =</span> <span class="kw">reorder</span>(bigram, tf_idf)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(bigram, tf_idf, <span class="dt">fill =</span> title))<span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span> <span class="st">&quot;identity&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab_7_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="parallax">
+
+</div>
+</div>
+<div class="section level3">
+<h3>9. Задачи</h3>
+<div id="----" class="section level4">
+<h4>9.1 Еще немножко о законе Ципфа</h4>
+<p>У функции <code>unnest_tokens()</code> есть аргумент <code>token</code>, значение которого по умолчанию <code>&quot;words&quot;</code>. Попробуйте использовать значение <code>&quot;characters&quot;</code> и определить будет ли соблюдаться закон Ципфа для отдельных символов.</p>
+</div>
+<div id="--" class="section level4">
+<h4>9.2 Фамильная честь Вустеров</h4>
+<p>Возможно, это прозвучит скучно, но давайте повторим все, что мы прошли, используя роман П. Г. Вудхауза “Фамильная честь Вустеров”.</p>
+<ul>
+<li>скачайте <a href="https://goo.gl/rgatpY">текст романа</a></li>
+<li>создайте переменную, отвечающую за номер главы (название давайте включим в первую главу).</li>
+<li>tidyфицируйте текст (занудства ради я бы попросил создать переменную с номером строки: <code>row_number()</code>)</li>
+<li>В какой главе живет самая частотная униграмма?</li>
+<li>Уберите стоп-слова. В какой главе теперь живет самая частотная униграмма?</li>
+<li>Посчитайте TfIdf (исключив стоп-слова). В какой главе живет слово с самым высоким значением TfIdf?</li>
+<li>Посчитайте TfIdf (исключив стоп-слова) для биграмного представления текста.</li>
+<li>Постройте график зависимостти абсолютной частоты и меры TfIdf. Назовите, какие четыре биграммы выглядят выбросами на графике.</li>
+</ul>
+<p><img src="Lab_7_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<ul>
+<li>Напишите функцию <code>text_generater()</code>, которая будет генерировать текст заданной наперед длины на основе частотной биграммной модели, построенной на основе входного текста.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&quot;https://goo.gl/rgatpY&quot;</span>)
+<span class="kw">text_generater</span>(<span class="dt">first_word =</span> <span class="st">&quot;честь&quot;</span>, <span class="dt">text =</span> text, <span class="dt">text_length =</span> <span class="dv">10</span>)</code></pre></div>
+<pre><code>## [1] &quot;честь вустеров величайшему испытанию какое впечатление произвел желанного действия всестороннему анализу&quot;</code></pre>
+<div class="parallax">
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Я использовал один из рисунков Эрнеста Говарда Шепарда к Винни-Пуху.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
