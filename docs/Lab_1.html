@@ -91,8 +91,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,7 +114,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -128,6 +133,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -149,18 +191,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -265,7 +366,7 @@ var + 2 # var не изменился</code></pre>
 <pre class="r"><code>var &lt;- var + 2 # var не изменился
 rm(var_2) # удаляет переменную
 ls() # сообщает список переменных</code></pre>
-<pre><code>## [1] &quot;a&quot;      &quot;db&quot;     &quot;df&quot;     &quot;fit&quot;    &quot;m&quot;      &quot;my.var&quot; &quot;MyVar&quot;  &quot;var&quot;</code></pre>
+<pre><code>## [1] &quot;my.var&quot; &quot;MyVar&quot;  &quot;var&quot;</code></pre>
 </div>
 <div id="-" class="section level1">
 <h1>типы данных</h1>
@@ -381,24 +482,6 @@ setwd(&quot;/home/agricolamz/work/materials/2018_I_HSE_Data_Analysis_for_linguis
 df &lt;- read.csv(&quot;hw1_2_verbs.csv&quot;)</code></pre>
 </div>
 <div class="section level1">
-<h1>Факторы</h1>
-<pre class="r"><code>a &lt;- c(&quot;папа&quot;, &quot;мама&quot;)
-a</code></pre>
-<pre><code>## [1] &quot;папа&quot; &quot;мама&quot;</code></pre>
-<pre class="r"><code>a_factor &lt;-  factor(a)
-nchar(a)</code></pre>
-<pre><code>## [1] 4 4</code></pre>
-<pre class="r"><code># nchar(a_factor) не работает :(
-length(month.name)</code></pre>
-<pre><code>## [1] 12</code></pre>
-<pre class="r"><code>nchar(month.name)</code></pre>
-<pre><code>##  [1] 7 8 5 5 3 4 4 6 9 7 8 8</code></pre>
-<pre class="r"><code>length(month.name[1])</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>nchar(month.name[1])</code></pre>
-<pre><code>## [1] 7</code></pre>
-</div>
-<div class="section level1">
 <h1>Пакеты</h1>
 <pre class="r"><code># установка пакета
 install.packages(&quot;lingtypology&quot;)
@@ -408,34 +491,6 @@ map.feature(c(&quot;Adyghe&quot;, &quot;Russian&quot;))
 
 install.packages(&quot;tidyverse&quot;)
 library(tidyverse)</code></pre>
-</div>
-<div id="-" class="section level1">
-<h1>Пользовательские функции</h1>
-<pre class="r"><code>my_sqrt &lt;- function(i){
-  i^2
-}
-my_sqrt(43)</code></pre>
-<pre><code>## [1] 1849</code></pre>
-<pre class="r"><code>my_sqrt(c(4, 23)) # векторизовано</code></pre>
-<pre><code>## [1]  16 529</code></pre>
-<pre class="r"><code>my_sqrt2 &lt;- function(x, y){
-  x^y
-}
-my_sqrt2(4, 12)</code></pre>
-<pre><code>## [1] 16777216</code></pre>
-<pre class="r"><code>my_sqrt3 &lt;- function(x, y) x^y
-my_sqrt3(4, 12)</code></pre>
-<pre><code>## [1] 16777216</code></pre>
-<pre class="r"><code>my_sqrt4 &lt;- function(x, y = 12){
-  x^y
-}
-
-my_sqrt4(4,12)</code></pre>
-<pre><code>## [1] 16777216</code></pre>
-<pre class="r"><code>my_sqrt4(4)</code></pre>
-<pre><code>## [1] 16777216</code></pre>
-<pre class="r"><code>my_sqrt4(4:7)</code></pre>
-<pre><code>## [1]    16777216   244140625  2176782336 13841287201</code></pre>
 </div>
 <div id="---" class="section level1">
 <h1>Как порождать последовательности чисел</h1>
@@ -450,102 +505,11 @@ my_sqrt4(4,12)</code></pre>
 <pre><code>##  [1] 5 5 5 5 5 5 5 5 5 5 9 9 9 9 9 9 9 9 9 9</code></pre>
 <pre class="r"><code># произвольные буквы с повторением
 sample(letters, 3, replace = TRUE)</code></pre>
-<pre><code>## [1] &quot;u&quot; &quot;c&quot; &quot;q&quot;</code></pre>
+<pre><code>## [1] &quot;v&quot; &quot;y&quot; &quot;n&quot;</code></pre>
 <pre class="r"><code># как остановить рандомизатор
 set.seed(42)
 sample(1:190, 3, replace = TRUE)</code></pre>
 <pre><code>## [1] 174 179  55</code></pre>
-</div>
-<div class="section level1">
-<h1>Распределения</h1>
-<pre class="r"><code>rnorm(100, mean = 100, sd = 20)</code></pre>
-<pre><code>##   [1] 119.11871 100.95769  77.90801 110.78048 111.60413  86.84994 131.09791
-##   [8]  76.24717 103.03626  78.27735 132.26746 100.71262 126.29918 119.56335
-##  [15] 117.63582 109.64409 119.31506  83.70858 105.67916  96.76603 138.71144
-##  [22] 134.46462 107.16804 106.04862  92.11771 115.76281 113.41408  81.01638
-##  [29] 100.72271 142.31511 103.34882  82.40327 118.93826  85.90897  78.43661
-##  [36]  98.96674 111.61858  93.65305  40.92840  79.93791 107.47108 103.20444
-##  [43]  73.18250  89.81100  30.14187 129.97552 112.50487 100.75534 106.06547
-##  [50]  84.36343  94.35861 135.63574 112.45319  43.24874 119.62795  97.62474
-##  [57] 101.87654  92.59864 118.99986  95.48177 104.53435  94.67239 135.62649
-##  [64] 111.92510 105.24699 130.66386 104.02871  75.86026 106.29970  71.93410
-##  [71] 115.40122 118.09722 131.91368  79.19157  90.87393  94.64475 115.16338
-##  [78]  62.11195 109.36316 102.53820  82.95189  81.65881  90.48091  82.15296
-##  [85]  95.54536  99.01250  78.07552 104.66953 114.71328 121.84422  87.08747
-##  [92] 113.32417 116.35088  88.80059 115.72294  77.38587  67.69522  75.71313
-##  [99] 112.33593 100.85808</code></pre>
-<pre class="r"><code>set.seed(42)
-rnorm(100, mean = 100, sd = 20) #  нормальное распределение</code></pre>
-<pre><code>##   [1] 127.41917  88.70604 107.26257 112.65725 108.08537  97.87751 130.23044
-##   [8]  98.10682 140.36847  98.74572 126.09739 145.73291  72.22279  94.42422
-##  [15]  97.33357 112.71901  94.31494  46.87089  51.19066 126.40227  93.86723
-##  [22]  64.37383  96.56165 124.29349 137.90387  91.39062  94.85461  64.73674
-##  [29] 109.20195  87.20010 109.10900 114.09675 120.70207  87.82147 110.09910
-##  [36]  65.65983  84.31082  82.98185  51.71585 100.72245 104.11997  92.77885
-##  [43] 115.16326  85.46590  72.63438 108.65636  83.77214 128.88203  91.37108
-##  [50] 113.11296 106.43851  84.32322 131.51455 112.85799 101.79521 105.53101
-##  [57] 113.58578 101.79666  40.13820 105.69766  92.65531 103.70461 111.63647
-##  [64] 127.99474  85.45416 126.05085 106.71696 120.77012 118.41457 114.41756
-##  [71]  79.13762  98.19627 112.47036  80.92953  89.14342 111.61993 115.36357
-##  [78] 109.27535  82.28447  78.00438 130.25414 105.15843 101.76880  97.58207
-##  [85]  76.11342 112.23994  95.65720  96.34487 118.66693 116.43546 127.84233
-##  [92]  90.47652 113.00697 127.82221  77.78422  82.78415  77.36523  70.81572
-##  [99] 101.59965 113.06409</code></pre>
-<pre class="r"><code>rt(100, 2) #  t распределение</code></pre>
-<pre><code>##   [1]  0.976805727 -0.614956963 -0.877490818 -0.653715997 -0.283422990
-##   [6] -0.595649463  3.531999994 -0.848157251  0.675056153 -0.252887137
-##  [11] -1.171047357 -0.003697156  0.068526158  0.116399461 -0.767546249
-##  [16] -3.732469744 -1.691909696 -0.720028566 -0.327071791 -0.790727424
-##  [21] -0.410377461 -1.538197029 -0.308727902 -2.196681983 -0.025286323
-##  [26]  0.208947337 -0.648746223 -0.361973365  6.796443136 -0.104949980
-##  [31] -0.204171679 -1.124510315  1.368928702 -1.441840623 -0.008118733
-##  [36] -0.655190490  0.519235653 -5.870148065 -0.443763546  0.567035589
-##  [41] -1.849471065 -1.064581860  0.224838449  0.205596417 -0.940063195
-##  [46] -2.267531513  0.162054435  0.046442354 -1.761910114 -1.159386849
-##  [51] -0.180340869 -0.620251776  0.903934366  1.035202150  1.303562258
-##  [56] 74.389123997 -0.066004392  0.287157452  0.663396305 -2.806536943
-##  [61] -1.011024271 -1.974133088 10.971719266 -2.722441935 -0.828281845
-##  [66] -1.755874761 -0.500150685 -0.884195972 -1.597893127  5.484252925
-##  [71] -0.547134173 -1.689012819  0.476368704  3.843411107 -2.306505461
-##  [76] -0.755530652 -0.215984361 -0.268679256 -1.710290169 -3.995852361
-##  [81] -0.274602624 -0.995021479 -1.005423032 -0.604481518  0.072146124
-##  [86]  0.913885828  0.756570792 -0.063641017 -1.325332425 -0.452672266
-##  [91] -1.633589970 -0.247228228  1.447299162 -1.499881051 -0.959638879
-##  [96]  0.361140012 -0.154984334  0.586969096 -0.664988927  1.131930242</code></pre>
-<pre class="r"><code>rbinom(100, 75, 0.23) #  биномиальное распределение</code></pre>
-<pre><code>##   [1] 19 16 15 12 19 14 18 13 16 15 20 16 17 17 18 16 24 24 22 12 17 16 19
-##  [24] 18 21 23 18 17 23 22 16 11 20 23 16 15 12 16 14 13 15 18 13 24 23 26
-##  [47] 19 13  9 19 19 22 16 16 18 16 13 16 14 19  9 22 22 20 23 18 19 16 12
-##  [70] 19 13 15 18 16 12 21 16 19 10 18 15 16 13 21 13 22 22 14 17 17 14 17
-##  [93] 14 15 17 14 22 17 18 20</code></pre>
-</div>
-<div class="section level1">
-<h1>Условия</h1>
-<pre class="r"><code>x &lt;- 7
-if(x &gt; 5){
-  TRUE
-} else{
-  FALSE
-} </code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>if(x == 5){
-  &quot;equal&quot;
-} else if(x &gt; 5){
-  &quot;greater&quot;
-} else{
-  &quot;less&quot;
-}</code></pre>
-<pre><code>## [1] &quot;greater&quot;</code></pre>
-<pre class="r"><code>i &lt;- 2
-while(i &lt; 5){
-  print(&quot;wow&quot;)
-  i &lt;- i + 1
-}</code></pre>
-<pre><code>## [1] &quot;wow&quot;
-## [1] &quot;wow&quot;
-## [1] &quot;wow&quot;</code></pre>
-<pre class="r"><code>ifelse(x &gt; 24, &quot;greater&quot;, &quot;less&quot;)</code></pre>
-<pre><code>## [1] &quot;less&quot;</code></pre>
 </div>
 
 

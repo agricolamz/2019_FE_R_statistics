@@ -117,20 +117,6 @@ setwd("/home/agricolamz/work/materials/2018_I_HSE_Data_Analysis_for_linguists/da
 df <- read.csv("hw1_2_verbs.csv")
 ```
 
-# Факторы
-```{r}
-a <- c("папа", "мама")
-a
-a_factor <-  factor(a)
-nchar(a)
-# nchar(a_factor) не работает :(
-length(month.name)
-nchar(month.name)
-length(month.name[1])
-nchar(month.name[1])
-```
-
-
 # Пакеты
 ```{r, eval=FALSE}
 # установка пакета
@@ -143,31 +129,6 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
-# Пользовательские функции
-```{r}
-my_sqrt <- function(i){
-  i^2
-}
-my_sqrt(43)
-my_sqrt(c(4, 23)) # векторизовано
-
-my_sqrt2 <- function(x, y){
-  x^y
-}
-my_sqrt2(4, 12)
-
-my_sqrt3 <- function(x, y) x^y
-my_sqrt3(4, 12)
-
-my_sqrt4 <- function(x, y = 12){
-  x^y
-}
-
-my_sqrt4(4,12)
-my_sqrt4(4)
-
-my_sqrt4(4:7)
-```
 
 # Как порождать последовательности чисел
 ```{r}
@@ -186,42 +147,4 @@ sample(letters, 3, replace = TRUE)
 # как остановить рандомизатор
 set.seed(42)
 sample(1:190, 3, replace = TRUE)
-```
-
-
-# Распределения
-
-```{r}
-rnorm(100, mean = 100, sd = 20)
-
-set.seed(42)
-rnorm(100, mean = 100, sd = 20) #  нормальное распределение
-rt(100, 2) #  t распределение
-rbinom(100, 75, 0.23) #  биномиальное распределение
-```
-
-# Условия
-```{r}
-x <- 7
-if(x > 5){
-  TRUE
-} else{
-  FALSE
-} 
-
-if(x == 5){
-  "equal"
-} else if(x > 5){
-  "greater"
-} else{
-  "less"
-}
-
-i <- 2
-while(i < 5){
-  print("wow")
-  i <- i + 1
-}
-
-ifelse(x > 24, "greater", "less")
 ```
