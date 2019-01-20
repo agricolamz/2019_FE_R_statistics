@@ -1,0 +1,107 @@
+w_id,stimulus,translation_en,translation_ru,stimulus_source,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+1,milki,hous,дом,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+2,vaɡon,train wagon,вагон,loan,b,b,b,b,b,b,r,r,b,b,r,b,r,r,r,r
+3,inɡur,window,окно,native,b,b,b,b,b,b,b,b,b,b,b,r,b,b,b,b
+4,ʁats'a,grasshopper,кузнечик,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+5,iʃkapi,cabinet,шкаф,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+6,haq'u,room,комната,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+7,tʃ'ami,cheese,сыр,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+8,batarejka,battery,батарейка,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+9,beʒun,needle,игла,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+10,kompjuter,computer,компьютер,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+11,k'ork'on,egg,яйцо,native,r,r,r,r,r,b,r,r,r,r,r,r,r,r,r,r
+12,riʒi,face,лицо,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+13,ts'a,fire,огонь,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+14,priʃepka,clothes-peg,прищепка,loan,r,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+15,awʔal,nut,орех,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+16,kirpitʃ,brick,кирпич,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+17,χur,"field, vegetable garden","поле, огород",native,r,r,r,r,b,r,r,r,r,r,r,b,b,b,r,r
+18,tʃ'itʃ'om,pebble,камешек,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+19,polotsʲentse,towel,полотенце,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+20,odoruk'a,butterfly,бабочка,native,r,b,b,r,b,r,b,b,b,r,b,b,b,r,r,r
+21,simkarta,SIM,сим-карта,loan,r,b,r,b,r,r,r,r,r,b,r,r,b,b,r,b
+22,kots'i,besom,метла,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+23,ala,lid,крышка,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+24,zatʃetka,student's record-book,зачетка,loan,b,b,b,r,r,r,r,b,r,r,r,r,b,r,r,b
+25,q'en,wall,стена,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+26,k'azi,headscarf,головной платок,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+27,ts'iq'u,hoar frost,иней,native,b,b,b,b,b,b,b,b,b,b,r,b,b,b,b,b
+28,kʷeɬir,sleeve,рукав,native,b,b,b,b,b,b,b,b,b,b,r,b,b,b,b,b
+29,hark'u,eye,глаз,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+30,rekun,thread,нитка,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+31,kredit,сredit,кредит,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+32,roʃon,rope,веревка,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+33,ɡurdo,shirt,рубашка,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+34,ɬol,horseshoe,подкова,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+35,tatʃka,wheelbarrow,тачка,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+36,pult,remote control,пульт,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+37,telefon,telephon,телефон,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+38,arkom,spoon,ложка,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+39,kalendarʲ,calendar,календарь,loan,r,b,b,b,b,r,r,b,r,b,r,r,b,b,r,b
+40,zaʒiɡalka,lighter,зажигалка,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+41,sputnʲik,satellite,спутник,loan,b,b,b,b,b,b,b,r,r,b,r,b,b,b,r,b
+42,zar,ice,лед,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+43,bil,mountain,гора,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+44,provod,wire,провод,loan,b,r,r,r,r,r,r,b,b,r,r,r,r,b,r,r
+45,patʃka,bundle,пачка,loan,b,r,r,b,r,r,r,r,r,r,r,r,b,r,r,r
+46,tɬ'ir,bridge,мост,native,b,b,b,b,b,b,b,b,b,r,b,b,b,b,b,b
+47,salfʲetka,napkin,салфетка,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+48,awʔara,hat,шапка,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+49,aptsʲeka,pharmacy,аптека,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+50,esemeska,SMS,смска,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+51,ts'umur,fork,вилка,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+52,ħetʃ'ink'a,maize,кукуруза,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+53,anzi,snow,снег,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+54,raχasi,chain,цепь,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+55,bint,bandage,бинт,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+56,hints'u,door,дверь,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+57,rok'o,heart,сердце,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+58,pasport,passport,пасспорт,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+59,enʃːur,flour,мука,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+60,kolʲaska,perambulator,коляска,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+61,planʲeta,planet,планета,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+62,romaʃka,camomile,ромашка,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+63,tarif,tariff,тариф,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,r,b,b
+64,antena,antenna,антенна,loan,r,b,r,r,r,b,r,b,r,r,r,r,r,r,r,r
+65,maʃina,car,машина,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+66,inχi,river,река,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+67,moʁortʃ'u,tail,хвост,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+68,nitʃo,scythe,коса,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+69,dʒinsɨ,jeans,джинсы,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+70,ɡol,goal,гол,loan,r,b,r,b,b,r,r,r,r,r,r,r,b,r,r,b
+71,kometa,comet,комета,loan,b,b,b,b,b,b,r,r,b,b,b,b,b,b,b,b
+72,lift,lift,лифт,loan,b,b,b,b,b,r,b,b,b,b,b,b,b,b,r,b
+73,mijar,head,голова,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+74,tsʲetradzʲ,exercise-book,тетрадь,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+75,plastɨrʲ,plaster,пластырь,loan,r,b,b,r,r,b,b,b,b,r,r,b,b,b,r,b
+76,zarʲadka,charging,зарядка,loan,b,b,b,b,b,b,b,b,b,b,r,b,b,b,b,b
+77,banan,banana,банан,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+78,ts'ːa,star,звезда,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+79,hunts'ːi,honey,мед,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+80,linʲejka,ruler,линейка,loan,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+81,intʃi,apple,яблоко,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+82,sol,tooth,зуб,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+83,sumka,bag,сумка,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+84,radio,radio,радио,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+85,reʃa,tree,дерево,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+86,tsʲelʲevʲizor,TV,телевизор,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+87,miq'i,road,дорога,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+88,rʲukzak,rucksack,рюкзак,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+89,"ʔʷen, ʁʷen",horn,рог,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+90,dunɡil,hole,яма,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+91,ʃĩwũ,milk,молоко,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+92,ɬen,water,вода,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+93,ritɬ'i,meat,мясо,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+94,ts'ul,staff,палка,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+95,ʁan,flat cake,лепешка,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+96,bank,bank,банк,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+97,bilet,ticket,билет,loan,r,r,r,r,r,b,r,r,r,r,r,r,r,r,r,r
+98,raketa,rocket,ракета,loan,b,b,b,b,b,r,b,b,b,b,r,b,b,r,r,b
+99,ʃu,grave,могила,native,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+100,za,fist,кулак,native,r,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+101,paket,package,пакет,loan,r,r,r,r,r,r,r,r,r,r,b,b,r,r,r,b
+102,reɬo,sea,море,native,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r
+103,qχota,hand palm,ладонь,native,r,r,r,b,r,r,r,r,r,r,r,r,r,r,r,r
+104,samolʲot,aeroplane,самолет,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+105,rozʲetka,socket,розетка,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
+106,kolxoz,kolkhoz,колхоз,loan,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b
