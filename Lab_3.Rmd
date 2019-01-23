@@ -41,7 +41,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 ```{r}
 library(tidyverse)
-homo <- read_csv("http://goo.gl/Zjr9aF")
+homo <- read_csv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/Hau.2007.csv")
 homo
 ```
 
@@ -61,7 +61,7 @@ The majority of examples in that presentation are based on [Hau 2007](http://goo
 In Anscombe, F. J. (1973). "Graphs in Statistical Analysis" was presented the next sets of data:
 
 ```{r}
-quartet <- read.csv("https://goo.gl/KuuzYy")
+quartet <- read.csv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/anscombe.s.quartet.csv")
 quartet
 ```
 
@@ -92,7 +92,7 @@ quartet %>%
 In [Matejka and Fitzmaurice (2017) "Same Stats, Different Graphs"](https://www.autodeskresearch.com/sites/default/files/SameStats-DifferentGraphs.pdf) was presented the next sets of data:
 
 ```{r, message= FALSE}
-datasaurus <- read_tsv("https://goo.gl/gtaunr")
+datasaurus <- read_tsv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/datasaurus.tsv")
 head(datasaurus)
 ```
 
