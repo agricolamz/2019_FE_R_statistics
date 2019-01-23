@@ -197,21 +197,20 @@ homo %>%
 ![](https://pbs.twimg.com/media/CTxg970WwAApE98.png)
 
 Lets use the frequency dictionary for Russian
-```{r, cache= TRUE}
+```{r}
 freq <- read_csv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/freqrnc2011_1000.csv")
-freq %>%
-  arrange(desc(Freq.ipm.)) %>% 
-  slice(1:200) %>% 
-  ggplot(aes(Rank, Freq.ipm.)) +
-  geom_point() +
-  xlab("") +
-  ylab("ipm")
 
 freq %>%
-  ggplot(aes(1:52138, Freq.ipm.))+
-  geom_point()+
-  xlab("")+
-  ylab("ipm")+
+  arrange()
+  ggplot(aes(lemma, freq_ipm)) +
+  geom_point() +
+  labs(x = "", y = "ipm")
+
+freq %>%
+  arrange()
+  ggplot(aes(lemma, freq_ipm)) +
+  geom_point() +
+  labs(x = "", y = "ipm")+
   scale_y_log10()
 ```
 
