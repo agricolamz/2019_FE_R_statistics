@@ -189,8 +189,8 @@ homo %>%
 homo %>%
   ggplot(aes(s.duration.ms, vowel.duration.ms)) +
   geom_point()+
-  xlab("duration of [s] in ms")+
-  ylab("vowel duration in ms")
+  labs(x = "duration of [s] in ms",
+       y = "vowel duration in ms")
 ```
 
 #### 2.7 Log scales
@@ -198,17 +198,15 @@ homo %>%
 
 Lets use the frequency dictionary for Russian
 ```{r}
-freq <- read_csv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/freqrnc2011_1000.csv")
+freq <- read_csv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/734e562ea27b67a43846c32298bf06be22a55d69/data/freqrnc2011_1000.csv")
 
 freq %>%
-  arrange()
-  ggplot(aes(lemma, freq_ipm)) +
+  ggplot(aes(rank, freq_ipm)) +
   geom_point() +
   labs(x = "", y = "ipm")
 
 freq %>%
-  arrange()
-  ggplot(aes(lemma, freq_ipm)) +
+  ggplot(aes(rank, freq_ipm)) +
   geom_point() +
   labs(x = "", y = "ipm")+
   scale_y_log10()
