@@ -198,7 +198,7 @@ homo %>%
 
 Lets use the frequency dictionary for Russian
 ```{r, cache= TRUE}
-freq <- read.csv("https://goo.gl/TlX7xW", sep = "\t")
+freq <- read_csv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/freqrnc2011_1000.csv")
 freq %>%
   arrange(desc(Freq.ipm.)) %>% 
   slice(1:200) %>% 
