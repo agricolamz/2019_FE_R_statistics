@@ -219,7 +219,7 @@ tidy_chekhov_tf_idf %>%
 ### 7. Частота как переменная
 ```{r}
 library(ggfortify)
-gospels <- read.csv("https://goo.gl/mdBVVe")
+gospels <- read.csv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/gospel_freq_words.csv")
 head(gospels)
 row.names(gospels) <- gospels$word
 PCA <- prcomp(gospels[,2:5])

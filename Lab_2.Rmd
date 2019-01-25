@@ -112,7 +112,7 @@ rm(df)
 ### 4. `dplyr`
 
 ```{r}
-homo <- read_csv("http://goo.gl/Zjr9aF")
+homo <- read_csv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/Hau.2007.csv")
 homo
 ```
 
