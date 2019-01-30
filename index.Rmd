@@ -10,40 +10,37 @@ editor_options:
 
 ### Занятие 1. Введение в R и RStudio. Вектор. Датафрем. Установка и работа с пакетами.
 
-* [материалы занятия](https://agricolamz.github.io/2018_FE_R_statistics/Lab_1.html)
+* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab_1.html)
 * [домашнее задание](https://docs.google.com/forms/d/e/1FAIpQLScLWNxqwls7ZDxB7S4OyhOWM3U86g-PSwxYfNpSWHqme5KiQQ/viewform?c=0&w=1)
 
 ### Занятие 2. Пользовательские функции. Пакет `tidyverse`.
 
-* [материалы занятия](https://agricolamz.github.io/2018_FE_R_statistics/Lab_2.html)
+* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab_2.html)
 * [домашнее задание](https://docs.google.com/forms/d/e/1FAIpQLSd4R-RgfVA8RJm0DqMZZhuH-T3uuHpiqb0H-F8yyyKB7zJihg/viewform?c=0&w=1)
 
 ### Занятие 3-4. Визуализация. Пакет `ggplot2`, `rmarkdown`. `plotly`. `shiny`.
-* [материалы занятия 3](https://agricolamz.github.io/2018_FE_R_statistics/Lab_3.html)
-* [материалы занятия 4](https://agricolamz.github.io/2018_FE_R_statistics/Lab_4.html)
+* [материалы занятия 3](https://agricolamz.github.io/2019_FE_R_statistics/Lab_3.html)
+* [материалы занятия 4](https://agricolamz.github.io/2019_FE_R_statistics/Lab_4.html)
 * [домашнее задание](https://docs.google.com/forms/d/e/1FAIpQLSc2Z6snhSEZRVzHysYsUdKFkl4flE63AY4TFd-UrkmstV8s4g/viewform)
 
-### Занятие 5. Работа со строками. Пакет `stringr` и `stringi`
-* [материалы занятия](https://agricolamz.github.io/2018_FE_R_statistics/Lab_5.html)
-* [домашнее задание](https://agricolamz.github.io/2018_FE_R_statistics/Lab_5.html#4_%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8)
+### Занятия 5. Описантельная статистика. Фриквентистская статистика
+* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab%205.%20descriptive_and_simple_statistics.pdf)
 
-### Занятие 6. Расстояния, регулярки и прочая всячина
-* материалы занятия
-
-### Занятие 7. Работа с текстами 
-* материалы занятия
-
-### Занятие 8. Повторение, обсуждение домашних заданий
-* материалы занятия
-
-### Занятия 9-10. Описантельная статистика. Фриквентистская статистика
-* [материалы занятия](https://agricolamz.github.io/2018_FE_R_statistics/Lab%209-10.%20descriptive_and_simple_statistics.pdf)
-
-### Занятие 11. и 12. Корреляция и регрессия
-* [материалы занятия](https://agricolamz.github.io/2018_FE_R_statistics/correlation_regressions.pdf)
+### Занятие 6. Корреляция и регрессия
+* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/correlation_regressions.pdf)
 * [домашнее задание](https://docs.google.com/forms/d/e/1FAIpQLSctIDQQBsIGTMjkzuGiAEXVcE9N9EBPrKjkgyuUheVKHewvVQ/viewform)
 
-Календарь можно скачать [в формате `.csv`](https://raw.githubusercontent.com/agricolamz/2018_FE_R_statistics/master/timetable.csv) и импортировать в Google Calendar, MS Outlook и т. п.
+### Занятие 7. Работа со строками. Пакет `stringr` и `stringi`
+* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab_5.html)
+* [домашнее задание](https://agricolamz.github.io/2019_FE_R_statistics/Lab_5.html#4_%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8)
+
+### Занятие 8. Расстояния, регулярки и прочая всячина
+* материалы занятия
+
+### Занятие 9. Работа с текстами 
+* материалы занятия
+
+Календарь можно скачать [в формате `.csv`](https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/timetable.csv) и импортировать в Google Calendar, MS Outlook и т. п.
 
 ```{r, echo = FALSE, message=FALSE}
 library(tidyverse)
@@ -54,7 +51,7 @@ df %>%
   mutate(`Start Date` = dmy(`Start Date`),
          id = 1:n(),
          Subject = paste0(
-           "<a href = 'https://agricolamz.github.io/2018_FE_R_statistics/",
+           "<a href = 'https://agricolamz.github.io/2019_FE_R_statistics/",
            gsub(" ", "_",Subject),
            ".html'>",
            Subject,
