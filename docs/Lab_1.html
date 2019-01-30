@@ -366,7 +366,37 @@ var + 2 # var не изменился</code></pre>
 <pre class="r"><code>var &lt;- var + 2 # var не изменился
 rm(var_2) # удаляет переменную
 ls() # сообщает список переменных</code></pre>
-<pre><code>## [1] &quot;df&quot;     &quot;my.var&quot; &quot;MyVar&quot;  &quot;var&quot;</code></pre>
+<pre><code>##  [1] &quot;a&quot;                           &quot;all_texts&quot;                  
+##  [3] &quot;b&quot;                           &quot;c&quot;                          
+##  [5] &quot;chapt_length&quot;                &quot;chapt_lines&quot;                
+##  [7] &quot;country_population&quot;          &quot;cyrillic&quot;                   
+##  [9] &quot;datasaurus&quot;                  &quot;df&quot;                         
+## [11] &quot;df.long&quot;                     &quot;df.short&quot;                   
+## [13] &quot;files&quot;                       &quot;fit&quot;                        
+## [15] &quot;freq&quot;                        &quot;gospels&quot;                    
+## [17] &quot;greek_abc&quot;                   &quot;heaps&quot;                      
+## [19] &quot;homo&quot;                        &quot;huge&quot;                       
+## [21] &quot;huge_df&quot;                     &quot;huge_tbl&quot;                   
+## [23] &quot;is.odd&quot;                      &quot;is.palindrome&quot;              
+## [25] &quot;languages&quot;                   &quot;latin&quot;                      
+## [27] &quot;latin_abc&quot;                   &quot;mirror_case&quot;                
+## [29] &quot;my_index&quot;                    &quot;my_vector&quot;                  
+## [31] &quot;my_vector_2&quot;                 &quot;my_vector_3&quot;                
+## [33] &quot;my.var&quot;                      &quot;MyVar&quot;                      
+## [35] &quot;ordering_in_locales&quot;         &quot;path&quot;                       
+## [37] &quot;PCA&quot;                         &quot;quartet&quot;                    
+## [39] &quot;quest&quot;                       &quot;ru_stop_words&quot;              
+## [41] &quot;s&quot;                           &quot;spaceless&quot;                  
+## [43] &quot;tagless&quot;                     &quot;text&quot;                       
+## [45] &quot;text_df&quot;                     &quot;text_generater&quot;             
+## [47] &quot;texts&quot;                       &quot;tidy_chekhov&quot;               
+## [49] &quot;tidy_chekhov_bigrams&quot;        &quot;tidy_chekhov_bigrams_tf_idf&quot;
+## [51] &quot;tidy_chekhov_tf_idf&quot;         &quot;tidy_df&quot;                    
+## [53] &quot;udhr_24&quot;                     &quot;unsorted_cyrillic&quot;          
+## [55] &quot;unsorted_latin&quot;              &quot;var&quot;                        
+## [57] &quot;w&quot;                           &quot;wodehouse&quot;                  
+## [59] &quot;wodehouse_bigram_tf_idf&quot;     &quot;wodehouse_unigrams&quot;         
+## [61] &quot;xlsx_example&quot;                &quot;zipf&quot;</code></pre>
 </div>
 <div id="-" class="section level1">
 <h1>типы данных</h1>
@@ -505,7 +535,7 @@ library(tidyverse)</code></pre>
 <pre><code>##  [1] 5 5 5 5 5 5 5 5 5 5 9 9 9 9 9 9 9 9 9 9</code></pre>
 <pre class="r"><code># произвольные буквы с повторением
 sample(letters, 3, replace = TRUE)</code></pre>
-<pre><code>## [1] &quot;e&quot; &quot;m&quot; &quot;s&quot;</code></pre>
+<pre><code>## [1] &quot;d&quot; &quot;t&quot; &quot;m&quot;</code></pre>
 <pre class="r"><code># как остановить рандомизатор
 set.seed(42)
 sample(1:190, 3, replace = TRUE)</code></pre>
