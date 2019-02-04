@@ -24,11 +24,10 @@ editor_options:
 * [домашнее задание](https://docs.google.com/forms/d/e/1FAIpQLSc2Z6snhSEZRVzHysYsUdKFkl4flE63AY4TFd-UrkmstV8s4g/viewform)
 
 ### Занятия 5. Описантельная статистика. Фриквентистская статистика
-* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab%205.%20descriptive_and_simple_statistics.pdf)
+* [материалы занятия 5](https://agricolamz.github.io/2019_FE_R_statistics/Lab_5.html)
 
 ### Занятие 6. Корреляция и регрессия
-* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/correlation_regressions.pdf)
-* [домашнее задание](https://docs.google.com/forms/d/e/1FAIpQLSctIDQQBsIGTMjkzuGiAEXVcE9N9EBPrKjkgyuUheVKHewvVQ/viewform)
+* [материалы занятия 6](https://agricolamz.github.io/2019_FE_R_statistics/Lab_6.html)
 
 ### Занятие 7. Работа со строками. Пакет `stringr` и `stringi`
 * [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab_5.html)
