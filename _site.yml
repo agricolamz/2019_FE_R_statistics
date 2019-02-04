@@ -14,14 +14,14 @@ navbar:
     - text: "Lab 4"
       href: Lab_4.html
     - text: "Lab 5"
-      href: Lab 5.html
+      href: Lab_5.html
     - text: "Lab 6"
       href: Lab_6.html
     - text: "Lab 7"
-      href: Lab_5.html
-    - text: "Lab 8"
-      href: Lab_6.html
-    - text: "Lab 9"
       href: Lab_7.html
-    - text: "Lab 10"
+    - text: "Lab 8"
       href: Lab_8.html
+    - text: "Lab 9"
+      href: Lab_9.html
+    - text: "Lab 10"
+      href: Lab_10.html
