@@ -1,427 +1,197 @@
 ---
-title: "5. Работа со строками"
-output:
-  html_document:
-    theme: spacelab
-    highlight: pygments
-    toc: yes
-    toc_position: right
-    toc_depth: 4
-    toc_float: yes
-    smooth_scroll: false
-    df_print: paged
+title: "5. Введение в статистику"
+editor_options: 
+  chunk_output_type: console
+output: html_document
 ---
 
-<style>
-.parallax {
-    /* The image used */
-    background-image: url("5_strings.jpg");
-
-    /* Set a specific height */
-    min-height: 300px; 
-
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: auto;
-}
-</style>
-
-<div class="parallax"></div>
-
-
-### 1. Как получить строку?[^1]
-[^1]: Данная картинка -- рисунок Бориса Аркадьевича Диодорова  из книжки Яна Экхольма "Тутта Карлссон, первая и единственная, Людвиг Четырнадцатый и другие"
-
-* следите за кавычками
-```{r}
-"the quick brown fox jumps over the lazy dog"
-'the quick brown fox jumps over the lazy dog'
-"the quick 'brown' fox jumps over the lazy dog"
-'the quick "brown" fox jumps over the lazy dog'
-```
-* пустая строка
-```{r}
-""
-''
-character(3)
-```
-* преобразование
-```{r}
-typeof(4:7)
-as.character(4:7)
-```
-* встроенные векторы
-```{r}
-letters
-LETTERS
-month.name
-```
-* пользовательские данные
-```{r}
-str(data.frame(letters[6:10], LETTERS[4:8]))
-str(data.frame(letters[6:10], LETTERS[4:8], stringsAsFactors = FALSE))
-```
-* `stringi`
-```{r}
-set.seed(42)
-stringi::stri_rand_strings(n = 10, length = 5:14)
-stringi::stri_rand_shuffle("любя, съешь щипцы, — вздохнёт мэр, — кайф жгуч")
-stringi::stri_rand_shuffle(month.name[1:8]) # на больших векторах глючит
-stringi::stri_rand_lipsum(nparagraphs = 2)
-```
-
-<div class="parallax"></div>
-
-
-### 2. Операции со строками
-
-* изменение регистра
-* подсчет количества символов в строке
-* сортировка строк
-* соединение строк
-* поиск вектора по подстроке
-* разделение вектора по подстроке
-* выделение подстроки по номеру
-
-base R vs. `stringr`, `stringi`…
-<div class="parallax"></div>
-
-#### 2.1 Изменение регистра
-```{r}
-latin <- "tHe QuIcK BrOwN fOx JuMpS OvEr ThE lAzY dOg"
-tolower(latin)
-toupper(latin)
-cyrillic <- "лЮбЯ, сЪеШь ЩиПцЫ, — вЗдОхНёТ мЭр, — кАйФ жГуЧ"
-tolower(cyrillic)
-toupper(cyrillic)
-stringr::str_to_upper(latin)
-stringr::str_to_lower(cyrillic)
-stringr::str_to_title(latin)
-```
-
-<div class="parallax"></div>
-
-#### 2.2 Подсчет количества символов
-```{r}
-nchar(latin)
-nchar(month.name)
-nchar(c(NULL, NA, ""))
-stringr::str_length(latin)
-stringr::str_length(month.name)
-stringr::str_length(c(NULL, NA, ""))
-```
-
-<div class="parallax"></div>
-
-#### 2.3 Сортировка
-```{r}
-unsorted_latin <- c("I", "♥", "N", "Y")
-sort(unsorted_latin)
-stringr::str_sort(unsorted_latin)
-stringr::str_sort(unsorted_latin, locale = "lt")
-unsorted_cyrillic <- c("я", "i", "ж")
-stringr::str_sort(unsorted_cyrillic)
-stringr::str_sort(unsorted_cyrillic, locale = "ru_UA")
-sort(c(NULL, NA, ""))
-stringr::str_sort(c(NULL, NA, ""))
-```
-Список локалей можно посмотреть командой `stringi::stri_locale_list()`. Еще полезные команды: `stringi::stri_locale_info` и `stringi::stri_locale_set`.
-
-Не углубляясь в [разнообразие алгоритмов сортировки](https://www.youtube.com/watch?v=BeoCbJPuvSE), отмечу, что алгоритм по-умолчанию хуже работает с большими данными:
-
-```{r, cache= TRUE}
-set.seed(42)
-huge <- sample(letters, 1e7, replace = TRUE)
-head(huge)
-system.time(
-  sort(huge)
-)
-
-system.time(
-  sort(huge, method = "radix")
-)
-
-system.time(
-  stringr::str_sort(huge)
-)
-
-huge_df <- data.frame(huge)
-system.time(
-  dplyr::arrange(.data = huge_df, huge)
-)
-
-huge_tbl <- tibble::data_frame(huge)
-system.time(
-  dplyr::arrange(.data = huge_tbl, huge)
-)
-```
-Предварительный вывод: для больших данных -- `sort(..., method = "radix")`.
-
-<div class="parallax"></div>
-#### 2.4 Соединение
-
-* одинаковое количество строк
-```{r}
-greek_abc <- c("Α", "Β", "Γ", "Δ")
-latin_abc <- c("A", "B", "C", "D")
-paste(greek_abc, latin_abc)
-paste0(greek_abc, latin_abc)
-paste(greek_abc, latin_abc, sep = "-")
-paste(greek_abc, "Ы") # если векторы разной длины
-```
-
-* ... → одна строка
-```{r}
-paste(greek_abc, collapse = "_")
-paste(greek_abc, latin_abc, collapse = "_")
-paste(greek_abc, latin_abc, sep = "-", collapse = "_")
-```
-
-* `stringr`
-```{r}
-stringr::str_c(greek_abc, latin_abc)
-stringr::str_c(greek_abc, latin_abc, sep = " ")
-stringr::str_c(greek_abc, latin_abc, sep = "-")
-stringr::str_c(greek_abc, collapse = "_")
-stringr::str_c(greek_abc, latin_abc, collapse = "_")
-stringr::str_c(greek_abc, latin_abc, sep = "-", collapse = "_")
-```
-
-* К сожалению, аргументы `sep` и `collapse` не векторизованы, так что если хочется использовать разные разделители, нужно использовать аргумент `separators`:
-```{r}
-stringr::str_c(greek_abc, separaters = c("-", "_"))
-stringr::str_c(greek_abc, separaters = c("-", "_"), collapse = "")
-stringr::str_c(greek_abc, latin_abc, separaters = c("-", "_"))
-stringr::str_c(greek_abc, latin_abc, separaters = c("-", "_"), sep = "^")
-stringr::str_c(greek_abc, latin_abc, separaters = c("-", "_"), collapse = "")
-stringr::str_c(greek_abc, latin_abc, sep = "^", separaters = c("-", "_"), collapse = "")
-```
-
-
-* глюки
-```{r}
-paste(c(NULL, NA, ""))
-stringr::str_c(c(NULL, NA, ""))
-```
-
-<div class="parallax"></div>
-
-#### 2.5 Поиск строки по подстроке
-```{r}
-a <- c("the quick", "brown fox", "jumps", "over the lazy dog")
-grep("the", a)
-grep("the", a, value = TRUE)
-grep("the", a, invert = TRUE)
-grep("the", a, invert = TRUE, value = TRUE)
-grepl("the", a)
-
-stringr::str_which(a, "the")
-stringr::str_subset(a, "the")
-stringr::str_detect(a, "the")
-stringr::str_view(a, "o")
-stringr::str_view_all(a, "o")
-stringr::str_locate(a, "o")
-```
-<div class="parallax"></div>
-
-#### 2.6 Замена подстроки в строке
-```{r}
-b <- c("the quick brown fox", "jumps over the lazy dog")
-sub("o", "_", b)
-gsub("o", "_", b)
-stringr::str_replace(b, "o", "_")
-stringr::str_replace_all(b, "o", "_")
-```
-
-<div class="parallax"></div>
-
-#### 2.7 Разделение вектора по подстроке
-```{r}
-b
-strsplit(b, " ")
-stringr::str_split(b, " ")
-stringr::str_split(b, " ", simplify = TRUE)
-```
-
-
-<div class="parallax"></div>
-
-#### 2.8 Выделение подстроки по номеру
-```{r}
-b
-substring(b, 11, 15)
-# с 5 по 9 и с 16 по 19
-substring(b, c(5, 16), c(9, 19))
-substring("а роза упала на лапу Азора", 1:26, 1:26)
-substring("мат и тут и там", 1:15, 15:1)
-stringr::str_sub(b, 11, 15)
-stringr::str_sub(b, c(5, 16), c(9, 19))
-stringr::str_sub("а роза упала на лапу Азора", 1:26, 1:26)
-stringr::str_sub("мат и тут и там", 1:15, 15:1)
-stringr::str_sub(b, -3, -1) # обратите внимание: нестандартное использование "-"
-```
-
-<div class="parallax"></div>
-
-#### 2.9 Транслитерация строк
-В пакете `stringi` сууществует достаточно много методов транслитераций строк, которые можно вывести командой `stri_trans_list()`. Вот пример использования некоторых из них:
-```{r}
-stringi::stri_trans_general("stringi", "latin-cyrillic")
-stringi::stri_trans_general("сырники", "cyrillic-latin")
-stringi::stri_trans_general("stringi", "latin-greek")
-stringi::stri_trans_general("stringi", "latin-armenian")
-```
-
-<div class="parallax"></div>
-
-#### 2.10 Подгонка количества символов
-Для удобства представления, иногда удобно обрезать строки до фиксированного количества символов  в строке:
-```{r}
-s <- "Это слишком длинная строка"
-stringr::str_trunc(s, 20, "right")
-stringr::str_trunc(s, 20, "left")
-stringr::str_trunc(s, 20, "center")
-```
-
-Или наоборот подогнать к какому-то фиксированному количеству символов:
-```{r}
-w <- "коротковато"
-stringr::str_pad(w, 20, "right")
-stringr::str_pad(w, 20, "left")
-stringr::str_pad(w, 20, "both")
-```
-
-
-<div class="parallax"></div>
-
-### 3. Операции над векторами
-
-Векторы не мноежества, но операции на них действуют те же:
-
-* Объединение
-* Пересечение
-* Разность
-* Сравнение
-* Подмножество?
-
-<div class="parallax"></div>
-
-#### 3.1 Объединение
-```{r}
-a <- c("the quick", "brown fox", "jumps", "over the lazy dog")
-b <- c("the quick", "brown fox", "jumps over the lazy dog")
-c(a, b)
-unique(c(a, b))
-union(a, b)
-```
-
-<div class="parallax"></div>
-
-#### 3.2 Пересечение
-```{r}
-a; b
-intersect(a, b)
-```
-
-<div class="parallax"></div>
-
-#### 3.3 Разность
-```{r}
-a; b
-setdiff(a, b)
-```
-
-<div class="parallax"></div>
-
-#### 3.4 Сравнение
-```{r}
-c <- c("brown fox", "jumps", "over the lazy dog", "the quick")
-a; c
-setequal(c, a)
-identical(c, a)
-```
-<div class="parallax"></div>
-
-#### 3.5 Подмножество?
-```{r}
-a
-is.element("jumps", a)
-is.element("the lazy dog", a)
-is.element(c("jumps", "the lazy dog"), a)
-c("jumps", "the lazy dog") %in% a
-```
-
-<div class="parallax"></div>
-
-### 4. Задачи
-#### 4.1 Чет-нечет
-Напишите функцию `is.odd()`, которая возвращает значение `TRUE`, если число символов в строке нечетно, `FALSE`, если число символов в строке четно.
-
-```{r,echo=FALSE, message = FALSE}
-is.odd <- function(x){nchar(x) %% 2 == 1}
-```
-```{r}
-is.odd(c("odd", "even", ""))
-```
-
-
-#### 4.2 Искусственные данные по средней продолжительности сна
-[В данных по продолжительности сна](https://goo.gl/dpCSV2) (1.1_sleep_hours.csv)[^2] две переменных: код испытуемого и среднее время сна. Попробуйте сделать следующий график:
-
-```{r, echo=FALSE, message = FALSE}
+```{r, message = FALSE}
 library(tidyverse)
-read.csv("https://goo.gl/dpCSV2") %>% 
-  mutate(sex = gsub("[0-9_]", "", code)) %>% 
-  ggplot(aes(sleep_hours, fill = sex))+
-  geom_density(alpha= 0.4)+
-  theme_bw()+
-  labs(title = "Зависимость времени сна от пола",
-       caption = "искусственные данные",
-       y = "плотность",
-       x = "среднее время сна")
+theme_set(theme_bw())
 ```
 
-[^2]: Если у Вас не получается считать файл, попробуйте добавлять разные аргументы к `read.csv`: `encoding="UTF-8"` или `fileEncoding = "UTF-8"`… Я надеюсь, поможет…
 
-#### 4.3 Алфавитный порядок
-Как было сказано выше, "алфавитный" порядок разный в разных локалях. Напишите функцию `ordering_in_locales`, которая на вход принимает два символа, а возвращает таблицу с информацией о том, в скольких локалях порядок соответствует поданному в функцию, а в скольких порядок обратный:
-```{r, echo=FALSE, message = FALSE}
-ordering_in_locales <- function(x, y){
-  table(
-    sapply(stringi::stri_locale_list(), function(z){
-    paste(stringr::str_sort(c(x, y), locale = z), collapse = "_")}))}
-```
+## 1. Типы данных
+
+* количественные
+    * непрерывные
+    * дискретные
+* номинативные/категориальные
+* шкалы
+
+Бывает, имеет смысл перевести количественные данные в категориальные, т. е. составить группы, в которые будут попадать те или иные значения. Как обосновать те или иные границы — дело исследователя. Зная границы, легко узнать, сколько наблюдений в каждой из групп:
+
 ```{r}
-ordering_in_locales("i", "и")
+a <- sin(1:100) # создаем вектор со значениями
+b <- c(-1, -0.5, 0, 0.5, 1) # создаем вектор с границами
+table(cut(a, breaks = b))
+table(cut(a, breaks = b, right = F))
 ```
 
-#### 4.4 Функция для проверки полиндромности
-Напишите функцию `is.palindrome`, которая будет проверять, является ли *слово* полиндромом.
-```{r, echo=FALSE, message = FALSE}
-is.palindrome <- function(x){
-  x <- gsub("\\W", "", tolower(x))
-  x == paste0(rev(substring(x, 1:nchar(x), 1:nchar(x))), collapse = "")
+## 2. Описательная статистика
+
+* средние
+    * `mean(x)` --- среднее арифметическое
+    * `mean(x, trim = 0.05)` --- среднее усеченное
+    * `weighted.mean(x, w)` ---  среднее взвешенное $$\frac{\sum_ix_i\times w_i}{\sum_i w_i},\ где\ x - это\ наблюдения,\ а\ w - это\ соответсвующий\ вес$$
+
+* `median(x)` --- медиана
+* `min(x)` --- минимальное значения
+* `max(x)` --- максимальное значения
+* `range(x)` --- минимальное и максимальное значения
+* `quantile(x, 0.23)` --- квантиль
+* `IQR(x)` --- межквартильное расстояние
+
+Все функции описательных статистик болезненно относятся к наличию значений `NA`, поэтому следует использовать аргумент `na.rm = TRUE`, который позволяет игнорировать `NA`.
+
+```{r}
+mean(c(1:100, NA))
+mean(c(1:100, NA), na.rm = TRUE)
+```
+
+
+## 3. Z-преобразование
+
+Представим, что у нас есть два распределения, которыми описывают примерно одно и то же, но измерения производились в разных единицах. Как привести все значения в одну систему координат?
+
+```{r, echo=FALSE}
+set.seed(7)
+data_frame(value = c(rnorm(100, mean = 100, sd = 20),
+                     rcauchy(100, location = 120, scale = 5)),
+           label = rep(c("f", "s"), each = 100)) %>% 
+  ggplot(aes(value, color = label))+
+  geom_density(show.legend = FALSE)+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+Поместим средние обоих распределение в 0, а стандартное отклонение в 1:
+
+```{r, echo=FALSE}
+set.seed(7)
+data_frame(value = c(rnorm(100, mean = 100, sd = 20),
+                     rcauchy(100, location = 120, scale = 5)),
+           label = rep(c("f", "s"), each = 100)) %>% 
+  group_by(label) %>% 
+  mutate(value = scale(value)) %>% 
+  ggplot(aes(value, color = label))+
+  geom_density(show.legend = FALSE)
+```
+
+$$scale(x) = \frac{mean(x) - x}{sd(x)}$$
+
+* `scale(x)` --- z-преобразование
+
+## 4. Основы статистики
+
+### 4.1 Garbage in — garbage out
+
+* Данные получить легко.
+* Скормить полученное компьютеру тоже легко. <br>
+😿 Тяжело помнить, как тот или иной метод работает и какие требования предъявляет к анализируемым данным. <br>
+⇒ Следует проводить разведочный анализ данных --- визуализация!
+
+### 4.2 Фриквентистская vs. байесовская статистика
+> Statistics are used much like a drunk uses a lamppost: for support, not illumination. A.E. Housman (commonly attributed to Andrew Lang)
+> A frequentist uses impeccable logic to answer the wrong question, while a Bayesean answers the right question by making assumptions that nobody can fully believe in. P. G. Hammer
+
+Мы попробуем разобраться с некоторой основой байесовской статистики.
+
+## 5. Распределения в R
+
+В R встроено какое-то количество известных распределений. Все они представлены четырьмя функциями: 
+
+* `d...` (функция плотности, probability density function),
+* `p...` (функция распределения, cumulative distribution function) --- интеграл площади под кривой от начала до указанной квантили
+* `q...` (обратная функции распределения, inverse cumulative distribution function) --- значение *p*-той квантили распределения
+* и `r...` (рандомные числа из заданного распределения).
+
+Рассмотрим все это на примере нормального распределения.
+
+```{r}
+data_frame(x = 1:100,
+           PDF = dnorm(x = x, mean = 50, sd = 10)) %>% 
+  ggplot(aes(x, PDF))+
+  geom_point()+
+  labs(title = "PDF нормального распределения (μ = 50, sd = 10)")
+```
+
+Какое количество данных лежит в промежутке от 0 до 30?
+```{r}
+pnorm(30, mean = 50, sd = 10)
+data_frame(x = 1:100,
+           CDF = pnorm(x, mean = 50, sd = 10)) %>% 
+  ggplot(aes(x, CDF))+
+  geom_point()+
+  labs(title = "CDF нормального распределения (μ = 50, sd = 10)")
+```
+
+Какое значение соответствует 40-ой квантили?
+```{r}
+qnorm(0.4, mean = 50, sd = 10)
+data_frame(quantiles = seq(0, 1, by = 0.01),
+           value = qnorm(quantiles, mean = 50, sd = 10)) %>% 
+  ggplot(aes(quantiles, value))+
+  geom_point()+
+  labs(title = "inverse CDF нормального распределения (μ = 50, sd = 10)")
+```
+
+<strike> Siri, Алиса, </strike> Дорогой R, сгенерируй мне 100 наблюдений из нормального распределения со средним 50 и стандартным отклонением 10.
+```{r}
+data_frame(sample = rnorm(100, mean = 50, sd = 10)) %>% 
+  ggplot(aes(sample))+
+  geom_histogram()+
+  labs(title = "выборка нормально распределенных чисел (μ = 50, sd = 10)")
+```
+
+Если не использовать `set.seed()`, то результат работы рандомизатора нельзя будет повторить.
+
+#### 5.1
+
+Какое значение имеет 25% квантиль нормального распределения со средним в 20 и стандартным отклонением 90.
+
+```{r, include=FALSE}
+qnorm(0.25, mean = 20, sd = 90)
+```
+
+<form name="FormOne" onsubmit="return validateFormOne()" method="post">
+<input type="text" name="answerOne">
+<input type="submit" value="check">
+</form><br>
+
+#### 5.2
+
+Посчитайте значение 97% квантили нормально распределенных данных.
+
+```{r, include=FALSE}
+qnorm(.97, 0, 1)
+```
+
+<form name="FormTwo" onsubmit="return validateFormTwo()" method="post">
+<input type="text" name="answerTwo">
+<input type="submit" value="check">
+</form><br>
+
+<script>
+function validateFormOne() {
+    var x = document.forms["FormOne"]["answerOne"].value;
+    if (x != "-40.70408") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
 }
-```
-```{r}
-is.palindrome("топот")
-is.palindrome("топор")
-```
-
-#### 4.5 Функция для зеркального отражения размера букв
-Напишите функцию `mirror_case()`, которая в строке все большие буквы заменяет на маленькие, а все маленькие -- на большие.
-```{r, echo=FALSE, message = FALSE}
-mirror_case <- function(x){
-  x <- substring(x, 1:nchar(x), 1:nchar(x))
-  lower <- tolower(x)
-  paste0(sapply(seq_along(x), function(i){
-    ifelse(x[i] == lower[i], 
-           toupper(lower[i]), lower[i])}), collapse = "")
+function validateFormTwo() {
+    var x = document.forms["FormTwo"]["answerTwo"].value;
+    if (x != "1.880794") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
 }
-```
-```{r}
-mirror_case("ЖиЛи БыЛи ТрИ мЕдВеДя")
-```
-<div class="parallax"></div>
+</script>

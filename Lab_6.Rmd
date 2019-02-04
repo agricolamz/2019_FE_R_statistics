@@ -1,313 +1,291 @@
 ---
-title: "6. Определение языка. Расстояния. Регулярки"
-author: "Г. Мороз"
-output:
-  html_document:
-    theme: spacelab
-    highlight: pygments
-    toc: yes
-    toc_position: right
-    toc_depth: 4
-    toc_float: yes
-    smooth_scroll: false
-    df_print: paged
+title: "6. Функция правдоподобия, формула Байеса"
+editor_options: 
+  chunk_output_type: console
+output: html_document
 ---
+  
+```{r, include=FALSE}
+library(latex2exp)
+ggplot2::theme_set(ggplot2::theme_bw())
+```
 
-<style>
-.parallax {
-    /* The image used */
-    background-image: url("6_distance.jpg");
+```{r, message = FALSE}
+library(tidyverse)
+```
 
-    /* Set a specific height */
-    min-height: 360px; 
+## 1. Немного распределений
+### 1.1  Биномиальное распределение
 
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: length;
+Биномиальное распределение --- распределение количетсва успехов эксперементов Бернулли из *n* попыток с вероятностью успеха *p*.
+
+$$P(k | n, p) = \frac{n!}{k!(n-k)!} \times p^k \times (1-p)^{n-k} =  {n \choose k} \times p^k \times (1-p)^{n-k}$$ 
+$$ 0 \leq p \leq 1; n, k > 0$$
+
+```{r}
+data_frame(x = 0:50,
+           density = dbinom(x = x, size = 50, prob = 0.16)) %>% 
+  ggplot(aes(x, density))+
+  geom_point()+
+  geom_line()+
+  labs(title = "Биномиальное распределение p = 0.16, n = 50")
+```
+
+### 1.2 Бета распределение
+
+$$P(x; α, β) = \frac{x^{α-1}\times (1-x)^{β-1}}{B(α, β)}; 0 \leq x \leq 1; α, β > 0$$
+
+Бета функция:
+
+$$Β(α, β) = \frac{Γ(α)\times Γ(β)}{Γ(α+β)} = \frac{(α-1)!(β-1)!}{(α+β-1)!} $$
+
+
+```{r}
+data_frame(x = seq(0, 1, length.out = 51),
+           density = dbeta(x = x, shape1 = 8, shape2 = 42)) %>% 
+  ggplot(aes(x, density))+
+  geom_point()+
+  geom_line()+
+  labs(title = "Бета распределение α = 8, β = 42")
+```
+
+Можно поиграть с разными параметрами:
+
+```{r, eval = FALSE}
+shiny::runGitHub("agricolamz/beta_distribution_shiny") 
+```
+
+$$\mu = \frac{\alpha}{\alpha+\beta}$$
+
+$$\sigma = \frac{\alpha\times\beta}{(\alpha+\beta)^2\times(\alpha+\beta+1)}$$
+
+### 1.3 Нормальное распределение
+
+$$P(x) = \frac{1}{\sigma\sqrt{2\pi}}\times e^{-\frac{\left(x-\mu\right)^2}{2\sigma^2}}$$
+
+$$\mu \in \mathbb{R}; \sigma^2 > 0$$
+
+```{r}
+data_frame(x = 1:100,
+           PDF = dnorm(x = x, mean = 50, sd = 10)) %>% 
+  ggplot(aes(x, PDF))+
+  geom_point()+
+  geom_line()+
+  labs(title = "PDF нормального распределения (μ = 50, sd = 10)")
+```
+
+## 2. Вероятность vs. функция правдободобия
+
+Предположим что распределение количества согласных в языках мира можно описать нормальным распределением со средним 22 и стандартным отклонением 6:
+
+```{r, echo=FALSE}
+data_frame(x = 0:80) %>% 
+  ggplot(aes(x)) +
+  stat_function(fun = function(x) dnorm(x, 22, 6))+
+  labs(title = "Количество согласных в языках мира (фэйк)")
+```
+
+Тогда вероятность того, что в выбранных произвольно языках окажется от 23 до 32 согласных, равна интегралу нормального распределения в указанном промежутке:
+
+```{r, echo = FALSE}
+data_frame(x = 0:80) %>% 
+  ggplot(aes(x)) +
+  stat_function(fun = function(x) dnorm(x, 22, 6))+
+  stat_function(fun = function(x) dnorm(x, 22, 6), 
+                xlim = c(23,32), 
+                geom = "area",
+                fill = "lightblue")+
+  labs(title = "Количество согласных в языках мира (фэйк)")
+```
+
+$$P\left(X \in (23,\, 32) | X \sim \mathcal{N}(\mu = 22,\, \sigma^{2}=6)\right) = ...$$
+
+```{r}
+pnorm(32, mean = 22, sd = 6) - pnorm(23, mean = 22, sd = 6)
+```
+
+Когда мы говорим про функцию правдоподобия, мы нашли еще один язык в котором оказалось 33 согласных, и нас интересует, насколько правдоподобна функция нормального распределения со средним 22 и стандартным отклонением 6 при значении переменной 33. Это значение равно функции плотности:
+
+```{r, echo = FALSE}
+data_frame(x = 0:80) %>% 
+  ggplot(aes(x)) +
+  stat_function(fun = function(x) dnorm(x, 22, 6))+
+  geom_segment(aes(x = 33, xend = 33, y = 0, yend = dnorm(33, 22, 6)), color = "red")+
+  geom_segment(aes(x = 33, xend = 0, y = dnorm(33, 22, 6), yend = dnorm(33, 22, 6)), color = "red",
+               arrow = arrow(length = unit(0.03, "npc")))+
+  scale_x_continuous(breaks = c(0:4*20, 33))+
+  scale_y_continuous(breaks = c(0:3*0.02, round(dnorm(33, 22, 6), 3)))+
+  labs(title = "Количество согласных в языках мира (фэйк)")
+```
+
+$$L\left(X \sim \mathcal{N}(\mu = 22,\, \sigma^{2}=6)|x = 33\right) = ...$$
+
+```{r}
+dnorm(33, 22, 6)
+```
+
+В результате мы можем пострить график, на котором будет правдоподобие моделей с разными средними и фиксированным стандартным отклонением.
+
+```{r}
+data_frame(x = 0:80) %>% 
+  ggplot(aes(x)) +
+  stat_function(fun = function(x) dnorm(33, x, 6))+
+  scale_x_continuous(breaks = c(0:4*20, 33))+
+  labs(x = TeX("$\\mu$"),
+       y = TeX("$L(N(\\mu,\\, \\sigma^{2}=6)|x = 33))$"),
+       title = "Насколько правдоподобны модели с разными μ, если мы наблюдаем значение 33?")
+```
+
+А что если у нас не одно наблюдение, а несколько? Например, мы наблюдаем языки с 33 и 26 согласными? События независимы друг от друга, значит, мы можем перемножить получаемые вероятности.
+
+```{r}
+data_frame(x = 0:80) %>% 
+  ggplot(aes(x)) +
+  stat_function(fun = function(x) dnorm(33, x, 6)*dnorm(26, x, 6))+
+  scale_x_continuous(breaks = c(0:4*20, 33, 26))+
+  labs(x = TeX("$\\mu$"),
+       y = TeX("$L(N(\\mu,\\, \\sigma^{2}=6)|x = 33))$"),
+       title = "Насколько правдоподобны модели с разными μ, если мы наблюдаем значения 26 и 33?")
+```
+
+**Самое важное:**
+
+* вероятность --- P(data|distribution)
+* правдоподобие --- L(distribution|data)
+
+Интеграл распределения вероятностей равен 1. [Интеграл правдоподобия может быть не равен 1](https://stats.stackexchange.com/a/31241/225843).
+
+### 2.1
+
+Посчитайте значение правдоподобия модели $\mathcal{N}(\mu = 910,\, \sigma^{2}=150)$ для встроенного датасета `Nile`.
+
+```{r, include=FALSE}
+prod(dnorm(Nile, 910, 150))
+```
+
+<form name="FormThree" onsubmit="return validateFormThree()" method="post">
+<input type="text" name="answerThree">
+<input type="submit" value="check">
+</form><br>
+
+## 3. Байесовский статистический вывод
+
+### 3.1 Формула Байеса
+
+$$p(A|B) = \frac{p(A, B)}{p(B)}\Rightarrow p(A|B) \times p(B) = p(A, B)$$
+$$p(B|A) = \frac{p(B, A)}{p(A)}\Rightarrow p(B|A) \times p(A) = p(B, A)$$
+$$p(A|B) \times p(B) = p(B|A) \times p(A)$$
+$$p(A|B) = \frac{p(B|A)p(A)}{p(B)}$$
+
+* Дискретный случай:
+$$p(A|B) = \frac{p(B|A)p(A)}{\sum_{i=1}^{n} p(B, a_i) \times p(a_i)}$$
+
+* Непрерывный случай:
+$$p(A|B) = \frac{p(B|A)p(A)}{\int p(B, a) \times p(a)da}$$
+
+* Некоторым помогает вот такое объяснение: 
+![](images/02_1_bayes.jpg)
+
+### 3.2 Байесовский статистический вывод
+
+В байесовском подоходе статистический вывод описывается формулой Байеса
+
+$$P(θ|Data) = \frac{P(Data|θ)\times P(θ)}{P(Data)}$$
+
+* $P(θ|Data)$ --- апостериорная вероятность (posterior)
+* $P(Data|θ)$ --- функция правдоподобия (likelihood)
+* $P(θ)$ ---  априорная вероятность (prior)
+* $P(Data)$ --- нормализующий делитель
+
+В литературе можно еще встретить такую нотацию:
+
+$$P(θ|Data) \propto P(Data|θ)\times P(θ)$$
+
+
+### 3.3 Первый пример с категориальными данными
+
+[В датасете c грибами](https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/mushrooms.csv) (взят c [kaggle](https://www.kaggle.com/uciml/mushroom-classification)) представлено следующее распределение по месту обитания:
+
+```{r}
+df <- read_csv("https://github.com/agricolamz/2019_BayesDan_winter/blob/master/datasets/mushrooms.csv?raw=true")
+df %>% 
+  count(class, habitat) %>% 
+  group_by(class) %>% 
+  mutate(prop = n/sum(n)) %>% 
+  ggplot(aes(class, prop, fill = habitat, label = round(prop, 3)))+
+  geom_col()+
+  geom_text(position = position_stack(vjust = 0.5), color = "white")
+```
+
+Мы нашли некоторый новый вид грибов на лужайке (`grasses`). Какой это может быть гриб: съедобный или ядовитый? У нас нет никаких идей, почему бы нам отдать предпочтения той или иной гипотезе, так что будем использовать неинформативное априорное распределение:
+
+```{r}
+data_frame(model = c("edible", "poisonous"),
+           prior = 0.5,
+           likelihood = c(0.335, 0.189),
+           product = prior*likelihood,
+           posterior = product/sum(product))
+```
+
+Вот мы и сделали байесовский апдейт. Теперь апостериорное распределение, которые мы получили на предыдущем шаге, мы можем использовать в новом апдейте. Допустим, мы опять нашли этот же вид гриба, но в этот раз в лесу (`woods`).
+
+```{r}
+data_frame(model = c("edible", "poisonous"),
+           prior_2 = c(0.639, 0.361),
+           likelihood_2 = c(0.447, 0.324),
+           product_2 = prior_2*likelihood_2,
+           posterior_2 = product_2/sum(product_2))
+```
+
+
+## 4. Домашняя работа
+### 4.1
+Вашего друга похитили а на почту отправили [датасет](https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/weather.csv), в котором записаны данные о погоде из пяти городов. Ваш телефон зазвонил, и друг сказал, что не знает куда его похитили, но за окном легкий дождь (`Rain`). А на следующий день --- сильный дождь (`Rain, Thunderstorm`). Сделайте байесовский апдейт и предположите, в какой город вероятнее всего похитили друга (форма принимает латиницу).
+
+```{r, include=FALSE}
+df <- read.csv("https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/weather.csv")
+df %>%
+  count(city, events) %>% 
+  group_by(city) %>% 
+  mutate(prop = n/sum(n)) %>% 
+  ggplot(aes(city, prop, fill = events, label = round(prop, 3)))+
+  geom_col()+
+  geom_text(position = position_stack(vjust = 0.5), color = "white")
+
+data_frame(model = c("Auckland", "Beijing", "Chicago", "Mumbai", "San Diego"),
+           prior_1 = 0.2,
+           likelihood_1 = c(0.484, 0, 0.161, 0, 0.29),
+           product_1 = prior_1*likelihood_1,
+           posterior_1 = product_1/sum(product_1),
+           likelihood_2 = c(0.032, 0, 0, 0, 0.065),
+           product_2 = posterior_1*likelihood_2,
+           posterior_2 = product_2/sum(product_2))
+```
+
+<form name="FormOne" onsubmit="return validateFormOne()" method="post">
+<input type="text" name="answerOne">
+<input type="submit" value="check">
+</form><br>
+
+<script>
+function validateFormThree() {
+    var x = document.forms["FormThree"]["answerThree"].value;
+    if (x != "1.085036e-285") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
 }
-</style>
-
-> "Что общего между вороном и письменным столом?" <div style="float: right; clear: right; margin: 13px;">(Л. Кэрролл)</div>
-
-<div class="parallax"></div>
-
-### 1. Определение языка[^1]
-[^1]: Данная картинка -- рисунок Бориса Аркадьевича Диодорова  из книжки Яна Экхольма "Тутта Карлссон, первая и единственная, Людвиг Четырнадцатый и другие"
-
-Для определения языка существует два пакета `cld2` (вероятностный) и `cld3` (нейросеть).
-
-```{r}
-udhr_24 <- read.csv("https://goo.gl/cHviY5", stringsAsFactors = FALSE, sep = "\t")
-udhr_24
-cld2::detect_language(udhr_24$article_text)
-cld2::detect_language(udhr_24$article_text, lang_code = FALSE)
-cld3::detect_language(udhr_24$article_text)
-cld2::detect_language("Ты женат? Говорите ли по-английски?")
-cld3::detect_language("Ты женат? Говорите ли по-английски?")
-cld2::detect_language("Варкалось. Хливкие шорьки пырялись по наве, и хрюкотали зелюки, как мюмзики в мове.")
-cld3::detect_language("Варкалось. Хливкие шорьки пырялись по наве, и хрюкотали зелюки, как мюмзики в мове.")
-cld2::detect_language("Варчилось… Хлив'язкі тхурки викрули, свербчись навкрузі, жасумновілі худоки гривіли зехряки в чузі.")
-cld3::detect_language("Варчилось… Хлив'язкі тхурки викрули, свербчись навкрузі, жасумновілі худоки гривіли зехряки в чузі.")
-cld2::detect_language_mixed("Многие в нашей команде OpenDataScience занимаются state-of-the-art технологиями машинного обучения: DL-фреймворками, байесовскими методами машинного обучения, вероятностным программированием и не только.")
-cld3::detect_language_mixed("Многие в нашей команде OpenDataScience занимаются state-of-the-art технологиями машинного обучения: DL-фреймворками, байесовскими методами машинного обучения, вероятностным программированием и не только.")
-```
-
-
-<div class="parallax"></div>
-
-### 2. Расстояния между строками
-Существует много разных метрик для измерения расстояния между строками (см. <code>?&grave;stringdist-metrics&grave;</code>), в примерах используется расстояние Дамерау — Левенштейна. Данное расстояние получается при подсчете количества операций, которые нужно сделать, чтобы перевести одну строку в другую.
-
-* вставка ab → aNb
-* удаление aOb → ab
-* замена символа aOb → aNb
-* перестановка символов ab → ba
-
-```{r}
-stringdist::stringdist("корова","корова")
-stringdist::stringdist("коровы", c("курица", "бык", "утка", "корова", "осел"))
-stringdist::stringdistmatrix(c("быки", "коровы"), c("курица", "бык", "утка", "корова", "осел"))
-stringdist::stringsim("коровы", c("курица", "бык", "утка", "корова", "осел"))
-stringdist::amatch(c("быки", "коровы"), c("курица", "бык", "утка", "корова", "осел"), maxDist = 2)
-stringdist::ain(c("осы", "коровы"), c("курица", "бык", "утка", "корова", "осел"), maxDist = 2)
-```
-
-
-
-<div class="parallax"></div>
-
-### 3. Регулярные выражения
-Большинство функций из [раздела об операциях над векторами](https://agricolamz.github.io/2017_ANDAN_course/1_strings.html#3_%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D0%B8_%D0%BD%D0%B0%D0%B4_%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8) имеют следующую структуру:
-
-* строка с которой работает функция
-* образец (pattern)
-
-#### 3.1 Экранирование метасимволов
-```{r}
-a <- "Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|}^{|]"
-stringr::str_view_all(a, "$")
-stringr::str_view_all(a, "\\$")
-stringr::str_view_all(a, "\\.")
-stringr::str_view_all(a, "\\*")
-stringr::str_view_all(a, "\\+")
-stringr::str_view_all(a, "\\?")
-stringr::str_view_all(a, "\\(")
-stringr::str_view_all(a, "\\)")
-stringr::str_view_all(a, "\\|")
-stringr::str_view_all(a, "\\^")
-stringr::str_view_all(a, "\\[")
-stringr::str_view_all(a, "\\]")
-stringr::str_view_all(a, "\\{")
-stringr::str_view_all(a, "\\}")
-stringr::str_view_all(a, "\\\\")
-```
-<div class="parallax"></div>
-
-#### 3.2 Классы знаков
-
-* `\\d` -- цифры. `\\D` -- не цифры.
-```{r}
-stringr::str_view_all("два 15 42. 42 15. 37 08 5. 20 20 20!", "\\d")
-stringr::str_view_all("два 15 42. 42 15. 37 08 5. 20 20 20!", "\\D")
-```
-
-* `\\s` -- пробелы. `\\S` -- не пробелы.
-```{r}
-stringr::str_view_all("два 15 42. 42 15. 37 08 5. 20 20 20!", "\\s")
-stringr::str_view_all("два 15 42. 42 15. 37 08 5. 20 20 20!", "\\S")
-```
-
-* `\\w` -- не пробелы и не знаки препинания. `\\W` -- пробелы и знаки препинания.
-```{r}
-stringr::str_view_all("два 15 42. 42 15. 37 08 5. 20 20 20!", "\\w")
-stringr::str_view_all("два 15 42. 42 15. 37 08 5. 20 20 20!", "\\W")
-```
-
-* произвольная группа символов и обратная к ней
-```{r}
-stringr::str_view_all("Умей мечтать, не став рабом мечтанья", "[оауиыэёеяю]")
-stringr::str_view_all("И мыслить, мысли не обожествив", "[^оауиыэёеяю]")
-```
-
-* встроенные группы символов
-```{r}
-stringr::str_view_all("два 15 42. 42 15. 37 08 5. 20 20 20!", "[0-9]")
-stringr::str_view_all("Карл у Клары украл кораллы, а Клара у Карла украла кларнет", "[а-я]")
-stringr::str_view_all("Карл у Клары украл кораллы, а Клара у Карла украла кларнет", "[А-Я]")
-stringr::str_view_all("Карл у Клары украл кораллы, а Клара у Карла украла кларнет", "[А-я]")
-stringr::str_view_all("The quick brown Fox jumps over the lazy Dog", "[a-z]")
-stringr::str_view_all("два 15 42. 42 15. 37 08 5. 20 20 20!", "[^0-9]")
-```
-
-* выбор из нескольких групп
-```{r}
-stringr::str_view_all("Карл у Клары украл кораллы, а Клара у Карла украла кларнет", "лар|рал|арл")
-```
-
-* произвольный символ
-```{r}
-stringr::str_view_all("Везет Сенька Саньку с Сонькой на санках. Санки скок, Сеньку с ног, Соньку в лоб, все — в сугроб", "[Сс].н")
-```
-
-* знак начала и конца строки
-```{r}
-stringr::str_view_all("от топота копыт пыль по полю летит.", "^о")
-stringr::str_view_all("У ежа — ежата, у ужа — ужата", "жата$")
-```
-
-* есть еще другие группы и другие обозначения уже приведенных групп, см. `?regex`
-
-<div class="parallax"></div>
-
-#### 3.3 Квантификация
-
-* `?` -- ноль или один раз
-```{r}
-stringr::str_view_all("хорошее длинношеее животное", "еее?")
-```
-
-* `*` -- ноль и более раз
-```{r}
-stringr::str_view_all("хорошее длинношеее животное", "ее*")
-```
-
-* `+` -- один и более раз
-```{r}
-stringr::str_view_all("хорошее длинношеее животное", "е+")
-```
-
-* `{n}` -- `n` раз
-```{r}
-stringr::str_view_all("хорошее длинношеее животное", "е{2}")
-```
-
-* `{n,}` -- `n` раз и более
-```{r}
-stringr::str_view_all("хорошее длинношеее животное", "е{1,}")
-```
-
-* `{n,m}` -- от `n` до `m`. Отсутствие пробела важно: `{1,2}` -- правильно, `{1,␣2}` -- неправильно.
-```{r}
-stringr::str_view_all("хорошее длинношеее животное", "е{2,3}")
-```
-
-* группировка символов
-```{r}
-stringr::str_view_all("Пушкиновед, Лермонтовед, Лермонтововед", "(ов)+")
-stringr::str_view_all("беловатый, розоватый, розововатый", "(ов)+")
-```
-
-* жадный vs. нежадный алоритмы
-```{r}
-stringr::str_view_all("Пушкиновед, Лермонтовед, Лермонтововед", "в.*ед")
-stringr::str_view_all("Пушкиновед, Лермонтовед, Лермонтововед", "в.*?ед")
-```
-
-
-<div class="parallax"></div>
-
-### 4. Задачи
-#### 4.1 Чистка html тегов
-В мире достаточно много готовых решений по чистке html и xml тегов, так что настало время изобрести велосипед. Напишите функцию `tagless()`, которая убирает из строки теги.
-
-```{r,echo=FALSE, message = FALSE}
-tagless <- function(x){gsub("<.*?>", "", x)}
-```
-```{r}
-tagless("<greeting>Hello, world!</greeting>")
-```
-
-#### 4.2 Лишние пробелы
-Напишите функцию `spaceless()`, которая убирает лишние пробелы.
-```{r, echo=FALSE, message = FALSE}
-spaceless <- function(x){gsub("\\s{1,}", " ", x)}
-```
-```{r}
-spaceless(c("two  spaces", "five     spaces"))
-```
-
-#### 4.3 Функция для проверки полиндромности
-Улучшите функцию `is.palindrome()`, чтобы она могла учесть знаки препинания, пробелы и т. п.
-```{r, echo=FALSE, message = FALSE}
-is.palindrome <- function(x){
-  x <- gsub("\\W", "", tolower(x))
-  x == paste0(rev(substring(x, 1:nchar(x), 1:nchar(x))), collapse = "")
+function validateFormOne() {
+    var x = document.forms["FormOne"]["answerOne"].value;
+    if (x != "San Diego") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
 }
-```
-```{r}
-is.palindrome("Замучен он, но не чумаз")
-is.palindrome("Замучена она, но не чумаза")
-```
-
-Скачайте [произведение Жоржа Перека](https://raw.githubusercontent.com/agricolamz/2017_ANDAN_course/master/docs/materials/Perec_palindrome.txt), посчитайте количество символов в нем и проверьте на полиндромность. Мой вариант несколько препарирован, оригинал можно найти [здесь](http://cui.unige.ch/isi/cours/javalettres/perec.txt).
-
-#### 4.4 Спеллчекер? Легко!
-Скачайте [словарь форм русского языка](https://goo.gl/8oYdtk) (осторожно, большой файл) на основе словаря А. А. Залязняка и сделайте функцию `spellcheck()`, которая
-
-* возвращает слова из строки, которых нет в словаре;
-* если аргумент `suggestions = TRUE`, то возвращает слово с минимальным расстояние Дамерау — Левенштейна.
-
-#### 4.5 Анализ данных небрежно собраннных анкет
-В ходе анализа данных чаще всего бороться со строками и регулярными выражениями приходится в процессе обработки неаккуратно собранных анкет. Предлагаю поразвлекаться [с подобными данными](https://goo.gl/tbCQcW) и построить следующие графики:
-
-```{r,echo = FALSE, message = FALSE}
-library(tidyverse); library(stringr)
-quest <- read_tsv("https://goo.gl/tbCQcW")
-quest %>% 
-  mutate(sex = ifelse(str_detect(sex, "^[Ж|ж]"), "женский", "мужской")) %>% 
-  mutate(age = as.integer(ifelse(age == "18 лет", "18", age))) ->
-  quest
-quest %>% 
-  ggplot(aes(age, fill = sex))+
-  geom_density(alpha = 0.4)+
-  theme_bw()+
-  ggtitle("Распределение респондентов по полу и возрасту")
-```
-
-```{r,echo = FALSE, message = FALSE}
-quest %>% 
-  mutate(fear_of_the_dark = ifelse(str_detect(fear_of_the_dark, "[Дд]а|[Нн]емного|Определённо|панически"),
-                      "да",
-                      "нет")) ->
-  quest
-quest %>% 
-  ggplot(aes(fear_of_the_dark, fill = sex)) +
-  geom_bar(position = "dodge")+
-  theme_bw()+
-  labs(title = "Распределение боящихся темноты по полу",
-       x = "страх темноты",
-       y = "количество респондентов")
-```
-
-
-```{r,echo = FALSE, message = FALSE}
-quest %>% 
-  mutate(c_t_j_b = ifelse(str_detect(favourite_drink, "[Чч]ай|[Кк]офе|[Сс]ок|[Пп]иво"),
-                      favourite_drink,
-                      NA)) %>% 
-  mutate(c_t_j_b = ifelse(str_detect(c_t_j_b, "[Чч]ай"),
-                      "чай",
-                      c_t_j_b)) %>% 
-  mutate(c_t_j_b = ifelse(str_detect(c_t_j_b, "[Сс]ок"),
-                      "сок",
-                      c_t_j_b)) %>% 
-  mutate(c_t_j_b = ifelse(str_detect(c_t_j_b, "[Пп]иво"),
-                      "пиво",
-                      c_t_j_b)) %>% 
-  mutate(c_t_j_b = ifelse(str_detect(c_t_j_b, "[Кк]офе"),
-                      "кофе",
-                      c_t_j_b)) ->
-  quest
-
-quest %>% 
-  ggplot(aes(c_t_j_b))+
-  geom_bar()+
-  labs(title = "Чай, кофе, сок или пиво?", x = "")+
-  theme_bw()
-```
-
-А когда все получится, напишите функцию, которая приведет все телефоны к единому формату: 89143302299.
-
-<div class="parallax"></div>
+</script>

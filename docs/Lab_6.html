@@ -9,119 +9,36 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Г. Мороз" />
 
 
-<title>6. Определение языка. Расстояния. Регулярки</title>
+<title>6. Функция правдоподобия, формула Байеса</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
-<link href="site_libs/str_view-0.1.0/str_view.css" rel="stylesheet" />
-<script src="site_libs/str_view-binding-1.3.1/str_view.js"></script>
-
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
 
 
 <style type="text/css">
@@ -188,33 +105,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 52px;
+  padding-top: 51px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 57px;
-  margin-top: -57px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h2 {
-  padding-top: 57px;
-  margin-top: -57px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h3 {
-  padding-top: 57px;
-  margin-top: -57px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h4 {
-  padding-top: 57px;
-  margin-top: -57px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h5 {
-  padding-top: 57px;
-  margin-top: -57px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h6 {
-  padding-top: 57px;
-  margin-top: -57px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .dropdown-submenu {
   position: relative;
@@ -347,101 +264,6 @@ $(document).ready(function () {
 
 
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3,h4",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -501,374 +323,205 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">6. Определение языка. Расстояния. Регулярки</h1>
-<h4 class="author"><em>Г. Мороз</em></h4>
+<h1 class="title toc-ignore">6. Функция правдоподобия, формула Байеса</h1>
 
 </div>
 
 
-<style>
-.parallax {
-    /* The image used */
-    background-image: url("6_distance.jpg");
-
-    /* Set a specific height */
-    min-height: 360px; 
-
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: length;
-}
-</style>
-<blockquote>
-“Что общего между вороном и письменным столом?”
-<div style="float: right; clear: right; margin: 13px;">
-(Л. Кэрролл)
-</div>
-</blockquote>
-<div class="parallax">
-
-</div>
-<div id="-1" class="section level3">
-<h3>1. Определение языка<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h3>
-<p>Для определения языка существует два пакета <code>cld2</code> (вероятностный) и <code>cld3</code> (нейросеть).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">udhr_<span class="dv">24</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/cHviY5&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">udhr_<span class="dv">24</span></a></code></pre></div>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["article_text"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Каждый человек имеет право на отдых и досуг, включая право на разумное ограничение рабочего дня и на оплачиваемый периодический отпуск."},{"1":"Everyone has the right to rest and leisure, including reasonable limitation of working hours and periodic holidays with pay."},{"1":"Toute personne a droit au repos et aux loisirs et notamment à une limitation raisonnable de la durée du travail et à des congés payés périodiques."},{"1":"Toda persona tiene derecho al descanso, al disfrute del tiempo libre, a una limitación razonable de la duración del trabajo y a vacaciones periódicas pagadas."},{"1":"لكلِّ شخص حقٌّ في الراحة وأوقات الفراغ، وخصوصًا في تحديد معقول لساعات العمل وفي إجازات دورية مأجورة."},{"1":"人人有享有休息和闲暇的权利，包括工作时间有合理限制和定期给薪休假的权利。"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">cld2<span class="op">::</span><span class="kw">detect_language</span>(udhr_<span class="dv">24</span><span class="op">$</span>article_text)</a></code></pre></div>
-<pre><code>## [1] &quot;ru&quot; &quot;en&quot; &quot;fr&quot; &quot;es&quot; &quot;ar&quot; &quot;zh&quot;</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">cld2<span class="op">::</span><span class="kw">detect_language</span>(udhr_<span class="dv">24</span><span class="op">$</span>article_text, <span class="dt">lang_code =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;RUSSIAN&quot; &quot;ENGLISH&quot; &quot;FRENCH&quot;  &quot;SPANISH&quot; &quot;ARABIC&quot;  &quot;CHINESE&quot;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cld3<span class="op">::</span><span class="kw">detect_language</span>(udhr_<span class="dv">24</span><span class="op">$</span>article_text)</a></code></pre></div>
-<pre><code>## [1] &quot;ru&quot; &quot;en&quot; &quot;fr&quot; &quot;es&quot; &quot;ar&quot; &quot;zh&quot;</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">cld2<span class="op">::</span><span class="kw">detect_language</span>(<span class="st">&quot;Ты женат? Говорите ли по-английски?&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;bg&quot;</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">cld3<span class="op">::</span><span class="kw">detect_language</span>(<span class="st">&quot;Ты женат? Говорите ли по-английски?&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] NA</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">cld2<span class="op">::</span><span class="kw">detect_language</span>(<span class="st">&quot;Варкалось. Хливкие шорьки пырялись по наве, и хрюкотали зелюки, как мюмзики в мове.&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;ru&quot;</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">cld3<span class="op">::</span><span class="kw">detect_language</span>(<span class="st">&quot;Варкалось. Хливкие шорьки пырялись по наве, и хрюкотали зелюки, как мюмзики в мове.&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;ru&quot;</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">cld2<span class="op">::</span><span class="kw">detect_language</span>(<span class="st">&quot;Варчилось… Хлив&#39;язкі тхурки викрули, свербчись навкрузі, жасумновілі худоки гривіли зехряки в чузі.&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;uk&quot;</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">cld3<span class="op">::</span><span class="kw">detect_language</span>(<span class="st">&quot;Варчилось… Хлив&#39;язкі тхурки викрули, свербчись навкрузі, жасумновілі худоки гривіли зехряки в чузі.&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;uk&quot;</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">cld2<span class="op">::</span><span class="kw">detect_language_mixed</span>(<span class="st">&quot;Многие в нашей команде OpenDataScience занимаются state-of-the-art технологиями машинного обучения: DL-фреймворками, байесовскими методами машинного обучения, вероятностным программированием и не только.&quot;</span>)</a></code></pre></div>
-<pre><code>## $classificaton
-##   language code latin proportion
-## 1  RUSSIAN   ru FALSE       0.87
-## 2  ENGLISH   en  TRUE       0.11
-## 3  UNKNOWN   un  TRUE       0.00
-## 
-## $bytes
-## [1] 353
-## 
-## $reliabale
-## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">cld3<span class="op">::</span><span class="kw">detect_language_mixed</span>(<span class="st">&quot;Многие в нашей команде OpenDataScience занимаются state-of-the-art технологиями машинного обучения: DL-фреймворками, байесовскими методами машинного обучения, вероятностным программированием и не только.&quot;</span>)</a></code></pre></div>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["language"],"name":[1],"type":["chr"],"align":["left"]},{"label":["probability"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["reliable"],"name":[3],"type":["lgl"],"align":["right"]},{"label":["proportion"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"ru","2":"0.9983915","3":"TRUE","4":"0.88951844"},{"1":"en","2":"0.9992564","3":"TRUE","4":"0.05099150"},{"1":"sr","2":"0.4266239","3":"FALSE","4":"0.04815864"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<div class="parallax">
-
-</div>
-</div>
-<div id="--" class="section level3">
-<h3>2. Расстояния между строками</h3>
-<p>Существует много разных метрик для измерения расстояния между строками (см. <code>?`stringdist-metrics`</code>), в примерах используется расстояние Дамерау — Левенштейна. Данное расстояние получается при подсчете количества операций, которые нужно сделать, чтобы перевести одну строку в другую.</p>
-<ul>
-<li>вставка ab → aNb</li>
-<li>удаление aOb → ab</li>
-<li>замена символа aOb → aNb</li>
-<li>перестановка символов ab → ba</li>
-</ul>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">stringdist<span class="op">::</span><span class="kw">stringdist</span>(<span class="st">&quot;корова&quot;</span>,<span class="st">&quot;корова&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">stringdist<span class="op">::</span><span class="kw">stringdist</span>(<span class="st">&quot;коровы&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;курица&quot;</span>, <span class="st">&quot;бык&quot;</span>, <span class="st">&quot;утка&quot;</span>, <span class="st">&quot;корова&quot;</span>, <span class="st">&quot;осел&quot;</span>))</a></code></pre></div>
-<pre><code>## [1] 4 6 6 1 5</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">stringdist<span class="op">::</span><span class="kw">stringdistmatrix</span>(<span class="kw">c</span>(<span class="st">&quot;быки&quot;</span>, <span class="st">&quot;коровы&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;курица&quot;</span>, <span class="st">&quot;бык&quot;</span>, <span class="st">&quot;утка&quot;</span>, <span class="st">&quot;корова&quot;</span>, <span class="st">&quot;осел&quot;</span>))</a></code></pre></div>
-<pre><code>##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    5    1    3    6    4
-## [2,]    4    6    6    1    5</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">stringdist<span class="op">::</span><span class="kw">stringsim</span>(<span class="st">&quot;коровы&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;курица&quot;</span>, <span class="st">&quot;бык&quot;</span>, <span class="st">&quot;утка&quot;</span>, <span class="st">&quot;корова&quot;</span>, <span class="st">&quot;осел&quot;</span>))</a></code></pre></div>
-<pre><code>## [1] 0.3333333 0.0000000 0.0000000 0.8333333 0.1666667</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">stringdist<span class="op">::</span><span class="kw">amatch</span>(<span class="kw">c</span>(<span class="st">&quot;быки&quot;</span>, <span class="st">&quot;коровы&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;курица&quot;</span>, <span class="st">&quot;бык&quot;</span>, <span class="st">&quot;утка&quot;</span>, <span class="st">&quot;корова&quot;</span>, <span class="st">&quot;осел&quot;</span>), <span class="dt">maxDist =</span> <span class="dv">2</span>)</a></code></pre></div>
-<pre><code>## [1] 2 4</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">stringdist<span class="op">::</span><span class="kw">ain</span>(<span class="kw">c</span>(<span class="st">&quot;осы&quot;</span>, <span class="st">&quot;коровы&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;курица&quot;</span>, <span class="st">&quot;бык&quot;</span>, <span class="st">&quot;утка&quot;</span>, <span class="st">&quot;корова&quot;</span>, <span class="st">&quot;осел&quot;</span>), <span class="dt">maxDist =</span> <span class="dv">2</span>)</a></code></pre></div>
-<pre><code>## [1] FALSE  TRUE</code></pre>
-<div class="parallax">
-
-</div>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="-" class="section level2">
+<h2>1. Немного распределений</h2>
+<div id="-" class="section level3">
+<h3>1.1 Биномиальное распределение</h3>
+<p>Биномиальное распределение — распределение количетсва успехов эксперементов Бернулли из <em>n</em> попыток с вероятностью успеха <em>p</em>.</p>
+<p><span class="math display">\[P(k | n, p) = \frac{n!}{k!(n-k)!} \times p^k \times (1-p)^{n-k} =  {n \choose k} \times p^k \times (1-p)^{n-k}\]</span> <span class="math display">\[ 0 \leq p \leq 1; n, k &gt; 0\]</span></p>
+<pre class="r"><code>data_frame(x = 0:50,
+           density = dbinom(x = x, size = 50, prob = 0.16)) %&gt;% 
+  ggplot(aes(x, density))+
+  geom_point()+
+  geom_line()+
+  labs(title = &quot;Биномиальное распределение p = 0.16, n = 50&quot;)</code></pre>
+<p><img src="Lab_6_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="-" class="section level3">
-<h3>3. Регулярные выражения</h3>
-<p>Большинство функций из <a href="https://agricolamz.github.io/2017_ANDAN_course/1_strings.html#3_%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D0%B8_%D0%BD%D0%B0%D0%B4_%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8">раздела об операциях над векторами</a> имеют следующую структуру:</p>
-<ul>
-<li>строка с которой работает функция</li>
-<li>образец (pattern)</li>
-</ul>
-<div id="-" class="section level4">
-<h4>3.1 Экранирование метасимволов</h4>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">a &lt;-<span class="st"> &quot;Всем известно, что 4$</span><span class="ch">\\</span><span class="st">2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|}^{|]&quot;</span></a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;$&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-d56147046abf73f77155" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d56147046abf73f77155">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|}^{|]<span class='match'><\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">$&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-ed7cfda46b95ee789a8d" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ed7cfda46b95ee789a8d">{"x":{"html":"<ul>\n  <li>Всем известно, что 4<span class='match'>$<\/span>\\2 + 3<span class='match'>$<\/span> * 5 = 17<span class='match'>$<\/span>? Да? Ну хорошо (а то я не был уверен). [|}^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-5764030ca3d4be20691b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5764030ca3d4be20691b">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен)<span class='match'>.<\/span> [|}^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">*&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-8eed38cd9f172da3d303" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8eed38cd9f172da3d303">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ <span class='match'>*<\/span> 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|}^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">+&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-dc4ee1a33ab12cee7138" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-dc4ee1a33ab12cee7138">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 <span class='match'>+<\/span> 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|}^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">?&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-b9dc6363e1d7b505a58a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b9dc6363e1d7b505a58a">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$<span class='match'>?<\/span> Да<span class='match'>?<\/span> Ну хорошо (а то я не был уверен). [|}^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">(&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-47f35c226a676c54be4b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-47f35c226a676c54be4b">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо <span class='match'>(<\/span>а то я не был уверен). [|}^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">)&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-d01168f96b7b580cf4e6" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d01168f96b7b580cf4e6">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен<span class='match'>)<\/span>. [|}^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">|&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-2093c8fc9dfe62514cac" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2093c8fc9dfe62514cac">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [<span class='match'>|<\/span>}^{<span class='match'>|<\/span>]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">^&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-7c0fa435415a3603e644" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7c0fa435415a3603e644">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|}<span class='match'>^<\/span>{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-aec4bda33e3da8437908" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-aec4bda33e3da8437908">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). <span class='match'>[<\/span>|}^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">]&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-2f694d0e40d9aca3d83b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2f694d0e40d9aca3d83b">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|}^{|<span class='match'>]<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">{&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-460fd39b7d6df4a6dea6" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-460fd39b7d6df4a6dea6">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|}^<span class='match'>{<\/span>|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">}&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-219de110587323f5fd94" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-219de110587323f5fd94">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$\\2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|<span class='match'>}<\/span>^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(a, <span class="st">&quot;</span><span class="ch">\\\\</span><span class="st">&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-c24e176093f6d67b7f58" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c24e176093f6d67b7f58">{"x":{"html":"<ul>\n  <li>Всем известно, что 4$<span class='match'>\\<\/span>2 + 3$ * 5 = 17$? Да? Ну хорошо (а то я не был уверен). [|}^{|]<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="parallax">
-
+<h3>1.2 Бета распределение</h3>
+<p><span class="math display">\[P(x; α, β) = \frac{x^{α-1}\times (1-x)^{β-1}}{B(α, β)}; 0 \leq x \leq 1; α, β &gt; 0\]</span></p>
+<p>Бета функция:</p>
+<p><span class="math display">\[Β(α, β) = \frac{Γ(α)\times Γ(β)}{Γ(α+β)} = \frac{(α-1)!(β-1)!}{(α+β-1)!} \]</span></p>
+<pre class="r"><code>data_frame(x = seq(0, 1, length.out = 51),
+           density = dbeta(x = x, shape1 = 8, shape2 = 42)) %&gt;% 
+  ggplot(aes(x, density))+
+  geom_point()+
+  geom_line()+
+  labs(title = &quot;Бета распределение α = 8, β = 42&quot;)</code></pre>
+<p><img src="Lab_6_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Можно поиграть с разными параметрами:</p>
+<pre class="r"><code>shiny::runGitHub(&quot;agricolamz/beta_distribution_shiny&quot;) </code></pre>
+<p><span class="math display">\[\mu = \frac{\alpha}{\alpha+\beta}\]</span></p>
+<p><span class="math display">\[\sigma = \frac{\alpha\times\beta}{(\alpha+\beta)^2\times(\alpha+\beta+1)}\]</span></p>
+</div>
+<div id="-" class="section level3">
+<h3>1.3 Нормальное распределение</h3>
+<p><span class="math display">\[P(x) = \frac{1}{\sigma\sqrt{2\pi}}\times e^{-\frac{\left(x-\mu\right)^2}{2\sigma^2}}\]</span></p>
+<p><span class="math display">\[\mu \in \mathbb{R}; \sigma^2 &gt; 0\]</span></p>
+<pre class="r"><code>data_frame(x = 1:100,
+           PDF = dnorm(x = x, mean = 50, sd = 10)) %&gt;% 
+  ggplot(aes(x, PDF))+
+  geom_point()+
+  geom_line()+
+  labs(title = &quot;PDF нормального распределения (μ = 50, sd = 10)&quot;)</code></pre>
+<p><img src="Lab_6_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 </div>
-<div id="-" class="section level4">
-<h4>3.2 Классы знаков</h4>
+<div id="-vs.-" class="section level2">
+<h2>2. Вероятность vs. функция правдободобия</h2>
+<p>Предположим что распределение количества согласных в языках мира можно описать нормальным распределением со средним 22 и стандартным отклонением 6:</p>
+<p><img src="Lab_6_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Тогда вероятность того, что в выбранных произвольно языках окажется от 23 до 32 согласных, равна интегралу нормального распределения в указанном промежутке:</p>
+<p><img src="Lab_6_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><span class="math display">\[P\left(X \in (23,\, 32) | X \sim \mathcal{N}(\mu = 22,\, \sigma^{2}=6)\right) = ...\]</span></p>
+<pre class="r"><code>pnorm(32, mean = 22, sd = 6) - pnorm(23, mean = 22, sd = 6)</code></pre>
+<pre><code>## [1] 0.3860258</code></pre>
+<p>Когда мы говорим про функцию правдоподобия, мы нашли еще один язык в котором оказалось 33 согласных, и нас интересует, насколько правдоподобна функция нормального распределения со средним 22 и стандартным отклонением 6 при значении переменной 33. Это значение равно функции плотности:</p>
+<p><img src="Lab_6_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><span class="math display">\[L\left(X \sim \mathcal{N}(\mu = 22,\, \sigma^{2}=6)|x = 33\right) = ...\]</span></p>
+<pre class="r"><code>dnorm(33, 22, 6)</code></pre>
+<pre><code>## [1] 0.01238519</code></pre>
+<p>В результате мы можем пострить график, на котором будет правдоподобие моделей с разными средними и фиксированным стандартным отклонением.</p>
+<pre class="r"><code>data_frame(x = 0:80) %&gt;% 
+  ggplot(aes(x)) +
+  stat_function(fun = function(x) dnorm(33, x, 6))+
+  scale_x_continuous(breaks = c(0:4*20, 33))+
+  labs(x = TeX(&quot;$\\mu$&quot;),
+       y = TeX(&quot;$L(N(\\mu,\\, \\sigma^{2}=6)|x = 33))$&quot;),
+       title = &quot;Насколько правдоподобны модели с разными μ, если мы наблюдаем значение 33?&quot;)</code></pre>
+<p><img src="Lab_6_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>А что если у нас не одно наблюдение, а несколько? Например, мы наблюдаем языки с 33 и 26 согласными? События независимы друг от друга, значит, мы можем перемножить получаемые вероятности.</p>
+<pre class="r"><code>data_frame(x = 0:80) %&gt;% 
+  ggplot(aes(x)) +
+  stat_function(fun = function(x) dnorm(33, x, 6)*dnorm(26, x, 6))+
+  scale_x_continuous(breaks = c(0:4*20, 33, 26))+
+  labs(x = TeX(&quot;$\\mu$&quot;),
+       y = TeX(&quot;$L(N(\\mu,\\, \\sigma^{2}=6)|x = 33))$&quot;),
+       title = &quot;Насколько правдоподобны модели с разными μ, если мы наблюдаем значения 26 и 33?&quot;)</code></pre>
+<p><img src="Lab_6_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><strong>Самое важное:</strong></p>
 <ul>
-<li><code>\\d</code> – цифры. <code>\\D</code> – не цифры.</li>
+<li>вероятность — P(data|distribution)</li>
+<li>правдоподобие — L(distribution|data)</li>
 </ul>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;два 15 42. 42 15. 37 08 5. 20 20 20!&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">d&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-ac7b4fe679d4011b1242" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ac7b4fe679d4011b1242">{"x":{"html":"<ul>\n  <li>два <span class='match'>1<\/span><span class='match'>5<\/span> <span class='match'>4<\/span><span class='match'>2<\/span>. <span class='match'>4<\/span><span class='match'>2<\/span> <span class='match'>1<\/span><span class='match'>5<\/span>. <span class='match'>3<\/span><span class='match'>7<\/span> <span class='match'>0<\/span><span class='match'>8<\/span> <span class='match'>5<\/span>. <span class='match'>2<\/span><span class='match'>0<\/span> <span class='match'>2<\/span><span class='match'>0<\/span> <span class='match'>2<\/span><span class='match'>0<\/span>!<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;два 15 42. 42 15. 37 08 5. 20 20 20!&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">D&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-c604ff94ea367874f8c5" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c604ff94ea367874f8c5">{"x":{"html":"<ul>\n  <li><span class='match'>д<\/span><span class='match'>в<\/span><span class='match'>а<\/span><span class='match'> <\/span>15<span class='match'> <\/span>42<span class='match'>.<\/span><span class='match'> <\/span>42<span class='match'> <\/span>15<span class='match'>.<\/span><span class='match'> <\/span>37<span class='match'> <\/span>08<span class='match'> <\/span>5<span class='match'>.<\/span><span class='match'> <\/span>20<span class='match'> <\/span>20<span class='match'> <\/span>20<span class='match'>!<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li><code>\\s</code> – пробелы. <code>\\S</code> – не пробелы.</li>
-</ul>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;два 15 42. 42 15. 37 08 5. 20 20 20!&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">s&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-423be4189289ebf5f4b9" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-423be4189289ebf5f4b9">{"x":{"html":"<ul>\n  <li>два<span class='match'> <\/span>15<span class='match'> <\/span>42.<span class='match'> <\/span>42<span class='match'> <\/span>15.<span class='match'> <\/span>37<span class='match'> <\/span>08<span class='match'> <\/span>5.<span class='match'> <\/span>20<span class='match'> <\/span>20<span class='match'> <\/span>20!<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;два 15 42. 42 15. 37 08 5. 20 20 20!&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">S&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-9b37dbc73ae60954a1ce" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9b37dbc73ae60954a1ce">{"x":{"html":"<ul>\n  <li><span class='match'>д<\/span><span class='match'>в<\/span><span class='match'>а<\/span> <span class='match'>1<\/span><span class='match'>5<\/span> <span class='match'>4<\/span><span class='match'>2<\/span><span class='match'>.<\/span> <span class='match'>4<\/span><span class='match'>2<\/span> <span class='match'>1<\/span><span class='match'>5<\/span><span class='match'>.<\/span> <span class='match'>3<\/span><span class='match'>7<\/span> <span class='match'>0<\/span><span class='match'>8<\/span> <span class='match'>5<\/span><span class='match'>.<\/span> <span class='match'>2<\/span><span class='match'>0<\/span> <span class='match'>2<\/span><span class='match'>0<\/span> <span class='match'>2<\/span><span class='match'>0<\/span><span class='match'>!<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li><code>\\w</code> – не пробелы и не знаки препинания. <code>\\W</code> – пробелы и знаки препинания.</li>
-</ul>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;два 15 42. 42 15. 37 08 5. 20 20 20!&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">w&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-ef4a1f057f41aec52d33" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ef4a1f057f41aec52d33">{"x":{"html":"<ul>\n  <li><span class='match'>д<\/span><span class='match'>в<\/span><span class='match'>а<\/span> <span class='match'>1<\/span><span class='match'>5<\/span> <span class='match'>4<\/span><span class='match'>2<\/span>. <span class='match'>4<\/span><span class='match'>2<\/span> <span class='match'>1<\/span><span class='match'>5<\/span>. <span class='match'>3<\/span><span class='match'>7<\/span> <span class='match'>0<\/span><span class='match'>8<\/span> <span class='match'>5<\/span>. <span class='match'>2<\/span><span class='match'>0<\/span> <span class='match'>2<\/span><span class='match'>0<\/span> <span class='match'>2<\/span><span class='match'>0<\/span>!<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;два 15 42. 42 15. 37 08 5. 20 20 20!&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">W&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-5657fc8044430718b282" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5657fc8044430718b282">{"x":{"html":"<ul>\n  <li>два<span class='match'> <\/span>15<span class='match'> <\/span>42<span class='match'>.<\/span><span class='match'> <\/span>42<span class='match'> <\/span>15<span class='match'>.<\/span><span class='match'> <\/span>37<span class='match'> <\/span>08<span class='match'> <\/span>5<span class='match'>.<\/span><span class='match'> <\/span>20<span class='match'> <\/span>20<span class='match'> <\/span>20<span class='match'>!<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li>произвольная группа символов и обратная к ней</li>
-</ul>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;Умей мечтать, не став рабом мечтанья&quot;</span>, <span class="st">&quot;[оауиыэёеяю]&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-58cea741da8ace688c94" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-58cea741da8ace688c94">{"x":{"html":"<ul>\n  <li>Ум<span class='match'>е<\/span>й м<span class='match'>е<\/span>чт<span class='match'>а<\/span>ть, н<span class='match'>е<\/span> ст<span class='match'>а<\/span>в р<span class='match'>а<\/span>б<span class='match'>о<\/span>м м<span class='match'>е<\/span>чт<span class='match'>а<\/span>нь<span class='match'>я<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;И мыслить, мысли не обожествив&quot;</span>, <span class="st">&quot;[^оауиыэёеяю]&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-78be9f7ef519f6ba5a41" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-78be9f7ef519f6ba5a41">{"x":{"html":"<ul>\n  <li><span class='match'>И<\/span><span class='match'> <\/span><span class='match'>м<\/span>ы<span class='match'>с<\/span><span class='match'>л<\/span>и<span class='match'>т<\/span><span class='match'>ь<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>м<\/span>ы<span class='match'>с<\/span><span class='match'>л<\/span>и<span class='match'> <\/span><span class='match'>н<\/span>е<span class='match'> <\/span>о<span class='match'>б<\/span>о<span class='match'>ж<\/span>е<span class='match'>с<\/span><span class='match'>т<\/span><span class='match'>в<\/span>и<span class='match'>в<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li>встроенные группы символов</li>
-</ul>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;два 15 42. 42 15. 37 08 5. 20 20 20!&quot;</span>, <span class="st">&quot;[0-9]&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-e7d7682370ec69872a77" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e7d7682370ec69872a77">{"x":{"html":"<ul>\n  <li>два <span class='match'>1<\/span><span class='match'>5<\/span> <span class='match'>4<\/span><span class='match'>2<\/span>. <span class='match'>4<\/span><span class='match'>2<\/span> <span class='match'>1<\/span><span class='match'>5<\/span>. <span class='match'>3<\/span><span class='match'>7<\/span> <span class='match'>0<\/span><span class='match'>8<\/span> <span class='match'>5<\/span>. <span class='match'>2<\/span><span class='match'>0<\/span> <span class='match'>2<\/span><span class='match'>0<\/span> <span class='match'>2<\/span><span class='match'>0<\/span>!<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;Карл у Клары украл кораллы, а Клара у Карла украла кларнет&quot;</span>, <span class="st">&quot;[а-я]&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-0213b2cf5464c52cf50f" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0213b2cf5464c52cf50f">{"x":{"html":"<ul>\n  <li>К<span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>л<\/span> <span class='match'>у<\/span> К<span class='match'>л<\/span><span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>ы<\/span> <span class='match'>у<\/span><span class='match'>к<\/span><span class='match'>р<\/span><span class='match'>а<\/span><span class='match'>л<\/span> <span class='match'>к<\/span><span class='match'>о<\/span><span class='match'>р<\/span><span class='match'>а<\/span><span class='match'>л<\/span><span class='match'>л<\/span><span class='match'>ы<\/span>, <span class='match'>а<\/span> К<span class='match'>л<\/span><span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>а<\/span> <span class='match'>у<\/span> К<span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>л<\/span><span class='match'>а<\/span> <span class='match'>у<\/span><span class='match'>к<\/span><span class='match'>р<\/span><span class='match'>а<\/span><span class='match'>л<\/span><span class='match'>а<\/span> <span class='match'>к<\/span><span class='match'>л<\/span><span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>н<\/span><span class='match'>е<\/span><span class='match'>т<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;Карл у Клары украл кораллы, а Клара у Карла украла кларнет&quot;</span>, <span class="st">&quot;[А-Я]&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-b36c52ed49a527b579dd" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b36c52ed49a527b579dd">{"x":{"html":"<ul>\n  <li><span class='match'>К<\/span>арл у <span class='match'>К<\/span>лары украл кораллы, а <span class='match'>К<\/span>лара у <span class='match'>К<\/span>арла украла кларнет<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;Карл у Клары украл кораллы, а Клара у Карла украла кларнет&quot;</span>, <span class="st">&quot;[А-я]&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-3756d16e8da3162b1626" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3756d16e8da3162b1626">{"x":{"html":"<ul>\n  <li><span class='match'>К<\/span><span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>л<\/span> <span class='match'>у<\/span> <span class='match'>К<\/span><span class='match'>л<\/span><span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>ы<\/span> <span class='match'>у<\/span><span class='match'>к<\/span><span class='match'>р<\/span><span class='match'>а<\/span><span class='match'>л<\/span> <span class='match'>к<\/span><span class='match'>о<\/span><span class='match'>р<\/span><span class='match'>а<\/span><span class='match'>л<\/span><span class='match'>л<\/span><span class='match'>ы<\/span>, <span class='match'>а<\/span> <span class='match'>К<\/span><span class='match'>л<\/span><span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>а<\/span> <span class='match'>у<\/span> <span class='match'>К<\/span><span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>л<\/span><span class='match'>а<\/span> <span class='match'>у<\/span><span class='match'>к<\/span><span class='match'>р<\/span><span class='match'>а<\/span><span class='match'>л<\/span><span class='match'>а<\/span> <span class='match'>к<\/span><span class='match'>л<\/span><span class='match'>а<\/span><span class='match'>р<\/span><span class='match'>н<\/span><span class='match'>е<\/span><span class='match'>т<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;The quick brown Fox jumps over the lazy Dog&quot;</span>, <span class="st">&quot;[a-z]&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-96291ae481d3787ce6b2" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-96291ae481d3787ce6b2">{"x":{"html":"<ul>\n  <li>T<span class='match'>h<\/span><span class='match'>e<\/span> <span class='match'>q<\/span><span class='match'>u<\/span><span class='match'>i<\/span><span class='match'>c<\/span><span class='match'>k<\/span> <span class='match'>b<\/span><span class='match'>r<\/span><span class='match'>o<\/span><span class='match'>w<\/span><span class='match'>n<\/span> F<span class='match'>o<\/span><span class='match'>x<\/span> <span class='match'>j<\/span><span class='match'>u<\/span><span class='match'>m<\/span><span class='match'>p<\/span><span class='match'>s<\/span> <span class='match'>o<\/span><span class='match'>v<\/span><span class='match'>e<\/span><span class='match'>r<\/span> <span class='match'>t<\/span><span class='match'>h<\/span><span class='match'>e<\/span> <span class='match'>l<\/span><span class='match'>a<\/span><span class='match'>z<\/span><span class='match'>y<\/span> D<span class='match'>o<\/span><span class='match'>g<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;два 15 42. 42 15. 37 08 5. 20 20 20!&quot;</span>, <span class="st">&quot;[^0-9]&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-b354b6a8c773fca8e614" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b354b6a8c773fca8e614">{"x":{"html":"<ul>\n  <li><span class='match'>д<\/span><span class='match'>в<\/span><span class='match'>а<\/span><span class='match'> <\/span>15<span class='match'> <\/span>42<span class='match'>.<\/span><span class='match'> <\/span>42<span class='match'> <\/span>15<span class='match'>.<\/span><span class='match'> <\/span>37<span class='match'> <\/span>08<span class='match'> <\/span>5<span class='match'>.<\/span><span class='match'> <\/span>20<span class='match'> <\/span>20<span class='match'> <\/span>20<span class='match'>!<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li>выбор из нескольких групп</li>
-</ul>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;Карл у Клары украл кораллы, а Клара у Карла украла кларнет&quot;</span>, <span class="st">&quot;лар|рал|арл&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-606ad65bff4b7286210b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-606ad65bff4b7286210b">{"x":{"html":"<ul>\n  <li>К<span class='match'>арл<\/span> у К<span class='match'>лар<\/span>ы ук<span class='match'>рал<\/span> ко<span class='match'>рал<\/span>лы, а К<span class='match'>лар<\/span>а у К<span class='match'>арл<\/span>а ук<span class='match'>рал<\/span>а к<span class='match'>лар<\/span>нет<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li>произвольный символ</li>
-</ul>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;Везет Сенька Саньку с Сонькой на санках. Санки скок, Сеньку с ног, Соньку в лоб, все — в сугроб&quot;</span>, <span class="st">&quot;[Сс].н&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-00213f035e75ab9c7b51" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-00213f035e75ab9c7b51">{"x":{"html":"<ul>\n  <li>Везет <span class='match'>Сен<\/span>ька <span class='match'>Сан<\/span>ьку с <span class='match'>Сон<\/span>ькой на <span class='match'>сан<\/span>ках. <span class='match'>Сан<\/span>ки скок, <span class='match'>Сен<\/span>ьку <span class='match'>с н<\/span>ог, <span class='match'>Сон<\/span>ьку в лоб, все — в сугроб<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li>знак начала и конца строки</li>
-</ul>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;от топота копыт пыль по полю летит.&quot;</span>, <span class="st">&quot;^о&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-316c7671f78538cbe2a7" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-316c7671f78538cbe2a7">{"x":{"html":"<ul>\n  <li><span class='match'>о<\/span>т топота копыт пыль по полю летит.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;У ежа — ежата, у ужа — ужата&quot;</span>, <span class="st">&quot;жата$&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-e5922cbd6705d7846d25" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e5922cbd6705d7846d25">{"x":{"html":"<ul>\n  <li>У ежа — ежата, у ужа — у<span class='match'>жата<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li>есть еще другие группы и другие обозначения уже приведенных групп, см. <code>?regex</code></li>
-</ul>
-<div class="parallax">
-
+<p>Интеграл распределения вероятностей равен 1. <a href="https://stats.stackexchange.com/a/31241/225843">Интеграл правдоподобия может быть не равен 1</a>.</p>
+<div id="section" class="section level3">
+<h3>2.1</h3>
+<p>Посчитайте значение правдоподобия модели <span class="math inline">\(\mathcal{N}(\mu = 910,\, \sigma^{2}=150)\)</span> для встроенного датасета <code>Nile</code>.</p>
+<form name="FormThree" onsubmit="return validateFormThree()" method="post">
+<input type="text" name="answerThree"> <input type="submit" value="check">
+</form>
+<p><br></p>
 </div>
 </div>
-<div class="section level4">
-<h4>3.3 Квантификация</h4>
+<div id="--" class="section level2">
+<h2>3. Байесовский статистический вывод</h2>
+<div id="-" class="section level3">
+<h3>3.1 Формула Байеса</h3>
+<p><span class="math display">\[p(A|B) = \frac{p(A, B)}{p(B)}\Rightarrow p(A|B) \times p(B) = p(A, B)\]</span> <span class="math display">\[p(B|A) = \frac{p(B, A)}{p(A)}\Rightarrow p(B|A) \times p(A) = p(B, A)\]</span> <span class="math display">\[p(A|B) \times p(B) = p(B|A) \times p(A)\]</span> <span class="math display">\[p(A|B) = \frac{p(B|A)p(A)}{p(B)}\]</span></p>
 <ul>
-<li><code>?</code> – ноль или один раз</li>
-</ul>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;хорошее длинношеее животное&quot;</span>, <span class="st">&quot;еее?&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-3d99ac620126d067bcd9" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3d99ac620126d067bcd9">{"x":{"html":"<ul>\n  <li>хорош<span class='match'>ее<\/span> длиннош<span class='match'>еее<\/span> животное<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li><code>*</code> – ноль и более раз</li>
-</ul>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;хорошее длинношеее животное&quot;</span>, <span class="st">&quot;ее*&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-c4eeeafa138a954d4ac2" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c4eeeafa138a954d4ac2">{"x":{"html":"<ul>\n  <li>хорош<span class='match'>ее<\/span> длиннош<span class='match'>еее<\/span> животно<span class='match'>е<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li><code>+</code> – один и более раз</li>
-</ul>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;хорошее длинношеее животное&quot;</span>, <span class="st">&quot;е+&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-38ae86e08bd0ef04c091" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-38ae86e08bd0ef04c091">{"x":{"html":"<ul>\n  <li>хорош<span class='match'>ее<\/span> длиннош<span class='match'>еее<\/span> животно<span class='match'>е<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li><code>{n}</code> – <code>n</code> раз</li>
-</ul>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;хорошее длинношеее животное&quot;</span>, <span class="st">&quot;е{2}&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-afab15cf0de6905720e7" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-afab15cf0de6905720e7">{"x":{"html":"<ul>\n  <li>хорош<span class='match'>ее<\/span> длиннош<span class='match'>ее<\/span>е животное<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li><code>{n,}</code> – <code>n</code> раз и более</li>
-</ul>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;хорошее длинношеее животное&quot;</span>, <span class="st">&quot;е{1,}&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-d62f5e3f8d7b2249c029" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d62f5e3f8d7b2249c029">{"x":{"html":"<ul>\n  <li>хорош<span class='match'>ее<\/span> длиннош<span class='match'>еее<\/span> животно<span class='match'>е<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li><code>{n,m}</code> – от <code>n</code> до <code>m</code>. Отсутствие пробела важно: <code>{1,2}</code> – правильно, <code>{1,␣2}</code> – неправильно.</li>
-</ul>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;хорошее длинношеее животное&quot;</span>, <span class="st">&quot;е{2,3}&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-0c41c0248c8f02caeaf4" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0c41c0248c8f02caeaf4">{"x":{"html":"<ul>\n  <li>хорош<span class='match'>ее<\/span> длиннош<span class='match'>еее<\/span> животное<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li>группировка символов</li>
-</ul>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;Пушкиновед, Лермонтовед, Лермонтововед&quot;</span>, <span class="st">&quot;(ов)+&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-ba89e32ecfa41343fc2e" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ba89e32ecfa41343fc2e">{"x":{"html":"<ul>\n  <li>Пушкин<span class='match'>ов<\/span>ед, Лермонт<span class='match'>ов<\/span>ед, Лермонт<span class='match'>овов<\/span>ед<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;беловатый, розоватый, розововатый&quot;</span>, <span class="st">&quot;(ов)+&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-85d516439d8c4c5f1432" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-85d516439d8c4c5f1432">{"x":{"html":"<ul>\n  <li>бел<span class='match'>ов<\/span>атый, роз<span class='match'>ов<\/span>атый, роз<span class='match'>овов<\/span>атый<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<ul>
-<li>жадный vs. нежадный алоритмы</li>
-</ul>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;Пушкиновед, Лермонтовед, Лермонтововед&quot;</span>, <span class="st">&quot;в.*ед&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-6612e9a504ca737516ee" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6612e9a504ca737516ee">{"x":{"html":"<ul>\n  <li>Пушкино<span class='match'>вед, Лермонтовед, Лермонтововед<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">stringr<span class="op">::</span><span class="kw">str_view_all</span>(<span class="st">&quot;Пушкиновед, Лермонтовед, Лермонтововед&quot;</span>, <span class="st">&quot;в.*?ед&quot;</span>)</a></code></pre></div>
-<div id="htmlwidget-75e9659599b63c640ddd" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-75e9659599b63c640ddd">{"x":{"html":"<ul>\n  <li>Пушкино<span class='match'>вед<\/span>, Лермонто<span class='match'>вед<\/span>, Лермонто<span class='match'>вовед<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-<div class="parallax">
-
-</div>
-</div>
-</div>
-<div class="section level3">
-<h3>4. Задачи</h3>
-<div id="-html-" class="section level4">
-<h4>4.1 Чистка html тегов</h4>
-<p>В мире достаточно много готовых решений по чистке html и xml тегов, так что настало время изобрести велосипед. Напишите функцию <code>tagless()</code>, которая убирает из строки теги.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1"><span class="kw">tagless</span>(<span class="st">&quot;&lt;greeting&gt;Hello, world!&lt;/greeting&gt;&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;Hello, world!&quot;</code></pre>
-</div>
-<div id="-" class="section level4">
-<h4>4.2 Лишние пробелы</h4>
-<p>Напишите функцию <code>spaceless()</code>, которая убирает лишние пробелы.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="kw">spaceless</span>(<span class="kw">c</span>(<span class="st">&quot;two  spaces&quot;</span>, <span class="st">&quot;five     spaces&quot;</span>))</a></code></pre></div>
-<pre><code>## [1] &quot;two spaces&quot;  &quot;five spaces&quot;</code></pre>
-</div>
-<div id="---" class="section level4">
-<h4>4.3 Функция для проверки полиндромности</h4>
-<p>Улучшите функцию <code>is.palindrome()</code>, чтобы она могла учесть знаки препинания, пробелы и т. п.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="kw">is.palindrome</span>(<span class="st">&quot;Замучен он, но не чумаз&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1"><span class="kw">is.palindrome</span>(<span class="st">&quot;Замучена она, но не чумаза&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] FALSE</code></pre>
-<p>Скачайте <a href="https://raw.githubusercontent.com/agricolamz/2017_ANDAN_course/master/docs/materials/Perec_palindrome.txt">произведение Жоржа Перека</a>, посчитайте количество символов в нем и проверьте на полиндромность. Мой вариант несколько препарирован, оригинал можно найти <a href="http://cui.unige.ch/isi/cours/javalettres/perec.txt">здесь</a>.</p>
-</div>
-<div id="-" class="section level4">
-<h4>4.4 Спеллчекер? Легко!</h4>
-<p>Скачайте <a href="https://goo.gl/8oYdtk">словарь форм русского языка</a> (осторожно, большой файл) на основе словаря А. А. Залязняка и сделайте функцию <code>spellcheck()</code>, которая</p>
-<ul>
-<li>возвращает слова из строки, которых нет в словаре;</li>
-<li>если аргумент <code>suggestions = TRUE</code>, то возвращает слово с минимальным расстояние Дамерау — Левенштейна.</li>
+<li><p>Дискретный случай: <span class="math display">\[p(A|B) = \frac{p(B|A)p(A)}{\sum_{i=1}^{n} p(B, a_i) \times p(a_i)}\]</span></p></li>
+<li><p>Непрерывный случай: <span class="math display">\[p(A|B) = \frac{p(B|A)p(A)}{\int p(B, a) \times p(a)da}\]</span></p></li>
+<li><p>Некоторым помогает вот такое объяснение: <img src="images/02_1_bayes.jpg" /></p></li>
 </ul>
 </div>
-<div id="----" class="section level4">
-<h4>4.5 Анализ данных небрежно собраннных анкет</h4>
-<p>В ходе анализа данных чаще всего бороться со строками и регулярными выражениями приходится в процессе обработки неаккуратно собранных анкет. Предлагаю поразвлекаться <a href="https://goo.gl/tbCQcW">с подобными данными</a> и построить следующие графики:</p>
-<p><img src="Lab_6_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
-<p><img src="Lab_6_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
-<p><img src="Lab_6_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
-<p>А когда все получится, напишите функцию, которая приведет все телефоны к единому формату: 89143302299.</p>
-<div class="parallax">
-
+<div id="---1" class="section level3">
+<h3>3.2 Байесовский статистический вывод</h3>
+<p>В байесовском подоходе статистический вывод описывается формулой Байеса</p>
+<p><span class="math display">\[P(θ|Data) = \frac{P(Data|θ)\times P(θ)}{P(Data)}\]</span></p>
+<ul>
+<li><span class="math inline">\(P(θ|Data)\)</span> — апостериорная вероятность (posterior)</li>
+<li><span class="math inline">\(P(Data|θ)\)</span> — функция правдоподобия (likelihood)</li>
+<li><span class="math inline">\(P(θ)\)</span> — априорная вероятность (prior)</li>
+<li><span class="math inline">\(P(Data)\)</span> — нормализующий делитель</li>
+</ul>
+<p>В литературе можно еще встретить такую нотацию:</p>
+<p><span class="math display">\[P(θ|Data) \propto P(Data|θ)\times P(θ)\]</span></p>
+</div>
+<div id="----" class="section level3">
+<h3>3.3 Первый пример с категориальными данными</h3>
+<p><a href="https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/mushrooms.csv">В датасете c грибами</a> (взят c <a href="https://www.kaggle.com/uciml/mushroom-classification">kaggle</a>) представлено следующее распределение по месту обитания:</p>
+<pre class="r"><code>df &lt;- read_csv(&quot;https://github.com/agricolamz/2019_BayesDan_winter/blob/master/datasets/mushrooms.csv?raw=true&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   ring_number = col_double()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>df %&gt;% 
+  count(class, habitat) %&gt;% 
+  group_by(class) %&gt;% 
+  mutate(prop = n/sum(n)) %&gt;% 
+  ggplot(aes(class, prop, fill = habitat, label = round(prop, 3)))+
+  geom_col()+
+  geom_text(position = position_stack(vjust = 0.5), color = &quot;white&quot;)</code></pre>
+<p><img src="Lab_6_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Мы нашли некоторый новый вид грибов на лужайке (<code>grasses</code>). Какой это может быть гриб: съедобный или ядовитый? У нас нет никаких идей, почему бы нам отдать предпочтения той или иной гипотезе, так что будем использовать неинформативное априорное распределение:</p>
+<pre class="r"><code>data_frame(model = c(&quot;edible&quot;, &quot;poisonous&quot;),
+           prior = 0.5,
+           likelihood = c(0.335, 0.189),
+           product = prior*likelihood,
+           posterior = product/sum(product))</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   model     prior likelihood product posterior
+##   &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+## 1 edible      0.5      0.335  0.168      0.639
+## 2 poisonous   0.5      0.189  0.0945     0.361</code></pre>
+<p>Вот мы и сделали байесовский апдейт. Теперь апостериорное распределение, которые мы получили на предыдущем шаге, мы можем использовать в новом апдейте. Допустим, мы опять нашли этот же вид гриба, но в этот раз в лесу (<code>woods</code>).</p>
+<pre class="r"><code>data_frame(model = c(&quot;edible&quot;, &quot;poisonous&quot;),
+           prior_2 = c(0.639, 0.361),
+           likelihood_2 = c(0.447, 0.324),
+           product_2 = prior_2*likelihood_2,
+           posterior_2 = product_2/sum(product_2))</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   model     prior_2 likelihood_2 product_2 posterior_2
+##   &lt;chr&gt;       &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+## 1 edible      0.639        0.447     0.286       0.709
+## 2 poisonous   0.361        0.324     0.117       0.291</code></pre>
 </div>
 </div>
+<div id="-" class="section level2">
+<h2>4. Домашняя работа</h2>
+<div id="section-1" class="section level3">
+<h3>4.1</h3>
+<p>Вашего друга похитили а на почту отправили <a href="https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/weather.csv">датасет</a>, в котором записаны данные о погоде из пяти городов. Ваш телефон зазвонил, и друг сказал, что не знает куда его похитили, но за окном легкий дождь (<code>Rain</code>). А на следующий день — сильный дождь (<code>Rain, Thunderstorm</code>). Сделайте байесовский апдейт и предположите, в какой город вероятнее всего похитили друга (форма принимает латиницу).</p>
+<form name="FormOne" onsubmit="return validateFormOne()" method="post">
+<input type="text" name="answerOne"> <input type="submit" value="check">
+</form>
+<p><br></p>
+<script>
+function validateFormThree() {
+    var x = document.forms["FormThree"]["answerThree"].value;
+    if (x != "1.085036e-285") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormOne() {
+    var x = document.forms["FormOne"]["answerOne"].value;
+    if (x != "San Diego") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+</script>
 </div>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>Данная картинка – рисунок Бориса Аркадьевича Диодорова из книжки Яна Экхольма “Тутта Карлссон, первая и единственная, Людвиг Четырнадцатый и другие”<a href="#fnref1" class="footnote-back">↩</a></p></li>
-</ol>
 </div>
 
 
 
-</div>
-</div>
 
 </div>
 
