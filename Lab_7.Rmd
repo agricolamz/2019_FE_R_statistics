@@ -198,6 +198,7 @@ chekhov %>%
 ### 2.2 Интервал максимальной (апостериорной) плотности (Highest (posterior) density interval): мода и HDI
 
 ```{r, fig.height=11}
+library(HDInterval)
 chekhov %>% 
   slice(1:30) %>%
   group_by(trunc_titles) %>% 
