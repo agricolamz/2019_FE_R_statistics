@@ -453,16 +453,12 @@ $(document).ready(function () {
          beta_post = beta_prior + 231.6328,
          median_post = qbeta(.5, alpha_post, beta_post),
          eq_t_int_l = qbeta(.025, alpha_post, beta_post),
-         eq_t_int_h = qbeta(.975, alpha_post, beta_post),
-         low_ci = mosaic::binom.test(x = n, n = n_words)$conf.int[1],
-         up_ci = mosaic::binom.test(x = n, n = n_words)$conf.int[2]) %&gt;% 
+         eq_t_int_h = qbeta(.975, alpha_post, beta_post)) %&gt;% 
   ggplot(aes(x= trunc_titles))+
-  geom_pointrange(aes(y = average, ymin = low_ci, ymax = up_ci), color = &quot;royalblue&quot;)+
   geom_pointrange(aes(y = median_post, ymin = eq_t_int_l, ymax = eq_t_int_h), color = &quot;tomato&quot;, position = position_nudge(x = -0.35))+
   coord_flip()+
   labs(title = &#39;Доверительные интервалы употребления &quot;не&quot; в рассказах А. Чехова&#39;,
-       x = &quot;&quot;, y = &quot;&quot;,
-       caption = &quot;красные --- фриквентистский; синий --- байесовский eq-t&quot;)</code></pre>
+       x = &quot;&quot;, y = &quot;&quot;)</code></pre>
 <p><img src="Lab_7_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="----highest-posterior-density-interval---hdi" class="section level3">
@@ -479,17 +475,13 @@ chekhov %&gt;%
          hdi_int_l = hdi(qbeta, shape1 = alpha_post, shape2 = beta_post, credMass = 0.95)[1],
          hdi_int_h = hdi(qbeta, shape1 = alpha_post, shape2 = beta_post, credMass = 0.95)[2],
          eq_t_int_l = qbeta(.025, alpha_post, beta_post),
-         eq_t_int_h = qbeta(.975, alpha_post, beta_post),
-         low_ci = mosaic::binom.test(x = n, n = n_words)$conf.int[1],
-         up_ci = mosaic::binom.test(x = n, n = n_words)$conf.int[2]) %&gt;% 
+         eq_t_int_h = qbeta(.975, alpha_post, beta_post)) %&gt;% 
   ggplot(aes(x= trunc_titles))+
-  geom_pointrange(aes(y = average, ymin = low_ci, ymax = up_ci), color = &quot;royalblue&quot;, position = position_nudge(x = 0.25))+
   geom_pointrange(aes(y = median_post, ymin = eq_t_int_l, ymax = eq_t_int_h), color = &quot;tomato&quot;)+
   geom_pointrange(aes(y = moda_post, ymin = hdi_int_l, ymax = hdi_int_h), color = &quot;palegreen3&quot;, position = position_nudge(x = -0.25))+
   coord_flip()+
   labs(title = &#39;Доверительные интервалы употребления &quot;не&quot; в рассказах А. Чехова&#39;,
-       x = &quot;&quot;, y = &quot;&quot;,
-       caption = &quot;красные --- фриквентистский; синий --- байесовский eq-t; зеленый --- байсовский hdi&quot;)</code></pre>
+       x = &quot;&quot;, y = &quot;&quot;)</code></pre>
 <p><img src="Lab_7_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>В качестве аргумента в пользу HDI всегда приводят вот такое распределение:</p>
 <p><img src="datasets/HDIbimodal.jpg" /></p>
