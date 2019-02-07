@@ -1,5 +1,5 @@
 ---
-title: "7. Функция правдоподобия, формула Байеса"
+title: "7. Байесовский апдейт биномиальных данных"
 editor_options: 
   chunk_output_type: console
 output: html_document
