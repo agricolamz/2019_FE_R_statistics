@@ -399,128 +399,6 @@ $(document).ready(function () {
   labs(title = &quot;data = 4, 16&quot;)</code></pre>
 <p><img src="Lab_7_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
-<div id="section" class="section level3">
-<h3>2.5</h3>
-<p>В базе данных <a href="http://phoible.org/">Phoible</a>, в которой собраны фонологические инвентари в языках мира. В <a href="https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/phoible_n_consonants.csv">датасет</a> записано три переменных:</p>
-<ul>
-<li>language — язык;</li>
-<li>consonants — количество согласных;</li>
-<li>phonemes — количество фонем.</li>
-</ul>
-<p>Посчитайте долю, которую составляет согласные от всего фонологического набора каждого языка и укажите название языка, в котором эта доля максимальна.</p>
-<form name="FormOne" onsubmit="return validateFormOne()" method="post">
-<input type="text" name="answerOne"> <input type="submit" value="check">
-</form>
-<p><br></p>
-<p>Проведите байесовский апдейт наблюдений каждого языка, используя в качестве априорного распределения бета распределение с параметрами α = 9.300246, и β = 4.4545. Посчитайте модуль разницы между апостериорной и изначальной долями согласных, представленных в данных. В ответе укажите язык с наибольшей разницей.</p>
-<form name="FormTwo" onsubmit="return validateFormTwo()" method="post">
-<input type="text" name="answerTwo"> <input type="submit" value="check">
-</form>
-<p><br></p>
-</div>
-</div>
-<div id="--" class="section level2">
-<h2>3 Байесовский доверительный интервал</h2>
-<p>Когда мы получаем оценку какого-то параметра, всегда имеет смысл иметь какую-то меру, которая бы показывала, на сколько мы верим тому или иному значению.</p>
-<p><img src="ci_bars.png" /></p>
-<div class="section level3">
-<h3>1.1 Данные</h3>
-<ul>
-<li>количество “не” в 311 рассказов А. Чехова</li>
-<li>число слов в каждом рассказе</li>
-</ul>
-<pre class="r"><code>chekhov &lt;- read_csv(&quot;https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/chekhov.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   titles = col_character(),
-##   word = col_character(),
-##   n = col_double(),
-##   n_words = col_double()
-## )</code></pre>
-<pre class="r"><code>chekhov %&gt;% 
-  mutate(trunc_titles = str_trunc(titles, 25, side = &quot;right&quot;),
-         average = n/n_words) -&gt;
-  chekhov</code></pre>
-</div>
-<div id="--equal-tailed-interval---" class="section level3">
-<h3>2.1 Симметричный интервал (equal-tailed interval): медиана и квантили</h3>
-<p>Байесовский доверительный <span class="math inline">\(k\)</span>-% интервал (по-английски credible interval) — это интервал <span class="math inline">\([\frac{k}{2}, 1-\frac{k}{2}]\)</span> от апостериорного распределения. Давайте проапдейтим данные рассказов Чехова при помощи априорного распределения с параметрами (<span class="math inline">\(\alpha = 5.283022\)</span>, <span class="math inline">\(\beta = 231.6328\)</span>), а дальше можем использовать функцию <code>qbeta()</code>, чтобы получить интервал, в котором находятся центральные <span class="math inline">\(k\)</span>%.</p>
-<pre class="r"><code>chekhov %&gt;% 
-  slice(1:30) %&gt;%
-  group_by(trunc_titles) %&gt;% 
-  mutate(beta_prior = n_words-n,
-         alpha_post = n + 5.283022,
-         beta_post = beta_prior + 231.6328,
-         median_post = qbeta(.5, alpha_post, beta_post),
-         eq_t_int_l = qbeta(.025, alpha_post, beta_post),
-         eq_t_int_h = qbeta(.975, alpha_post, beta_post)) %&gt;% 
-  ggplot(aes(x= trunc_titles))+
-  geom_pointrange(aes(y = median_post, ymin = eq_t_int_l, ymax = eq_t_int_h), color = &quot;tomato&quot;, position = position_nudge(x = -0.35))+
-  coord_flip()+
-  labs(title = &#39;Доверительные интервалы употребления &quot;не&quot; в рассказах А. Чехова&#39;,
-       x = &quot;&quot;, y = &quot;&quot;)</code></pre>
-<p><img src="Lab_7_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-</div>
-<div id="----highest-posterior-density-interval---hdi" class="section level3">
-<h3>2.2 Интервал максимальной (апостериорной) плотности (Highest (posterior) density interval): мода и HDI</h3>
-<pre class="r"><code>library(HDInterval)
-chekhov %&gt;% 
-  slice(1:30) %&gt;%
-  group_by(trunc_titles) %&gt;% 
-  mutate(beta_prior = n_words-n,
-         alpha_post = n + 5.283022,
-         beta_post = beta_prior + 231.6328,
-         median_post = qbeta(.5, alpha_post, beta_post),
-         moda_post = (alpha_post-1)/(alpha_post+beta_post-2),
-         hdi_int_l = hdi(qbeta, shape1 = alpha_post, shape2 = beta_post, credMass = 0.95)[1],
-         hdi_int_h = hdi(qbeta, shape1 = alpha_post, shape2 = beta_post, credMass = 0.95)[2],
-         eq_t_int_l = qbeta(.025, alpha_post, beta_post),
-         eq_t_int_h = qbeta(.975, alpha_post, beta_post)) %&gt;% 
-  ggplot(aes(x= trunc_titles))+
-  geom_pointrange(aes(y = median_post, ymin = eq_t_int_l, ymax = eq_t_int_h), color = &quot;tomato&quot;)+
-  geom_pointrange(aes(y = moda_post, ymin = hdi_int_l, ymax = hdi_int_h), color = &quot;palegreen3&quot;, position = position_nudge(x = -0.25))+
-  coord_flip()+
-  labs(title = &#39;Доверительные интервалы употребления &quot;не&quot; в рассказах А. Чехова&#39;,
-       x = &quot;&quot;, y = &quot;&quot;)</code></pre>
-<p><img src="Lab_7_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>В качестве аргумента в пользу HDI всегда приводят вот такое распределение:</p>
-<p><img src="datasets/HDIbimodal.jpg" /></p>
-<p>Биномиальные распределения не может иметь такого вида.</p>
-</div>
-<div id="section-1" class="section level3">
-<h3>2.4</h3>
-<p>В базе данных <a href="http://phoible.org/">Phoible</a>, в которой собраны фонологические инвентари в языках мира. В <a href="https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/phoible_n_consonants.csv">датасет</a> записано три переменных:</p>
-<ul>
-<li>language — язык;</li>
-<li>consonants — количество согласных;</li>
-<li>phonemes — количество фонем.</li>
-</ul>
-<p>Посчитайте медиану и 80% симметричный интервал, которую составляет согласные от всего фонологического набора каждого языка, используя априорное бета распределение с параметрами α = 9.300246 и β = 4.4545. В ответе укажите язык, у которого интервал равен 0.083.</p>
-<form name="FormThree" onsubmit="return validateFormThree()" method="post">
-<input type="text" name="answerThree"> <input type="submit" value="check">
-</form>
-<p><br></p>
-</div>
-<div id="section-2" class="section level3">
-<h3>2.5</h3>
-<p>В базе данных <a href="http://phoible.org/">Phoible</a>, в которой собраны фонологические инвентари в языках мира. В <a href="https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/phoible_n_consonants.csv">датасет</a> записано три переменных:</p>
-<ul>
-<li>language — язык;</li>
-<li>consonants — количество согласных;</li>
-<li>phonemes — количество фонем.</li>
-</ul>
-<p>Посчитайте моду и 80% интервал максимальной апостериорной плотности, которую составляет согласные от всего фонологического набора каждого языка, используя априорное бета распределение с параметрами α = 9.300246 и β = 4.4545. В ответе укажите язык, у которого интервал равен 0.091.</p>
-<pre class="r"><code>phoible &lt;- read_csv(&quot;https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/phoible_n_consonants.csv&quot;) 
-
-phoible %&gt;%
-  group_by(language) %&gt;% 
-  rowwise() %&gt;% # это нужно, так как авторы HDInterval не векторизовали hdi
-  mutate(...) %&gt;% </code></pre>
-<form name="FormFour" onsubmit="return validateFormFour()" method="post">
-<input type="text" name="answerFour"> <input type="submit" value="check">
-</form>
-<p><br></p>
-</div>
 </div>
 <div id="---" class="section level2">
 <h2>3. Вопросы к апостериорному распределению</h2>
@@ -533,10 +411,45 @@ phoible %&gt;%
 <li>и т. п.</li>
 </ul></li>
 </ol>
+</div>
+<div id="-" class="section level2">
+<h2>4. Домашняя работа</h2>
+<div id="section" class="section level3">
+<h3>4.1</h3>
+<p>Проведите байесовский апдейт <span class="math inline">\(Beta(42, 23)\)</span> при помощи данных <span class="math inline">\(Beta(33, 22)\)</span>. Приведите</p>
+<p>а) Какая доля от всех данных апостериорного распределения лежит в промежутке от 0.6 до 0.8? Ответ округлите до 2 знаков после запятой.</p>
+<form name="FormOne" onsubmit="return validateFormOne()" method="post">
+<input type="text" name="answerOne"> <input type="submit" value="check">
+</form>
+<p><br></p>
+<p>б) Какое значение вероятности соответствует 40-ой квантили апостериорного распределения? Ответ округлите до 2 знаков после запятой.</p>
+<form name="FormTwo" onsubmit="return validateFormTwo()" method="post">
+<input type="text" name="answerTwo"> <input type="submit" value="check">
+</form>
+<p><br></p>
+</div>
+<div id="section-1" class="section level3">
+<h3>4.2</h3>
+<p>В базе данных <a href="http://phoible.org/">Phoible</a>, в которой собраны фонологические инвентари в языках мира. В <a href="https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/phoible_n_consonants.csv">датасет</a> записано три переменных:</p>
+<ul>
+<li>language — язык;</li>
+<li>consonants — количество согласных;</li>
+<li>phonemes — количество фонем.</li>
+</ul>
+<p>Посчитайте долю, которую составляет согласные от всего фонологического набора каждого языка и укажите название языка, в котором эта доля максимальна.</p>
+<form name="FormThree" onsubmit="return validateFormThree()" method="post">
+<input type="text" name="answerThree"> <input type="submit" value="check">
+</form>
+<p><br></p>
+<p>Проведите байесовский апдейт наблюдений каждого языка, используя в качестве априорного распределения бета распределение с параметрами α = 9.300246, и β = 4.4545. Посчитайте модуль разницы между апостериорной и изначальной долями согласных, представленных в данных. В ответе укажите язык с наибольшей разницей.</p>
+<form name="FormFour" onsubmit="return validateFormFour()" method="post">
+<input type="text" name="answerFour"> <input type="submit" value="check">
+</form>
+<p><br></p>
 <script>
 function validateFormOne() {
     var x = document.forms["FormOne"]["answerOne"].value;
-    if (x != "5.87") {
+    if (x != "0.72") {
         alert("У меня другой ответ...");
         return false;
     } else {
@@ -546,7 +459,7 @@ function validateFormOne() {
 }
 function validateFormTwo() {
     var x = document.forms["FormTwo"]["answerTwo"].value;
-    if (x != "Namia") {
+    if (x != "0.61") {
         alert("У меня другой ответ...");
         return false;
     } else {
@@ -556,7 +469,7 @@ function validateFormTwo() {
 }
 function validateFormThree() {
     var x = document.forms["FormThree"]["answerThree"].value;
-    if (x != "Karaja") {
+    if (x != "5.87") {
         alert("У меня другой ответ...");
         return false;
     } else {
@@ -566,8 +479,8 @@ function validateFormThree() {
 }
 function validateFormFour() {
     var x = document.forms["FormFour"]["answerFour"].value;
-    if (x != "0.5317367") {
-        alert("У меня другой ответ... в нем 7 знаков после запятой");
+    if (x != "Namia") {
+        alert("У меня другой ответ...");
         return false;
     } else {
         alert("Да, все правильно");
@@ -575,6 +488,7 @@ function validateFormFour() {
     }
 }
 </script>
+</div>
 </div>
 
 
