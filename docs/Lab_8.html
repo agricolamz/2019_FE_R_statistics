@@ -533,10 +533,312 @@ pbeta(0.5, shape1 = a_post, shape2 = b_post)</code></pre>
 <pre class="r"><code>## and less than 0.5 by a probability of ...
 1 - pbeta(0.5, shape1 = a_post, shape2 = b_post)</code></pre>
 <pre><code>## [1] 0.9615936</code></pre>
+<div id="section-1" class="section level3">
+<h3>3.1</h3>
 <p>Теперь давайте произведем байесовский апдейт распределения Джефри.</p>
+Введите получившееся среднее апостериорного распределения:
+<form name="FormFive" onsubmit="return validateFormFive()" method="post">
+<input type="text" name="answerFive"> <input type="submit" value="check">
+</form>
+<br> Введите получившееся стандартное отклонение апостериорного распределения:
+<form name="FormSix" onsubmit="return validateFormSix()" method="post">
+<input type="text" name="answerSix"> <input type="submit" value="check">
+</form>
+<br> Введите получившуюся нижнюю границу 80% байесовский симметричный интервал:
+<form name="FormSeven" onsubmit="return validateFormSeven()" method="post">
+<input type="text" name="answerSeven"> <input type="submit" value="check">
+</form>
+<br> Введите получившуюся верхнюю границу 80% байесовский симметричный интервал:
+<form name="FormEight" onsubmit="return validateFormEight()" method="post">
+<input type="text" name="answerEight"> <input type="submit" value="check">
+</form>
+<br> Введите ввероятность частоту успехов меньше 0.5:
+<form name="FormNine" onsubmit="return validateFormNine()" method="post">
+<input type="text" name="answerNine"> <input type="submit" value="check">
+</form>
+<br> Введите ввероятность частоту успехов больше 0.5:
+<form name="FormTen" onsubmit="return validateFormTen()" method="post">
+<input type="text" name="answerTen"> <input type="submit" value="check">
+</form>
+<p><br></p>
+</div>
 </div>
 <div id="-" class="section level2">
-<h2>4. Домашнее задание</h2>
+<h2>4. Байесовский фактор</h2>
+<div id="-1" class="section level3">
+<h3>4.1 Данные</h3>
+<p>В зиловском диалекте андийского языка существует два класса для неодушевленных предметов. В 2017 году был проведен эксперимент, чтобы проверить, наличие вариативности в отнесению к тому или иному классу заимствованой и исконной лексики.</p>
+<pre class="r"><code>zilo_classes &lt;- read_csv(&quot;https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/zilo.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   s_id = col_double(),
+##   sex = col_character(),
+##   age_2017 = col_double(),
+##   w_id = col_double(),
+##   stimulus = col_character(),
+##   translation_en = col_character(),
+##   translation_ru = col_character(),
+##   stimulus_source = col_character(),
+##   class = col_character()
+## )</code></pre>
+<pre class="r"><code>head(zilo_classes)</code></pre>
+<pre><code>## # A tibble: 6 x 9
+##    s_id sex   age_2017  w_id stimulus translation_en translation_ru
+##   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;         
+## 1     1 f           15     1 milki    hous           дом           
+## 2     1 f           15     2 vaɡon    train wagon    вагон         
+## 3     1 f           15     3 inɡur    window         окно          
+## 4     1 f           15     4 ʁats&#39;a   grasshopper    кузнечик      
+## 5     1 f           15     5 iʃkapi   cabinet        шкаф          
+## 6     1 f           15     6 haq&#39;u    room           комната       
+## # ... with 2 more variables: stimulus_source &lt;chr&gt;, class &lt;chr&gt;</code></pre>
+<p>Переменные в датасете:</p>
+<ul>
+<li>s_id — код испытуемого</li>
+<li>age_2017 — возраст на 2017 год</li>
+<li>w_id — код стимула</li>
+<li>stimulus</li>
+<li>translation_en</li>
+<li>translation_ru</li>
+<li>stimulus_source — тип слова: исконное или заимствованное</li>
+<li>class — класс слова, к которому испытуемый отнес слово</li>
+</ul>
+</div>
+<div id="-------" class="section level3">
+<h3>4.2 Еще понадобиться вот эта функция для унимодального распределения:</h3>
+<pre class="r"><code>dunifbinom &lt;- function(x, N, lo, hi) {
+  y = x
+  for (i in 1:length(x)) {
+    y[i] = integrate(function(theta) dunif(theta, lo, hi) * dbinom(x[i], N, theta),
+                     0, 1, subdivisions = 10000L,
+                     rel.tol = 1e-4, 
+                     abs.tol = 1e-4,
+                     stop.on.error = TRUE,
+                     keep.xy = FALSE, 
+                     aux = NULL)$value
+  }
+  y
+}</code></pre>
+</div>
+<div class="section level3">
+<h3>4.3 Гипотезы</h3>
+<ul>
+<li>For each word we have three variants:
+<ul>
+<li><em>b</em>-class</li>
+<li><em>r</em>-class</li>
+<li>variability</li>
+</ul></li>
+<li>So we can represent our idea with three <strong>point hypotheses</strong>:
+<ul>
+<li><em>b</em>-class — 1</li>
+<li><em>r</em>-class — 0</li>
+<li>variability — 0.5</li>
+</ul></li>
+</ul>
+</div>
+<div id="-" class="section level3">
+<h3>4.4 Точечные гипотезы</h3>
+<pre class="r"><code>x_axis &lt;- seq(0, 1, 0.001)
+data_frame(x = rep(x_axis, 3),
+           y = c(5*(x_axis == 0),
+                 5*(x_axis == 1),
+                 5*(x_axis == 0.5)),
+           type = rep(c(&quot;r, θ = 0&quot;, &quot;b, θ = 1&quot;, &quot;variability, θ = 0.5&quot;),each = 1001)) %&gt;% 
+  ggplot(aes(x, y, xend = x, yend = 0.1, color = type, linetype = type))+
+  geom_step(size = 1.2)+
+  labs(title = &quot;three point hypotheses&quot;,
+       x = &quot;probability&quot;,
+       y = &quot;&quot;)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Мы рассмотрим только b-класс:</p>
+<pre class="r"><code>data_frame(x = rep(x_axis, 2),
+           y = c(5*(x_axis == 1),
+                 5*(x_axis == 0.5)),
+           type = rep(c(&quot;b, θ = 1&quot;, &quot;variability, θ = 0.5&quot;),each = 1001)) %&gt;% 
+  ggplot(aes(x, y, xend = x, yend = 0.1, color = type, linetype = type))+
+  geom_step(size = 1.2)+
+  labs(title = &quot;two point hypotheses&quot;,
+       x = &quot;probability&quot;,
+       y = &quot;&quot;)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Предсказания модели</p>
+<pre class="r"><code>data_frame(x = rep(1:16, 2),
+           y = c(-dbinom(1:16, 16, prob = 0.5),
+                 dbinom(1:16, 16, prob = 1)),
+           type = rep(c(&quot;variability, θ = 0.5&quot;, &quot;b, θ = 1&quot;),each = 16)) %&gt;% 
+  ggplot(aes(x, y, fill = type))+
+  geom_col()+
+  labs(title = &quot;two point hypotheses&quot;,
+       x = &quot;predicted number of b under each hypothesis&quot;,
+       y = &quot;probability&quot;)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Надо олабить нашу модель:</p>
+<pre class="r"><code>data_frame(x = rep(x_axis, 2),
+           y = c(5*(x_axis == 0.96),
+                 5*(x_axis == 0.5)),
+           type = rep(c(&quot;b, θ = 0.96&quot;, &quot;variability, θ = 0.5&quot;),each = 1001)) %&gt;% 
+  ggplot(aes(x, y, xend = x, yend = 0.1, color = type, linetype = type))+
+  geom_step(size = 1.2)+
+  labs(title = &quot;two point hypotheses&quot;,
+       x = &quot;probability&quot;,
+       y = &quot;&quot;)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Тогда она будет предсказывать:</p>
+<pre class="r"><code>data_frame(x = rep(1:16, 2),
+           y = c(-dbinom(1:16, 16, prob = 0.5),
+                 dbinom(1:16, 16, prob = 0.96)),
+           type = rep(c(&quot;variability, θ = 0.5&quot;, &quot;b, θ = 0.96&quot;),each = 16)) %&gt;% 
+  ggplot(aes(x, y, fill = type))+
+  geom_col()+
+  labs(title = &quot;two point hypotheses&quot;,
+       x = &quot;predicted number of b under each hypothesis&quot;,
+       y = &quot;probability&quot;)+
+  scale_x_continuous(breaks = 1:16)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Однако, если мы увеличим, получиться провал…</p>
+<pre class="r"><code>data_frame(x = rep(1:56, 2),
+           y = c(-dbinom(1:56, 56, prob = 0.5),
+                 dbinom(1:56, 56, prob = 0.96)),
+           type = rep(c(&quot;variability, θ = 0.5&quot;, &quot;b, θ = 0.96&quot;),each = 56)) %&gt;% 
+  ggplot(aes(x, y, fill = type))+
+  geom_col()+
+  labs(title = &quot;two point hypotheses&quot;,
+       x = &quot;predicted number of b under each hypothesis&quot;,
+       y = &quot;probability&quot;)+
+  scale_x_continuous(breaks = 1:96)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="-" class="section level3">
+<h3>4.5 Интервальная оценка</h3>
+<pre class="r"><code>data_frame(x = rep(x_axis, 2),
+           y = c(5*(x_axis == 0.5),
+                 dunif(x_axis, 0.5, 1)),
+           type = rep(c(&quot;variability, θ = 0.5&quot;, &quot;b, θ = u(0.5, 1)&quot;),each = 1001)) %&gt;% 
+  ggplot(aes(x, y, xend = x, yend = 0.1, color = type, linetype = type))+
+  geom_step(size = 1.2)+
+  labs(title = &quot;point and interval hypotheses&quot;,
+       x = &quot;probability&quot;,
+       y = &quot;&quot;)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Предсказание модели</p>
+<pre class="r"><code>data_frame(x = rep(1:16, 2),
+           y = c(-dbinom(1:16, 16, prob = 0.5),
+                 dunifbinom(x = 1:16, 16, 0.5, 1)),
+           type = rep(c(&quot;variability, θ = 0.5&quot;, &quot;b, θ = u(θ|0.5, 1)&quot;),each = 16)) %&gt;% 
+  ggplot(aes(x, y, fill = type))+
+  geom_col()+
+  labs(title = &quot;point and interval hypotheses&quot;,
+       x = &quot;predicted number of b under each hypothesis&quot;,
+       y = &quot;probability&quot;)+
+  scale_x_continuous(breaks = 1:16)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<div id="--1" class="section level3">
+<h3>4.6 Байесовский фактор</h3>
+<p>Теорема Байеса: <span class="math display">\[P(θ|Data) = \frac{P(Data|θ)\times P(θ)}{P(Data)}\]</span> Перенесем <span class="math inline">\(P(θ)\)</span>: <span class="math display">\[\frac{P(θ|Data)}{P(θ)} = \frac{P(Data|θ)}{P(Data)}\]</span> Байесовская теорема для двух моделей: <span class="math display">\[\frac{\frac{P(M_A|Data)}{P(M_A)}}{\frac{P(M_B|Data)}{P(M_B)}} = \frac{\frac{P(Data|M_A)}{P(Data)}}{\frac{P(Data|M_B)}{P(Data)}} = \frac{P(Data|M_A)}{P(Data|M_B)} = BF_{AB}\]</span></p>
+<p>The Bayes factor is a measuere that quantify the support for a model over another, <strong>regardless</strong> of whether these models are correct.</p>
+</div>
+<div id="----" class="section level3">
+<h3>4.7 Байесовский фактор для интервальной оценки</h3>
+<ul>
+<li>Imagine that for some word I get 11 <em>b</em> and 5 <em>r</em>, which model is supported by these observations?</li>
+</ul>
+<pre class="r"><code>data_frame(x = rep(1:16, 2),
+           y = c(-dbinom(1:16, 16, prob = 0.5),
+                 dunifbinom(x = 1:16, 16, 0.5, 1)),
+           type = rep(c(&quot;variability, θ = 0.5&quot;, &quot;b, θ = u(θ|0.5, 1)&quot;),each = 16)) %&gt;% 
+  ggplot(aes(x, y, fill = type))+
+  geom_col()+
+  labs(title = &quot;point and interval hypotheses&quot;,
+       x = &quot;predicted number of b under each hypothesis&quot;,
+       y = &quot;probability&quot;)+
+  scale_x_continuous(breaks = 1:16)+
+  annotate(geom = &quot;text&quot;, x = 11, y = -0.1, label = &quot;⬆&quot;, size = 10)+
+  annotate(geom = &quot;text&quot;, x = 11, y =  0.14, label = &quot;⬇&quot;, size = 10)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><span class="math display">\[\frac{L(11|\theta = u(\theta|0.5, 1))}{L(11|\theta = 0.5))} = \frac{0.10920805}{0.06665039} = 1.638521\]</span></p>
+<p>Как интерпретировать Байесовский фактор?</p>
+<p><span class="math display">\[\frac{L(11|\theta = u(\theta|0.5, 1))}{L(11|\theta = 0.5))} = \frac{0.10920805}{0.06665039} = 1.638521\]</span></p>
+<table>
+<thead>
+<tr class="header">
+<th>BF</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0 to 2</td>
+<td>Not worth more than a bare mention</td>
+</tr>
+<tr class="even">
+<td>2 to 6</td>
+<td>Positive</td>
+</tr>
+<tr class="odd">
+<td>6 to 10</td>
+<td>Strong</td>
+</tr>
+<tr class="even">
+<td>&gt; 10</td>
+<td>Very strong</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="------" class="section level3">
+<h3>4.8 И так можно сделать для любой модели!</h3>
+<pre class="r"><code>data_frame(x = rep(1:16, 2),
+           y = c(-dbinom(1:16, 16, prob = 0.5),
+                 dbinom(1:16, 16, prob = 0.7)),
+           type = rep(c(&quot;θ = 0.5&quot;, &quot;θ = 0.7&quot;),each = 16)) %&gt;% 
+  ggplot(aes(x, y, fill = type))+
+  geom_col()+
+  labs(title = &quot;two point hypotheses&quot;,
+       x = &quot;predicted number under each hypothesis&quot;,
+       y = &quot;probability&quot;)+
+  scale_x_continuous(breaks = 1:16) -&gt; p1
+
+data_frame(x = rep(1:16, 2),
+           y = c(-dbinom(1:16, 16, prob = 0.5),
+                 dunifbinom(x = 1:16, 16, 0, 1)),
+           type = rep(c(&quot;θ = 0.5&quot;, &quot;θ = u(θ|0, 1)&quot;),each = 16)) %&gt;% 
+  ggplot(aes(x, y, fill = type))+
+  geom_col()+
+  labs(title = &quot;point and unimodal&quot;,
+       x = &quot;predicted number under each hypothesis&quot;,
+       y = &quot;probability&quot;)+
+  scale_x_continuous(breaks = 1:16) -&gt; p2
+
+data_frame(x = rep(1:16, 2),
+           y = c(-dunifbinom(x = 1:16, 16, 0, 1),
+                 dunifbinom(x = 1:16, 16, 0.5, 1)),
+           type = rep(c(&quot;θ = u(θ|0, 1)&quot;, &quot;θ = u(θ|0.5, 1)&quot;),each = 16)) %&gt;% 
+  ggplot(aes(x, y, fill = type))+
+  geom_col()+
+  labs(title = &quot;&quot;,
+       x = &quot;predicted number under each hypothesis&quot;,
+       y = &quot;probability&quot;)+
+  scale_x_continuous(breaks = 1:16) -&gt; p3
+
+data_frame(x = rep(1:16, 2),
+           y = c(-dunifbinom(x = 1:16, 16, 0, 0.5),
+                 dunifbinom(x = 1:16, 16, 0.5, 1)),
+           type = rep(c(&quot;θ = u(θ|0, 0.5)&quot;, &quot;θ = u(θ|0.5, 1)&quot;),each = 16)) %&gt;% 
+  ggplot(aes(x, y, fill = type))+
+  geom_col()+
+  labs(title = &quot;complementary directions&quot;,
+       x = &quot;predicted number under each hypothesis&quot;,
+       y = &quot;probability&quot;)+
+  scale_x_continuous(breaks = 1:16) -&gt; p4
+
+gridExtra::grid.arrange(p1, p2, p3, p4)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+</div>
+<div id="-" class="section level2">
+<h2>5. Домашнее задание</h2>
 <script>
 function validateFormOne() {
     var x = document.forms["FormOne"]["answerOne"].value;
@@ -571,6 +873,70 @@ function validateFormThree() {
 function validateFormFour() {
     var x = document.forms["FormFour"]["answerFour"].value;
     if (x != "0.493") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormFive() {
+    var x = document.forms["FormFive"]["answerFive"].value;
+    if (x != "0.719") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+
+function validateFormSix() {
+    var x = document.forms["FormSix"]["answerSix"].value;
+    if (x != "0.012") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+
+function validateFormSeven() {
+    var x = document.forms["FormSeven"]["answerSeven"].value;
+    if (x != "0.571") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormEight() {
+    var x = document.forms["FormEight"]["answerEight"].value;
+    if (x != "0.854") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+
+function validateFormNine() {
+    var x = document.forms["FormNine"]["answerNine"].value;
+    if (x != "0.034") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+
+function validateFormTen() {
+    var x = document.forms["FormTen"]["answerTen"].value;
+    if (x != "0.0966") {
         alert("У меня другой ответ...");
         return false;
     } else {

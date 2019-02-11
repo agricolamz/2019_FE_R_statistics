@@ -316,6 +316,7 @@ dunifbinom <- function(x, N, lo, hi) {
 ### 4.4 Точечные гипотезы
 
 ```{r}
+x_axis <- seq(0, 1, 0.001)
 data_frame(x = rep(x_axis, 3),
            y = c(5*(x_axis == 0),
                  5*(x_axis == 1),
