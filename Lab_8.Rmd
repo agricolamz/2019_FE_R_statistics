@@ -133,6 +133,41 @@ chekhov %>%
 
 ![](8_HDIbimodal.jpg)
 
+### 2.3 
+
+Посчитайте 80% байесовский симметричный интервал от бета-распределения с параметрами 57 и 43. Ответ приведите с точностью до 3 знаков после запятой.
+
+Минимальное значение:
+
+<form name="FormOne" onsubmit="return validateFormOne()" method="post">
+<input type="text" name="answerOne">
+<input type="submit" value="check">
+</form><br>
+
+Максимальное значение:
+
+<form name="FormTwo" onsubmit="return validateFormTwo()" method="post">
+<input type="text" name="answerTwo">
+<input type="submit" value="check">
+</form><br>
+
+Посчитайте 80% байесовский интервал максимальной (апостериорной) плотности от бета-распределения с параметрами 57 и 43. Ответ приведите с точностью до 3 знаков после запятой.
+
+Минимальное значение:
+
+<form name="FormThree" onsubmit="return validateFormThree()" method="post">
+<input type="text" name="answerThree">
+<input type="submit" value="check">
+</form><br>
+
+Максимальное значение:
+
+<form name="FormFour" onsubmit="return validateFormFour()" method="post">
+<input type="text" name="answerFour">
+<input type="submit" value="check">
+</form><br>
+
+
 ## 3. Байесовский биномиальный тест
 
 Представим старую задачу, когда у нас есть монетка с равновероятными, как мы полагаем, исходами, и мы пытаемся оценить насколько она соответствует нашим ожиданиям, если из 15 подкидываний 11 --- решка.
@@ -199,16 +234,13 @@ pbeta(0.5, shape1 = a_post, shape2 = b_post)
 
 
 
-<form name="FormFour" onsubmit="return validateFormFour()" method="post">
-<input type="text" name="answerFour">
-<input type="submit" value="check">
-</form><br>
+
 
 
 <script>
 function validateFormOne() {
     var x = document.forms["FormOne"]["answerOne"].value;
-    if (x != "0.72") {
+    if (x != "0.367") {
         alert("У меня другой ответ...");
         return false;
     } else {
@@ -218,7 +250,7 @@ function validateFormOne() {
 }
 function validateFormTwo() {
     var x = document.forms["FormTwo"]["answerTwo"].value;
-    if (x != "0.61") {
+    if (x != "0.494") {
         alert("У меня другой ответ...");
         return false;
     } else {
@@ -228,7 +260,7 @@ function validateFormTwo() {
 }
 function validateFormThree() {
     var x = document.forms["FormThree"]["answerThree"].value;
-    if (x != "5.87") {
+    if (x != "0.366") {
         alert("У меня другой ответ...");
         return false;
     } else {
@@ -238,7 +270,7 @@ function validateFormThree() {
 }
 function validateFormFour() {
     var x = document.forms["FormFour"]["answerFour"].value;
-    if (x != "Namia") {
+    if (x != "0.493") {
         alert("У меня другой ответ...");
         return false;
     } else {
