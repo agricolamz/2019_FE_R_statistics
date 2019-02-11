@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Lab_1.html">Lab 1</a>
+</li>
+<li>
+  <a href="Lab_2.html">Lab 2</a>
+</li>
+<li>
+  <a href="Lab_3.html">Lab 3</a>
+</li>
+<li>
+  <a href="Lab_4.html">Lab 4</a>
+</li>
+<li>
+  <a href="Lab_5.html">Lab 5</a>
+</li>
+<li>
+  <a href="Lab_6.html">Lab 6</a>
+</li>
+<li>
+  <a href="Lab_7.html">Lab 7</a>
+</li>
+<li>
+  <a href="Lab_8.html">Lab 8</a>
+</li>
+<li>
+  <a href="Lab_9.html">Lab 9</a>
+</li>
+<li>
+  <a href="Lab_10.html">Lab 10</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><ol start="8" style="list-style-type: decimal">
+<li>Доверительные интервалы. Биномиальный тест</li>
+</ol></h1>
+
+</div>
+
+
+<pre class="r"><code>library(tidyverse)
+theme_set(theme_bw())</code></pre>
+<div id="-" class="section level2">
+<h2>1. Байесовский вывод</h2>
+<div class="section level3">
+<h3>1.1 Нотация</h3>
+<p>В байесовском подоходе статистический вывод описывается формулой Байеса</p>
+<p><span class="math display">\[P(θ|Data) = \frac{P(Data|θ)\times P(θ)}{P(Data)}\]</span></p>
+<ul>
+<li><span class="math inline">\(P(θ|Data)\)</span> — апостериорная вероятность (posterior)</li>
+<li><span class="math inline">\(P(Data|θ)\)</span> — функция правдоподобия (likelihood)</li>
+<li><span class="math inline">\(P(θ)\)</span> — априорная вероятность (prior)</li>
+<li><span class="math inline">\(P(Data)\)</span> — нормализующий делитель</li>
+</ul>
+<p>В литературе можно еще встретить такую запись:</p>
+<p><span class="math display">\[P(θ|Data) \propto P(Data|θ)\times P(θ)\]</span> ### 1.2 Бета-распределение</p>
+</div>
+<div id="-" class="section level3">
+<h3>2.2 Бета распределение</h3>
+<p><span class="math display">\[P(x; α, β) = \frac{x^{α-1}\times (1-x)^{β-1}}{B(α, β)}; 0 \leq x \leq 1; α, β &gt; 0\]</span></p>
+<p>Бета функция:</p>
+<p><span class="math display">\[Β(α, β) = \frac{Γ(α)\times Γ(β)}{Γ(α+β)} = \frac{(α-1)!(β-1)!}{(α+β-1)!} \]</span></p>
+<pre class="r"><code>data_frame(x = seq(0, 1, length.out = 100),
+           density = dbeta(x = x, shape1 = 8, shape2 = 42)) %&gt;% 
+  ggplot(aes(x, density))+
+  geom_point()+
+  geom_line()+
+  labs(title = &quot;Бета распределение α = 8, β = 42&quot;)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Можно поиграть с разными параметрами:</p>
+<pre class="r"><code>shiny::runGitHub(&quot;agricolamz/beta_distribution_shiny&quot;) </code></pre>
+<p><span class="math display">\[\mu = \frac{\alpha}{\alpha+\beta}\]</span></p>
+<p><span class="math display">\[\sigma^2 = \frac{\alpha\times\beta}{(\alpha+\beta)^2\times(\alpha+\beta+1)}\]</span></p>
+<p><span class="math display">\[mode = \frac{\alpha-1}{\alpha+\beta-2}\]</span></p>
+</div>
+<div class="section level3">
+<h3>1.3 Данные</h3>
+<ul>
+<li>количество “не” в 311 рассказов А. Чехова</li>
+<li>число слов в каждом рассказе</li>
+</ul>
+<pre class="r"><code>chekhov &lt;- read_csv(&quot;https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/chekhov.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   titles = col_character(),
+##   word = col_character(),
+##   n = col_double(),
+##   n_words = col_double()
+## )</code></pre>
+<pre class="r"><code>chekhov %&gt;% 
+  mutate(trunc_titles = str_trunc(titles, 25, side = &quot;right&quot;),
+         average = n/n_words) -&gt;
+  chekhov</code></pre>
+</div>
+</div>
+<div id="--" class="section level2">
+<h2>2. Байесовский доверительный интервал</h2>
+<div class="figure">
+<img src="8_ci_bars.png" />
+
+</div>
+<div id="--equal-tailed-interval---" class="section level3">
+<h3>2.1 Симметричный интервал (equal-tailed interval): медиана и квантили</h3>
+<p>Байесовский доверительный <span class="math inline">\(k\)</span>-% интервал (по-английски credible interval) — это интервал <span class="math inline">\([\frac{k}{2}, 1-\frac{k}{2}]\)</span> от апостериорного распределения. Давайте проапдейтим данные рассказов Чехова при помощи априорного распределения с параметрами (<span class="math inline">\(\alpha = 5.283022\)</span>, <span class="math inline">\(\beta = 231.6328\)</span>), а дальше можем использовать функцию <code>qbeta()</code>, чтобы получить интервал, в котором находятся центральные <span class="math inline">\(k\)</span>%.</p>
+<pre class="r"><code>chekhov %&gt;% 
+  slice(1:30) %&gt;%
+  group_by(trunc_titles) %&gt;% 
+  mutate(beta_prior = n_words-n,
+         alpha_post = n + 5.283022,
+         beta_post = beta_prior + 231.6328,
+         median_post = qbeta(0.5, alpha_post, beta_post),
+         eq_t_int_l = qbeta(0.025, alpha_post, beta_post),
+         eq_t_int_h = qbeta(0.975, alpha_post, beta_post)) %&gt;% 
+  ggplot(aes(x= trunc_titles))+
+  geom_pointrange(aes(y = median_post, ymin = eq_t_int_l, ymax = eq_t_int_h), color = &quot;tomato&quot;)+
+  coord_flip()+
+  labs(title = &#39;Доверительные интервалы употребления &quot;не&quot; в рассказах А. Чехова&#39;,
+       x = &quot;&quot;, y = &quot;&quot;,
+       caption = &quot;байесовский симметричный доверительный интервал&quot;)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="----highest-posterior-density-interval---hdi" class="section level3">
+<h3>2.2 Интервал максимальной (апостериорной) плотности (Highest (posterior) density interval): мода и HDI</h3>
+<pre class="r"><code>chekhov %&gt;% 
+  slice(1:30) %&gt;%
+  group_by(trunc_titles) %&gt;% 
+  mutate(beta_prior = n_words-n,
+         alpha_post = n + 5.283022,
+         beta_post = beta_prior + 231.6328,
+         median_post = qbeta(.5, alpha_post, beta_post),
+         moda_post = (alpha_post-1)/(alpha_post+beta_post-2),
+         hdi_int_l = HDInterval::hdi(qbeta, shape1 = alpha_post, shape2 = beta_post, credMass = 0.95)[1],
+         hdi_int_h = HDInterval::hdi(qbeta, shape1 = alpha_post, shape2 = beta_post, credMass = 0.95)[2],
+         eq_t_int_l = qbeta(.025, alpha_post, beta_post),
+         eq_t_int_h = qbeta(.975, alpha_post, beta_post)) %&gt;% 
+  ggplot(aes(x= trunc_titles))+
+  geom_pointrange(aes(y = median_post, ymin = eq_t_int_l, ymax = eq_t_int_h), color = &quot;tomato&quot;)+
+  geom_pointrange(aes(y = moda_post, ymin = hdi_int_l, ymax = hdi_int_h), color = &quot;palegreen3&quot;, position = position_nudge(x = -0.3))+
+  coord_flip()+
+  labs(title = &#39;Доверительные интервалы употребления &quot;не&quot; в рассказах А. Чехова&#39;,
+       x = &quot;&quot;, y = &quot;&quot;,
+       caption = &quot;красные — байесовский симметричный доверительный интервал;\n зеленый — байесовский интервал максимальной плотности&quot;)</code></pre>
+<p><img src="Lab_8_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>В качестве аргумента в пользу HDI всегда приводят вот такое распределение:</p>
+<div class="figure">
+<img src="8_HDIbimodal.jpg" />
+
+</div>
+</div>
+</div>
+<div id="--" class="section level2">
+<h2>3. Байесовский биномиальный тест</h2>
+<form name="FormFour" onsubmit="return validateFormFour()" method="post">
+<input type="text" name="answerFour"> <input type="submit" value="check">
+</form>
+<p><br></p>
+<script>
+function validateFormOne() {
+    var x = document.forms["FormOne"]["answerOne"].value;
+    if (x != "0.72") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormTwo() {
+    var x = document.forms["FormTwo"]["answerTwo"].value;
+    if (x != "0.61") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormThree() {
+    var x = document.forms["FormThree"]["answerThree"].value;
+    if (x != "5.87") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormFour() {
+    var x = document.forms["FormFour"]["answerFour"].value;
+    if (x != "Namia") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+</script>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -27,14 +27,45 @@ $$P(θ|Data) = \frac{P(Data|θ)\times P(θ)}{P(Data)}$$
 В литературе можно еще встретить такую запись:
 
 $$P(θ|Data) \propto P(Data|θ)\times P(θ)$$
+### 1.2 Бета-распределение
 
-### 1.2 Данные
+### 2.2 Бета распределение
+
+$$P(x; α, β) = \frac{x^{α-1}\times (1-x)^{β-1}}{B(α, β)}; 0 \leq x \leq 1; α, β > 0$$
+
+Бета функция:
+
+$$Β(α, β) = \frac{Γ(α)\times Γ(β)}{Γ(α+β)} = \frac{(α-1)!(β-1)!}{(α+β-1)!} $$
+
+
+```{r}
+data_frame(x = seq(0, 1, length.out = 100),
+           density = dbeta(x = x, shape1 = 8, shape2 = 42)) %>% 
+  ggplot(aes(x, density))+
+  geom_point()+
+  geom_line()+
+  labs(title = "Бета распределение α = 8, β = 42")
+```
+
+Можно поиграть с разными параметрами:
+
+```{r, eval = FALSE}
+shiny::runGitHub("agricolamz/beta_distribution_shiny") 
+```
+
+$$\mu = \frac{\alpha}{\alpha+\beta}$$
+
+$$\sigma^2 = \frac{\alpha\times\beta}{(\alpha+\beta)^2\times(\alpha+\beta+1)}$$
+
+$$mode = \frac{\alpha-1}{\alpha+\beta-2}$$
+
+### 1.3 Данные
 
 * количество "не" в 311 рассказов А. Чехова
 * число слов в каждом рассказе
 
 ```{r}
-chekhov <- read_csv("https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/chekhov.csv")
+chekhov <- read_csv("https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/chekhov.csv")
 
 chekhov %>% 
   mutate(trunc_titles = str_trunc(titles, 25, side = "right"),
@@ -42,9 +73,60 @@ chekhov %>%
   chekhov
 ```
 
-
-
 ## 2. Байесовский доверительный интервал
+
+![](8_ci_bars.png)
+
+### 2.1 Симметричный интервал (equal-tailed interval): медиана и квантили
+Байесовский доверительный $k$-% интервал (по-английски credible interval) --- это интервал $[\frac{k}{2}, 1-\frac{k}{2}]$ от апостериорного распределения. Давайте проапдейтим данные рассказов Чехова при помощи априорного распределения с параметрами ($\alpha = 5.283022$, $\beta = 231.6328$), а дальше можем использовать функцию `qbeta()`, чтобы получить интервал, в котором находятся центральные $k$%.
+
+```{r, fig.height=7}
+chekhov %>% 
+  slice(1:30) %>%
+  group_by(trunc_titles) %>% 
+  mutate(beta_prior = n_words-n,
+         alpha_post = n + 5.283022,
+         beta_post = beta_prior + 231.6328,
+         median_post = qbeta(0.5, alpha_post, beta_post),
+         eq_t_int_l = qbeta(0.025, alpha_post, beta_post),
+         eq_t_int_h = qbeta(0.975, alpha_post, beta_post)) %>% 
+  ggplot(aes(x= trunc_titles))+
+  geom_pointrange(aes(y = median_post, ymin = eq_t_int_l, ymax = eq_t_int_h), color = "tomato")+
+  coord_flip()+
+  labs(title = 'Доверительные интервалы употребления "не" в рассказах А. Чехова',
+       x = "", y = "",
+       caption = "байесовский симметричный доверительный интервал")
+```
+
+### 2.2 Интервал максимальной (апостериорной) плотности (Highest (posterior) density interval): мода и HDI
+
+```{r, fig.height=11}
+chekhov %>% 
+  slice(1:30) %>%
+  group_by(trunc_titles) %>% 
+  mutate(beta_prior = n_words-n,
+         alpha_post = n + 5.283022,
+         beta_post = beta_prior + 231.6328,
+         median_post = qbeta(.5, alpha_post, beta_post),
+         moda_post = (alpha_post-1)/(alpha_post+beta_post-2),
+         hdi_int_l = HDInterval::hdi(qbeta, shape1 = alpha_post, shape2 = beta_post, credMass = 0.95)[1],
+         hdi_int_h = HDInterval::hdi(qbeta, shape1 = alpha_post, shape2 = beta_post, credMass = 0.95)[2],
+         eq_t_int_l = qbeta(.025, alpha_post, beta_post),
+         eq_t_int_h = qbeta(.975, alpha_post, beta_post)) %>% 
+  ggplot(aes(x= trunc_titles))+
+  geom_pointrange(aes(y = median_post, ymin = eq_t_int_l, ymax = eq_t_int_h), color = "tomato")+
+  geom_pointrange(aes(y = moda_post, ymin = hdi_int_l, ymax = hdi_int_h), color = "palegreen3", position = position_nudge(x = -0.3))+
+  coord_flip()+
+  labs(title = 'Доверительные интервалы употребления "не" в рассказах А. Чехова',
+       x = "", y = "",
+       caption = "красные — байесовский симметричный доверительный интервал;\n зеленый — байесовский интервал максимальной плотности")
+```
+
+В качестве аргумента в пользу HDI всегда приводят вот такое распределение:
+
+![](8_HDIbimodal.jpg)
+
+
 
 ## 3. Байесовский биномиальный тест
 
