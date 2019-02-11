@@ -345,10 +345,10 @@ theme_set(theme_bw())</code></pre>
 <li><span class="math inline">\(P(Data)\)</span> — нормализующий делитель</li>
 </ul>
 <p>В литературе можно еще встретить такую запись:</p>
-<p><span class="math display">\[P(θ|Data) \propto P(Data|θ)\times P(θ)\]</span> ### 1.2 Бета-распределение</p>
+<p><span class="math display">\[P(θ|Data) \propto P(Data|θ)\times P(θ)\]</span></p>
 </div>
 <div id="-" class="section level3">
-<h3>2.2 Бета распределение</h3>
+<h3>1.2 Бета-распределение</h3>
 <p><span class="math display">\[P(x; α, β) = \frac{x^{α-1}\times (1-x)^{β-1}}{B(α, β)}; 0 \leq x \leq 1; α, β &gt; 0\]</span></p>
 <p>Бета функция:</p>
 <p><span class="math display">\[Β(α, β) = \frac{Γ(α)\times Γ(β)}{Γ(α+β)} = \frac{(α-1)!(β-1)!}{(α+β-1)!} \]</span></p>
@@ -387,6 +387,16 @@ theme_set(theme_bw())</code></pre>
 </div>
 <div id="--" class="section level2">
 <h2>2. Байесовский доверительный интервал</h2>
+<p>Какие вопросы к апостериорному распределению можно задать?</p>
+<ol style="list-style-type: decimal">
+<li>попытка оценить параметр θ и какой-нибудь интервал, в котором он лежит.</li>
+<li>ответить на вопросы вроде
+<ul>
+<li>какая вероятность что значение θ больше некоторого значения <span class="math inline">\(x\)</span>?</li>
+<li>какая вероятность что значение θ лежит в интервале <span class="math inline">\([x; y]\)</span>?</li>
+<li>и т. п.</li>
+</ul></li>
+</ol>
 <div class="figure">
 <img src="8_ci_bars.png" />
 
@@ -442,6 +452,9 @@ theme_set(theme_bw())</code></pre>
 </div>
 <div id="--" class="section level2">
 <h2>3. Байесовский биномиальный тест</h2>
+</div>
+<div id="-" class="section level2">
+<h2>4. Домашнее задание</h2>
 <form name="FormFour" onsubmit="return validateFormFour()" method="post">
 <input type="text" name="answerFour"> <input type="submit" value="check">
 </form>
