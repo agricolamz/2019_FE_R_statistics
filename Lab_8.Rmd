@@ -1,0 +1,101 @@
+---
+title: "8. Доверительные интервалы. Биномиальный тест"
+editor_options: 
+  chunk_output_type: console
+output: html_document
+---
+
+```{r, message=FALSE}
+library(tidyverse)
+theme_set(theme_bw())
+```
+
+
+## 1. Байесовский вывод
+
+### 1.1 Нотация
+
+В байесовском подоходе статистический вывод описывается формулой Байеса
+
+$$P(θ|Data) = \frac{P(Data|θ)\times P(θ)}{P(Data)}$$
+
+* $P(θ|Data)$ --- апостериорная вероятность (posterior)
+* $P(Data|θ)$ --- функция правдоподобия (likelihood)
+* $P(θ)$ ---  априорная вероятность (prior)
+* $P(Data)$ --- нормализующий делитель
+
+В литературе можно еще встретить такую запись:
+
+$$P(θ|Data) \propto P(Data|θ)\times P(θ)$$
+
+### 1.2 Данные
+
+* количество "не" в 311 рассказов А. Чехова
+* число слов в каждом рассказе
+
+```{r}
+chekhov <- read_csv("https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/chekhov.csv")
+
+chekhov %>% 
+  mutate(trunc_titles = str_trunc(titles, 25, side = "right"),
+         average = n/n_words) ->
+  chekhov
+```
+
+
+
+## 2. Байесовский доверительный интервал
+
+## 3. Байесовский биномиальный тест
+
+
+
+
+<form name="FormFour" onsubmit="return validateFormFour()" method="post">
+<input type="text" name="answerFour">
+<input type="submit" value="check">
+</form><br>
+
+
+<script>
+function validateFormOne() {
+    var x = document.forms["FormOne"]["answerOne"].value;
+    if (x != "0.72") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormTwo() {
+    var x = document.forms["FormTwo"]["answerTwo"].value;
+    if (x != "0.61") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormThree() {
+    var x = document.forms["FormThree"]["answerThree"].value;
+    if (x != "5.87") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormFour() {
+    var x = document.forms["FormFour"]["answerFour"].value;
+    if (x != "Namia") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+</script>

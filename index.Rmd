@@ -23,21 +23,24 @@ editor_options:
 * [материалы занятия 4](https://agricolamz.github.io/2019_FE_R_statistics/Lab_4.html)
 * [домашнее задание](https://docs.google.com/forms/d/e/1FAIpQLSc2Z6snhSEZRVzHysYsUdKFkl4flE63AY4TFd-UrkmstV8s4g/viewform)
 
-### Занятия 5. Описантельная статистика. Фриквентистская статистика
+### Занятия 5. Описантельная статистика. Введение в байесовскую статистику
 * [материалы занятия 5](https://agricolamz.github.io/2019_FE_R_statistics/Lab_5.html)
 
-### Занятие 6. Корреляция и регрессия
+### Занятие 6. Функция правдоподобия, формула Байеса
+
 * [материалы занятия 6](https://agricolamz.github.io/2019_FE_R_statistics/Lab_6.html)
 
-### Занятие 7. Работа со строками. Пакет `stringr` и `stringi`
-* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab_5.html)
-* [домашнее задание](https://agricolamz.github.io/2019_FE_R_statistics/Lab_5.html#4_%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8)
+### Занятие 7. Биномиальные данные
+* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab_7.html)
 
-### Занятие 8. Расстояния, регулярки и прочая всячина
-* материалы занятия
+### Занятие 8. Доверительные интервалы. Биномиальный тест
+* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab_8.html)
 
-### Занятие 9. Работа с текстами 
-* материалы занятия
+### Занятие 9. Байесовский фактор 
+* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab_9.html)
+
+### Занятие 10. Надо придумать про что
+* [материалы занятия](https://agricolamz.github.io/2019_FE_R_statistics/Lab_10.html)
 
 Календарь можно скачать [в формате `.csv`](https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/timetable.csv) и импортировать в Google Calendar, MS Outlook и т. п.
 
