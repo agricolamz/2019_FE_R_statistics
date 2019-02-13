@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Lab_1.html">Lab 1</a>
+</li>
+<li>
+  <a href="Lab_2.html">Lab 2</a>
+</li>
+<li>
+  <a href="Lab_3.html">Lab 3</a>
+</li>
+<li>
+  <a href="Lab_4.html">Lab 4</a>
+</li>
+<li>
+  <a href="Lab_5.html">Lab 5</a>
+</li>
+<li>
+  <a href="Lab_6.html">Lab 6</a>
+</li>
+<li>
+  <a href="Lab_7.html">Lab 7</a>
+</li>
+<li>
+  <a href="Lab_8.html">Lab 8</a>
+</li>
+<li>
+  <a href="Lab_9.html">Lab 9</a>
+</li>
+<li>
+  <a href="Lab_10.html">Lab 10</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><ol start="9" style="list-style-type: decimal">
+<li>Эмпирическая байесовская оценка. Байесовский апдейт нормального распределения</li>
+</ol></h1>
+
+</div>
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="empirical-bayes-estimation" class="section level2">
+<h2>1. Empirical Bayes Estimation</h2>
+<p>Метод Empirical Bayes estimation — один из байесовских методов, в рамках которого:</p>
+<ul>
+<li>производят оценку априорного распределения вероятностей на основании имеющихся данных</li>
+<li>используют полученное априорное распределение для получение апостериорной оценки для каждого наблюдения</li>
+</ul>
+<pre class="r"><code>chekhov &lt;- read_csv(&quot;https://raw.githubusercontent.com/agricolamz/2019_FE_R_statistics/master/data/chekhov.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   titles = col_character(),
+##   word = col_character(),
+##   n = col_double(),
+##   n_words = col_double()
+## )</code></pre>
+<pre class="r"><code>chekhov %&gt;% 
+  mutate(trunc_titles = str_trunc(titles, 25, side = &quot;right&quot;),
+         average = n/n_words) -&gt;
+  chekhov
+head(chekhov)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   titles                      word      n n_words trunc_titles      average
+##   &lt;chr&gt;                       &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt;
+## 1 Письмо к ученому соседу     не       32    1327 Письмо к ученому… 0.0241 
+## 2 За двумя зайцами погонишьс… не       42    1311 За двумя зайцами… 0.0320 
+## 3 Папаша                      не       70    1686 Папаша            0.0415 
+## 4 Тысяча одна страсть, или С… не        8     954 Тысяча одна стра… 0.00839
+## 5 Перед свадьбой              не       60    1459 Перед свадьбой    0.0411 
+## 6 Жены артистов               не       91    3686 Жены артистов     0.0247</code></pre>
+<ul>
+<li>311 рассказов А. Чехова</li>
+<li>число слов в каждом рассказе</li>
+<li>46610 уникальных слов в каждом рассказе</li>
+</ul>
+<p>Наши данные:</p>
+<pre class="r"><code>chekhov %&gt;% 
+  select(trunc_titles, word, average) %&gt;% 
+  ggplot(aes(average)) +
+  geom_histogram(fill = &quot;lightblue&quot;)+
+  geom_density(color = &quot;red&quot;)+
+  labs(title = &#39;Частотность слова &quot;не&quot; на основе 305 рассказов А. Чехова&#39;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="Lab_9_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>В данном случае, данные можно подогнать под бета распределение <span class="math inline">\(Χ \sim Beta(α_0, β_0)\)</span> (это далеко не всегда так). Подгонку можно осуществлять множеством разных функций, но я воспользуюсь следующей системой уравнений:</p>
+<p><span class="math display">\[\mu = \frac{\alpha}{\alpha+\beta}\]</span> <span class="math display">\[\sigma = \frac{\alpha\times\beta}{(\alpha+\beta)^2\times(\alpha+\beta+1)}\]</span></p>
+<p>Из этой системы можно выразить <span class="math inline">\(\alpha\)</span> и <span class="math inline">\(\beta\)</span>:</p>
+<p><span class="math display">\[\alpha = \left(\frac{1-\mu}{\sigma^2} - \frac{1}{\mu}\right)\times \mu^2\]</span> <span class="math display">\[\beta = \alpha\times\left(\frac{1}{\mu} - 1\right)\]</span></p>
+<pre class="r"><code>mu &lt;- mean(chekhov$average[chekhov$word == &quot;не&quot;])
+var &lt;- var(chekhov$average[chekhov$word == &quot;не&quot;])
+alpha0 &lt;- ((1 - mu) / var - 1 / mu) * mu ^ 2
+beta0 &lt;- alpha0 * (1 / mu - 1)
+alpha0</code></pre>
+<pre><code>## [1] 5.283022</code></pre>
+<pre class="r"><code>beta0</code></pre>
+<pre><code>## [1] 231.6328</code></pre>
+<p>Посмотрим, насколько хорошо, получившееся распределение подходит к нашим данным:</p>
+<pre class="r"><code>x &lt;- seq(0, 0.1, length = 1000)
+estimation &lt;- data_frame(
+  x = x,
+  density = c(dbeta(x, shape1 = alpha0, shape2 = beta0)))
+
+chekhov %&gt;% 
+  filter(word == &quot;не&quot;) %&gt;% 
+  select(trunc_titles, word, average) %&gt;% 
+  ggplot(aes(average)) +
+  geom_density(fill = &quot;lightblue&quot;)+
+  geom_line(data = estimation, aes(x, density))+
+  labs(title = &#39;Частотность слова &quot;не&quot; на основе 305 рассказов А. Чехова&#39;,
+       subtitle = &quot;черной линией показано бета распределение с α = 5.283022 и β = 231.6328&quot;)</code></pre>
+<p><img src="Lab_9_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Полученное распределение можно использовать как априорное распределение для апдейта значений из каждого рассказа. Этот трюк и называется Empirical Bayes estimation.</p>
+<div id="section" class="section level3">
+<h3>1.1</h3>
+<p>В базе данных <a href="http://phoible.org/">Phoible</a>, в которой собраны фонологические инвентари в языках мира. В <a href="https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/phoible_n_consonants.csv">датасет</a> записано три переменных:</p>
+<ul>
+<li>language — язык;</li>
+<li>consonants — количество согласных;</li>
+<li>phonemes — количество фонем.</li>
+</ul>
+<p>Оцените параметры бета распределения для данных при помощи эмпирической байесовской оценки. Получив параметры априорного бета распределения, проведите байесовский апдейт для каждого языка. Посчитайте модуль разницы между апостериорной и изначальной долями, представленными в данных. В ответе приведите модуль разницы для языка <code>Acoli</code> с точностью до трех знаков после запятой.</p>
+<form name="FormOne" onsubmit="return validateFormOne()" method="post">
+<input type="text" name="answerOne"> <input type="submit" value="check">
+</form>
+<p><br></p>
+</div>
+</div>
+<div id="-" class="section level2">
+<h2>2. Нормальное распределение</h2>
+<p>Встроенный датасет <code>ChickWeight</code> содержит вес цыплят (<code>weight</code>) в зависимости от типа диеты (<code>Diet</code>). Мы будем анализировать 20-дневных птенцов.</p>
+<pre class="r"><code>ChickWeight %&gt;% 
+  filter(Time == 20) -&gt;
+  chicks
+
+chicks %&gt;% 
+  ggplot(aes(weight))+
+  geom_density()</code></pre>
+<p><img src="Lab_9_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Начнем с апостериорных параметров для наблюдений <span class="math inline">\(x_1, ... x_n\)</span> со средним <span class="math inline">\(\mu_{data}\)</span> известной дисперсией <span class="math inline">\(\sigma_{known}^2\)</span></p>
+<div id="-----" class="section level3">
+<h3>2.1 Байесовский апдейт нормального распределения: дискретный вариант</h3>
+<p>Мы можем рассматривать эту задачу как выбор между несколькими моделями с разными средними:</p>
+<pre class="r"><code>data_frame(x = rep(1:400, 6),
+           density = c(dnorm(unique(x), mean = 125, sd = 70),
+                       dnorm(unique(x), mean = 150, sd = 70),
+                       dnorm(unique(x), mean = 175, sd = 70),
+                       dnorm(unique(x), mean = 200, sd = 70),
+                       dnorm(unique(x), mean = 225, sd = 70),
+                       dnorm(unique(x), mean = 250, sd = 70)),
+           dataset = rep(1:6, each = 400)) %&gt;% 
+  ggplot(aes(x, density, color = factor(dataset)))+
+  geom_line()</code></pre>
+<p><img src="Lab_9_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Дальше мы можем точно так же апдейтить, как мы делали раньше:</p>
+<pre class="r"><code>data_frame(mu = seq(125, 250, by = 25),
+           prior = 0.2,
+           likelihood = c(prod(dnorm(chicks$weight, mean = 125, sd = 70)),
+                          prod(dnorm(chicks$weight, mean = 150, sd = 70)),
+                          prod(dnorm(chicks$weight, mean = 175, sd = 70)),
+                          prod(dnorm(chicks$weight, mean = 200, sd = 70)),
+                          prod(dnorm(chicks$weight, mean = 225, sd = 70)),
+                          prod(dnorm(chicks$weight, mean = 250, sd = 70))),
+           product = prior*likelihood,
+           posterior = product/sum(product)) -&gt;
+  results
+results</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##      mu prior likelihood   product posterior
+##   &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1   125   0.2  2.06e-127 4.13e-128  2.39e-15
+## 2   150   0.2  4.74e-120 9.48e-121  5.48e- 8
+## 3   175   0.2  3.08e-115 6.16e-116  3.56e- 3
+## 4   200   0.2  5.66e-113 1.13e-113  6.55e- 1
+## 5   225   0.2  2.95e-113 5.89e-114  3.41e- 1
+## 6   250   0.2  4.34e-116 8.68e-117  5.02e- 4</code></pre>
+<pre class="r"><code>results %&gt;% 
+  select(mu, prior, posterior) %&gt;% 
+  gather(type, probability, prior:posterior) %&gt;% 
+  ggplot(aes(mu, probability, color = type))+
+  geom_point()+
+  labs(title = &quot;изменение вероятностей для каждой из моделей&quot;,
+       x = &quot;μ&quot;)</code></pre>
+<p><img src="Lab_9_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="-----" class="section level3">
+<h3>2.2 Байесовский апдейт нормального распределения: непрерывный вариант</h3>
+<p>Во первых, нам понадобиться некоторая мера, которая называется <em>точность</em> (precision):</p>
+<p><span class="math display">\[\tau = \frac{1}{\sigma^2}\]</span></p>
+<p><span class="math display">\[\tau_{post} = \tau_{prior} + \tau_{data} \Rightarrow \sigma^2_{post} = \frac{1}{\tau_{post}}\]</span></p>
+<p><span class="math display">\[\mu_{post} = \frac{\mu_{prior} \times \tau_{prior} + \mu_{data} \times \tau_{data}}{\tau_{post}}\]</span></p>
+<p>Так что если нашим априорным распределением мы назовем нормальное распределение со средним около 180 и стандартным отклонением 90, то процесс байсовского апдейта будет выглядеть вот так:</p>
+<pre class="r"><code>sd_prior &lt;- 90 
+sd_data &lt;- sd(chicks$weight)
+sd_post &lt;- (1/sd_prior+1/sd_data)^(-1)
+mean_prior &lt;- 180
+mean_data &lt;- mean(chicks$weight)
+mean_post &lt;- weighted.mean(c(mean_prior, mean_data), c(1/sd_prior, 1/sd_data))
+
+data_frame(x = rep(1:400, 3),
+           density = c(dnorm(unique(x), mean = mean_prior, sd = sd_prior),
+                       dnorm(unique(x), mean = mean_data, sd = sd_data),
+                       dnorm(unique(x), mean = mean_post, sd = sd_post)),
+           dataset = rep(c(&quot;prior&quot;, &quot;data&quot;, &quot;posterior&quot;), each = 400)) %&gt;% 
+  ggplot(aes(x, density, color = dataset))+
+  geom_line()</code></pre>
+<p><img src="Lab_9_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>shiny::runGitHub(&quot;agricolamz/bayes_for_normal_app&quot;) </code></pre>
+</div>
+<div id="section-1" class="section level3">
+<h3>2.3</h3>
+<p>В <a href="https://raw.githubusercontent.com/agricolamz/2019_BayesDan_winter/master/datasets/urine.csv">датасет</a> записаны данные по исследованию мочи [Andrews, Herzberg 1985]. В переменной <code>pH</code> записано значение уровня кислотности. Сделайте байесовский апдейт наблюдаемых данных, используя априорное распределение <span class="math inline">\(\mathcal{N}(\mu = 9, \sigma^2 = 2)\)</span>.</p>
+<p>Укажите апостериорное стандартное отклонение:</p>
+<form name="FormFour" onsubmit="return validateFormFour()" method="post">
+<input type="text" name="answerFour"> <input type="submit" value="check">
+</form>
+<p><br></p>
+<p>Укажите апостериорное среднее:</p>
+<form name="FormFive" onsubmit="return validateFormFive()" method="post">
+<input type="text" name="answerFive"> <input type="submit" value="check">
+</form>
+<p><br></p>
+<p>Попробуйте визуализировать:</p>
+<pre><code>## Parsed with column specification:
+## cols(
+##   r = col_double(),
+##   gravity = col_double(),
+##   ph = col_double(),
+##   osmo = col_double(),
+##   cond = col_double(),
+##   urea = col_double(),
+##   calc = col_double()
+## )</code></pre>
+<p><img src="Lab_9_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+</div>
+<div id="ab-testing" class="section level2">
+<h2>3. A/B Testing</h2>
+<script>
+function validateFormOne() {
+    var x = document.forms["FormOne"]["answerOne"].value;
+    if (x != "0.029") {
+        alert("У меня другой ответ...");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormFour() {
+    var x = document.forms["FormFour"]["answerFour"].value;
+    if (x != "0.5317367") {
+        alert("У меня другой ответ... в нем 7 знаков после запятой");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+function validateFormFive() {
+    var x = document.forms["FormFive"]["answerFive"].value;
+    if (x != "6.818514") {
+        alert("У меня другой ответ... в нем 6 знаков после запятой");
+        return false;
+    } else {
+        alert("Да, все правильно");
+        return false;
+    }
+}
+</script>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
